@@ -9,7 +9,7 @@
     "report": "playwright show-report",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "format": "prettier --write \"**/*.{ts,js,json,md}\""
+    "format": "prettier --write ."
   },
   "repository": {
     "type": "git",
