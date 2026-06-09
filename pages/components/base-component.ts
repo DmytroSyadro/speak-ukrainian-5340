@@ -7,7 +7,5 @@ export abstract class BaseComponent {
   constructor(page: Page, rootSelector: string) {
     this.page = page;
     this.root = page.locator(rootSelector);
-    rootSelector.
   }
 }
-

@@ -3,9 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "playwright test",
-    "report": "playwright show-report"
+    "report": "playwright show-report",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write \"**/*.{ts,js,json,md}\""
   },
   "repository": {
     "type": "git",
@@ -14,14 +18,20 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
   "bugs": {
     "url": "https://github.com/UA-5340-TAQC/speak-ukrainian-5340/issues"
   },
   "homepage": "https://github.com/UA-5340-TAQC/speak-ukrainian-5340#readme",
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.60.0",
-    "@types/node": "^25.9.2"
+    "@types/node": "^25.9.2",
+    "eslint": "^10.4.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-check-file": "^3.3.1",
+    "eslint-plugin-playwright": "^2.10.4",
+    "prettier": "^3.8.3",
+    "typescript-eslint": "^8.61.0"
   },
   "dependencies": {
     "dotenv": "^17.4.2"

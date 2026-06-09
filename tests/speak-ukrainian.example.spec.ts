@@ -1,5 +1,4 @@
 import { test, expect } from '@playwright/test';
-import  BASE_URL from '../config/env';
 
 test('has title', async ({ page }) => {
   await page.goto("/");
