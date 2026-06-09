@@ -36,7 +36,10 @@ Create `.env` in the project root and add:
 
 ```env
 BASE_URL=https://your-target-url.example
+HEADLESS=false
 ```
+
+`HEADLESS` defaults to `true` when not set. Use `HEADLESS=false` for local headed runs.
 
 ## Run tests
 
@@ -74,6 +77,21 @@ npm run lint:fix
 npm run format
 ```
 
+`npm run format` runs `prettier --write .` and formats the whole repository.
+
+## CI
+
+GitHub Actions workflow is defined in `.github/workflows/playwright.yml` and runs on pushes and pull requests to `main`.
+
+Pipeline steps:
+
+- Install dependencies with `npm ci`
+- Check formatting with `npx prettier --check .`
+- Run ESLint
+- Install Playwright browsers with OS dependencies
+- Execute Playwright tests
+- Upload `playwright-report` artifact
+
 ## Project structure
 
 ```text
@@ -87,4 +105,4 @@ tests/           Test specs
 
 - `playwright.config.ts` is configured for Chromium, Firefox, and WebKit projects.
 - The default reporter is Playwright HTML reporter.
-- `headless` is currently set to `false` in Playwright config.
+- `headless` is controlled by `HEADLESS` from environment config.
