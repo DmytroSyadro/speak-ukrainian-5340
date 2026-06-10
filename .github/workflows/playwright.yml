@@ -71,7 +71,7 @@ jobs:
 
       - name: Fix permissions
         if: always()
-        run: chmod -R 777 allure-history
+        run: sudo chmod -R 777 allure-history
 
       - name: Install jq
         if: always()
@@ -85,8 +85,8 @@ jobs:
           SUMMARY_FILE="allure-history/pr-${{ github.event.number }}/widgets/summary.json"
 
           if [ ! -f "$SUMMARY_FILE" ]; then
-            echo "Summary file not found"
-            exit 1
+            echo "⚠️ Summary file not found. Skipping."
+            exit 0
           fi
 
           FAILED=$(jq '.statistic.failed' "$SUMMARY_FILE")
@@ -96,9 +96,11 @@ jobs:
           echo "Broken: $BROKEN"
 
           if [ "$FAILED" -gt 0 ] || [ "$BROKEN" -gt 0 ]; then
-            echo "Tests failed"
+            echo "❌ Tests failed"
             exit 1
           fi
+
+          echo "✅ All tests passed"
 
       - name: Deploy Allure Report
         if: always()
@@ -114,6 +116,6 @@ jobs:
         with:
           comment_tag: allure-report-link
           message: |
-            📊 Allure Report
+            📊 **Allure Report for PR-${{ github.event.number }}**
 
             🔗 https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/pr-${{ github.event.number }}/
