@@ -1,104 +1,119 @@
 name: Speak-Ukrainian CI
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
 
+on:
+push:
+branches:
+    - main
+pull_request:
+branches:
+    - main
 env:
-  BASE_URL: ${{ secrets.BASE_URL }}
-  HEADLESS: true
+    BASE_URL: ${{ secrets.BASE_URL }}
+    HEADLESS: true
 
 permissions:
-  contents: write
-  pull-requests: write
+    contents: write
+    pull-requests: write
 
 jobs:
-  test-and-report:
-    timeout-minutes: 10
+test-and-report:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+steps:
+  - name: Checkout repository
+    uses: actions/checkout@v4
+    with:
+      fetch-depth: 0
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: lts/*
-          cache: 'npm'
+  - name: Setup Node.js
+    uses: actions/setup-node@v4
+    with:
+      node-version: lts/*
+      cache: npm
 
-      - name: Install dependencies
-        run: npm ci
+  - name: Cache Playwright browsers
+    uses: actions/cache@v4
+    with:
+      path: ~/.cache/ms-playwright
+      key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
+      restore-keys: |
+        ${{ runner.os }}-playwright-
 
-      - name: Run Linter
-        run: npm run lint
+  - name: Install dependencies
+    run: npm ci
 
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
+  - name: Install Playwright browsers
+    run: npx playwright install --with-deps
 
-      - name: Run Playwright tests
-        run: npx playwright test
-        continue-on-error: true
+  - name: Run Playwright tests
+    run: npx playwright test
+    continue-on-error: true
 
-      - name: Get Allure history
-        uses: actions/checkout@v4
-        if: always()
-        continue-on-error: true
-        with:
-          ref: gh-pages
-          path: gh-pages
+  - name: Download Allure history
+    if: always()
+    continue-on-error: true
+    uses: actions/checkout@v4
+    with:
+      ref: gh-pages
+      path: gh-pages
 
-      - name: Generate Allure Report
-        uses: simple-elf/allure-report-action@master
-        if: always()
-        with:
-          allure_results: allure-results
-          gh_pages: gh-pages
-          allure_report: allure-report
-          allure_history: allure-history
-          subfolder: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.number) || 'main' }}
+  - name: Generate Allure Report
+    if: always()
+    uses: simple-elf/allure-report-action@master
+    with:
+      allure_results: allure-results
+      gh_pages: gh-pages
+      allure_report: allure-report
+      allure_history: allure-history
+      subfolder: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.number) || 'main' }}
 
-      - name: Fix permissions
-        run: sudo chmod -R 777 allure-history
+  - name: Fix permissions
+    if: always()
+    run: chmod -R 777 allure-history
 
-      - name: Install jq
-        run: sudo apt-get update && sudo apt-get install -y jq
+  - name: Install jq
+    if: always()
+    run: |
+      sudo apt-get update
+      sudo apt-get install -y jq
 
-      - name: Fail PR if tests failed
-        if: always() && github.event_name == 'pull_request'
-        run: |
-          SUMMARY_FILE="allure-history/pr-${{ github.event.number }}/widgets/summary.json"
+  - name: Validate test results
+    if: always() && github.event_name == 'pull_request'
+    run: |
+      SUMMARY_FILE="allure-history/pr-${{ github.event.number }}/widgets/summary.json"
 
-          if [ -f "$SUMMARY_FILE" ]; then
-            FAILED=$(jq '.statistic.failed' "$SUMMARY_FILE")
-            echo "Failed tests: $FAILED"
+      if [ ! -f "$SUMMARY_FILE" ]; then
+        echo "Summary file not found"
+        exit 1
+      fi
 
-            if [ "$FAILED" -gt 0 ]; then
-              echo "❌ Tests failed"
-              exit 1
-            else
-              echo "✅ All tests passed"
-            fi
-          else
-            echo "⚠️ Summary file not found. Skipping fail check."
-          fi
+      FAILED=$(jq '.statistic.failed' "$SUMMARY_FILE")
+      BROKEN=$(jq '.statistic.broken' "$SUMMARY_FILE")
 
-      - name: Deploy report to Github Pages
-        if: always()
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: allure-history
+      echo "Failed: $FAILED"
+      echo "Broken: $BROKEN"
 
-      - name: Post Allure Report link to PR
-        if: always() && github.event_name == 'pull_request'
-        uses: thollander/actions-comment-pull-request@v2
-        with:
-          message: |
-            📊 **Allure Test Report for PR-${{ github.event.number }}**
-            https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/pr-${{ github.event.number }}/
-          comment_tag: allure-report-link
+      if [ "$FAILED" -gt 0 ] || [ "$BROKEN" -gt 0 ]; then
+        echo "Tests failed"
+        exit 1
+      fi
+
+  - name: Deploy Allure Report
+    if: always()
+    uses: peaceiris/actions-gh-pages@v4
+    with:
+      github_token: ${{ secrets.GITHUB_TOKEN }}
+      publish_branch: gh-pages
+      publish_dir: allure-history
+
+  - name: Comment PR with report link
+    if: always() && github.event_name == 'pull_request'
+    uses: thollander/actions-comment-pull-request@v2
+    with:
+      comment_tag: allure-report-link
+      message: |
+        📊 Allure Report
+
+        🔗 https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/pr-${{ github.event.number }}/
+```
