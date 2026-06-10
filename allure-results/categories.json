@@ -1,1 +1,0 @@
-[{"name":"Failed tests","matchedStatuses":["failed"]},{"name":"Broken tests","matchedStatuses":["broken"]},{"name":"Flaky tests","matchedStatuses":["failed"],"messageRegex":".*RetryError.*"}]
