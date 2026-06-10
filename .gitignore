@@ -150,3 +150,5 @@ vite.config.ts.timestamp-*
 /playwright/.auth/
 
 .idea/
+.allure-report/
+.allure-results/
