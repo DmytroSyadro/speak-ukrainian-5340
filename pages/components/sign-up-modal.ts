@@ -25,7 +25,7 @@ export class SignUpModal extends BaseComponent {
   readonly closeButton: Locator;
 
   constructor(page: Page) {
-    super(page, 'div.ant-modal[role="dialog"]');
+    super(page, 'div.ant-modal.modal-registration[role="dialog"]');
     this.visitorTab = this.root
       .locator('label.ant-radio-button-wrapper')
       .filter({ hasText: /відвідувач/i })
