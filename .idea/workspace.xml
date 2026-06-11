@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="b7f35b67-4eaf-4e17-92bf-46c05b7784a1" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CopilotPersistence">
+    <persistenceIdMap>
+      <entry key="_D:/Test Automation InternShip/projects/speak-ukrainian-5340" value="3EwU3r5VgVUbTjhznN4TgLGIb9F" />
+    </persistenceIdMap>
+  </component>
+  <component name="EmbeddingIndexingInfo">
+    <option name="cachedIndexableFilesCount" value="98" />
+    <option name="fileBasedEmbeddingIndicesEnabled" value="true" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="tsconfig.json" />
+        <option value="TypeScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="7.692673409360954E-12" />
+      <entry key="MS500" value="0.009839275333525084" />
+      <entry key="S2" value="1.7209051025125721" />
+      <entry key="S5" value="9.288175182536182" />
+      <entry key="S10" value="19.65007028404147" />
+      <entry key="S30" value="41.0508421907952" />
+      <entry key="S60" value="65.12476002651658" />
+      <entry key="M2" value="99.49341283804353" />
+      <entry key="M5" value="151.55331856657298" />
+      <entry key="M10" value="195.3244025993952" />
+      <entry key="M15" value="229.78380770628533" />
+      <entry key="M30" value="330.3427458481375" />
+      <entry key="H1" value="515.6000032291522" />
+      <entry key="H2" value="822.439743966857" />
+      <entry key="H4" value="1212.6060577253345" />
+      <entry key="D1" value="1906.6920450913776" />
+      <entry key="W1" value="2089.889329954798" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="1.0000725834420778" />
+      <entry key="MS500" value="1.1486508893753402" />
+      <entry key="S2" value="1.6209289060468657" />
+      <entry key="S5" value="1.8264904721907542" />
+      <entry key="S10" value="1.9160927749810621" />
+      <entry key="S30" value="2.3665048398873636" />
+      <entry key="S60" value="3.3401360040103296" />
+      <entry key="M2" value="4.733791148228479" />
+      <entry key="M5" value="6.957211654237123" />
+      <entry key="M10" value="8.990328966173625" />
+      <entry key="M15" value="11.305891598583186" />
+      <entry key="M30" value="20.977873877473794" />
+      <entry key="H1" value="40.1621832060616" />
+      <entry key="H2" value="66.29331609069716" />
+      <entry key="H4" value="92.24877623079853" />
+      <entry key="D1" value="128.96480467035067" />
+      <entry key="W1" value="137.49559570700526" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="0.07694855596076514" />
+      <entry key="MS500" value="0.6794694249237917" />
+      <entry key="S2" value="3.0780760398757594" />
+      <entry key="S5" value="10.95796316466474" />
+      <entry key="S10" value="21.47012587558604" />
+      <entry key="S30" value="43.36519308499038" />
+      <entry key="S60" value="68.41485995189508" />
+      <entry key="M2" value="104.17214961438334" />
+      <entry key="M5" value="158.45238666710625" />
+      <entry key="M10" value="204.26325904460884" />
+      <entry key="M15" value="241.04308600067657" />
+      <entry key="M30" value="351.2796705165487" />
+      <entry key="H1" value="555.7264620360355" />
+      <entry key="H2" value="888.7042206372878" />
+      <entry key="H4" value="1304.8344344315697" />
+      <entry key="D1" value="2035.651900585821" />
+      <entry key="W1" value="2227.3841641184963" />
+    </decayedShown>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4,
+  &quot;fromUser&quot;: false
+}</component>
+  <component name="ProjectId" id="3EwU3r5VgVUbTjhznN4TgLGIb9F" />
+  <component name="ProjectSessionTemplates">
+    <option name="inlineTemplate">
+      <template>
+        <option name="modeId" value="InlineAgent" />
+        <option name="model">
+          <model>
+            <option name="modelType" value="builtin_family" />
+            <option name="modelValue" value="auto" />
+          </model>
+        </option>
+        <option name="targetType" value="LOCAL" />
+      </template>
+    </option>
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Playwright.has title.executor": "Run",
+    "Playwright.speak-ukrainian.example.spec.ts.executor": "Run",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "git-widget-placeholder": "base-club-modal",
+    "ignore.virus.scanning.warn.message": "true",
+    "javascript.nodejs.core.library.configured.version": "22.14.0",
+    "javascript.nodejs.core.library.typings.version": "22.14.1",
+    "javascript.preferred.runtime.type.id": "node",
+    "last_opened_file_path": "D:/Test Automation InternShip/projects/speak-ukrainian-5340",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.stylelint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.stylelint": "",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_interpreter_path": "C:/Users/User/AppData/Roaming/JetBrains/WebStorm2026.1/node/versions/24.16.0/node",
+    "nodejs_package_manager_path": "npm",
+    "prettierjs.PrettierConfiguration.Package": "D:\\Test Automation InternShip\\projects\\speak-ukrainian-5340\\node_modules\\prettier",
+    "settings.editor.selected.configurable": "settings.typescriptcompiler",
+    "ts.external.directory.path": "D:\\WebStorm\\WebStorm 2026.1.3\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Test Automation InternShip\projects\speak-ukrainian-5340" />
+      <recent name="D:\Test Automation InternShip\projects\speak-ukrainian-5340\config" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="has title" type="JavaScriptTestRunnerPlaywright" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <playwright-package value="$PROJECT_DIR$/node_modules/@playwright/test" />
+      <working-dir value="$PROJECT_DIR$" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/tests/speak-ukrainian.example.spec.ts" />
+      <test-names>
+        <test-name value="has title" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Playwright.has title" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-31caf2ab9e3c-JavaScript-WS-261.25134.101" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b7f35b67-4eaf-4e17-92bf-46c05b7784a1" name="Changes" comment="" />
+      <created>1781088928912</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1781088928912</updated>
+      <workItem from="1781088929989" duration="1397000" />
+      <workItem from="1781090492470" duration="716000" />
+      <workItem from="1781093976088" duration="1809000" />
+      <workItem from="1781095826006" duration="6709000" />
+      <workItem from="1781175102709" duration="7140000" />
+      <workItem from="1781192044140" duration="5864000" />
+      <workItem from="1781200593907" duration="3845000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
