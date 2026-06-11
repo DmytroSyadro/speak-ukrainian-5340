@@ -8,4 +8,17 @@ export abstract class BaseComponent {
     this.page = page;
     this.root = typeof rootSelector === 'string' ? page.locator(rootSelector) : rootSelector;
   }
+
+  async isVisible(): Promise<boolean> {
+    return this.root.isVisible();
+  }
+  async isHidden(): Promise<boolean> {
+    return this.root.isHidden();
+  }
+  async waitForVisible(): Promise<void> {
+    await this.root.waitFor({ state: 'visible' });
+  }
+  async waitForHidden(): Promise<void>{
+    await this.root.waitFor({ state: 'hidden' });
+  }
 }
