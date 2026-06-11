@@ -1,33 +1,44 @@
 ﻿import { BaseComponent } from './base-component.js';
 import { Locator, Page } from '@playwright/test';
-import { ClubTagComponent } from './club-tag-component.js';
+import { TagsComponent } from './tags-component';
+
+const SELECTORS = {
+  moreDetailsButton: ".//a[contains(@class, 'ant-btn-default')]",
+  clubAddress: '.oneAddress',
+  clubDescription: '.description',
+  clubFullStars: 'li.ant-rate-star-full',
+  clubHalfStars: 'li.ant-rate-star-half',
+  clubTitle: '.name',
+  clubOnline: '.online',
+  clubTagsRoot: './/div[contains(@class, "club-tags") and not(contains(@class, "box"))]',
+};
 
 export class ClubCardComponent extends BaseComponent {
-  private moreDetailsButton: Locator;
-  private clubTitle: Locator;
-  private clubDescription: Locator;
-  private clubAddress: Locator;
-  private clubFullStars: Locator;
-  private clubHalfStars: Locator;
-  private clubOnline: Locator;
+  private readonly moreDetailsButton: Locator;
+  private readonly clubTitle: Locator;
+  private readonly clubDescription: Locator;
+  private readonly clubAddress: Locator;
+  private readonly clubFullStars: Locator;
+  private readonly clubHalfStars: Locator;
+  private readonly clubOnline: Locator;
 
-  private clubTags: ClubTagComponent | null = null;
+  private clubTags: TagsComponent | null = null;
 
   constructor(page: Page, rootSelector: string | Locator) {
     super(page, rootSelector);
-    this.moreDetailsButton = this.root.locator(".//a[contains(@class, 'ant-btn-default')]");
-    this.clubAddress = this.root.locator('.oneAddress');
-    this.clubDescription = this.root.locator('.description');
-    this.clubFullStars = this.root.locator('li.ant-rate-star-full');
-    this.clubHalfStars = this.root.locator('li.ant-rate-star-half');
-    this.clubTitle = this.root.locator('.name');
-    this.clubOnline = this.root.locator('.online');
+    this.moreDetailsButton = this.root.locator(SELECTORS.moreDetailsButton);
+    this.clubAddress = this.root.locator(SELECTORS.clubAddress);
+    this.clubDescription = this.root.locator(SELECTORS.clubDescription);
+    this.clubFullStars = this.root.locator(SELECTORS.clubFullStars);
+    this.clubHalfStars = this.root.locator(SELECTORS.clubHalfStars);
+    this.clubTitle = this.root.locator(SELECTORS.clubTitle);
+    this.clubOnline = this.root.locator(SELECTORS.clubOnline);
   }
-  getClubTags(): ClubTagComponent {
+  getClubTags(): TagsComponent {
     if (!this.clubTags) {
-      this.clubTags = new ClubTagComponent(
+      this.clubTags = new TagsComponent(
         this.page,
-        this.root.locator('.//div[contains(@class, "club-tags") and not(contains(@class, "box"))]')
+        this.root.locator(SELECTORS.clubTagsRoot)
       );
     }
     return this.clubTags;
