@@ -2,12 +2,12 @@ import { Locator, Page } from '@playwright/test';
 import { BaseComponent } from './base-component';
 
 interface RegistrationData {
-    lastName: string;
-    firstName: string;
-    phone: string;
-    email: string;
-    password: string;
-    confirmPassword: string;
+  lastName: string;
+  firstName: string;
+  phone: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
 }
 
 export class SignUpModal extends BaseComponent {
@@ -21,13 +21,19 @@ export class SignUpModal extends BaseComponent {
   readonly confirmPasswordInput: Locator;
   readonly submitButton: Locator;
   readonly googleButton: Locator;
-  readonly facebookButton: Locator;  
+  readonly facebookButton: Locator;
   readonly closeButton: Locator;
 
   constructor(page: Page) {
     super(page, 'div.ant-modal[role="dialog"]');
-    this.visitorTab = this.root.locator('label.ant-radio-button-wrapper').filter({ hasText: /відвідувач/i }).first();
-    this.managerTab = this.root.locator('label.ant-radio-button-wrapper').filter({ hasText: /керівник/i }).first();
+    this.visitorTab = this.root
+      .locator('label.ant-radio-button-wrapper')
+      .filter({ hasText: /відвідувач/i })
+      .first();
+    this.managerTab = this.root
+      .locator('label.ant-radio-button-wrapper')
+      .filter({ hasText: /керівник/i })
+      .first();
 
     this.lastNameInput = this.root.locator('#lastName');
     this.firstNameInput = this.root.locator('#firstName');
