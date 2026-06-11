@@ -29,7 +29,7 @@ export class SignUpModal extends BaseComponent {
     this.visitorTab = this.root.locator('label.ant-radio-button-wrapper').filter({ hasText: /відвідувач/i }).first();
     this.managerTab = this.root.locator('label.ant-radio-button-wrapper').filter({ hasText: /керівник/i }).first();
 
-    this.lastNameInput = this.root.locator('#lastName"]');
+    this.lastNameInput = this.root.locator('#lastName');
     this.firstNameInput = this.root.locator('#firstName');
 
     this.phoneInput = this.root.locator('#phone');
