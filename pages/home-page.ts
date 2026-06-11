@@ -7,6 +7,7 @@ export class HomePage extends BasePage {
   private readonly categoryCards: Locator;
   private readonly categoriesNextArrow: Locator;
   private readonly categoriesPrevArrow: Locator;
+  private readonly categoriesDots: Locator;
   private readonly challengeLearnMoreButton: Locator;
   private readonly promoBanner: Locator;
 
@@ -22,6 +23,7 @@ export class HomePage extends BasePage {
     this.categoriesPrevArrow = page.locator(
       'div.categories-carousel-block > span.anticon-arrow-left > svg'
     );
+    this.categoriesDots = page.locator('.categories-cards .slick-dots');
     this.challengeLearnMoreButton = page.getByText('Дізнатись більше', { exact: true });
     this.promoBanner = page.locator('.banner-image');
   }
@@ -48,6 +50,10 @@ export class HomePage extends BasePage {
 
   async clickCategoriesPrevArrow(): Promise<void> {
     await this.categoriesPrevArrow.click();
+  }
+
+  async clickCategoryDot(index: number): Promise<void> {
+    await this.categoriesDots.getByRole('button', { name: `${index}` }).click();
   }
 
   async clickChallengeLearnMoreButton(): Promise<void> {
