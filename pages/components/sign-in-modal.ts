@@ -14,10 +14,10 @@ export class SignInModal extends BaseComponent {
     super(page, 'div.ant-modal.modal-login[role="dialog"]');
     this.emailInput = this.root.locator('#basic_email');
     this.passwordInput = this.root.locator('#basic_password');
-    
+
     this.submitButton = this.root.getByRole('button', { name: /увійти/i });
     this.forgotPasswordLink = this.root.getByRole('link', { name: /забули пароль?/i });
-    
+
     this.googleButton = this.root.locator('a[href*="google"]');
     this.facebookButton = this.root.locator('a[href*="facebook"]');
 
