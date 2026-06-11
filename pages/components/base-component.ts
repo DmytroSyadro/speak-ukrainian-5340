@@ -4,8 +4,8 @@ export abstract class BaseComponent {
   protected page: Page;
   protected root: Locator;
 
-  constructor(page: Page, rootSelector: string) {
+  protected constructor(page: Page, rootSelector: string | Locator) {
     this.page = page;
-    this.root = page.locator(rootSelector);
+    this.root = typeof rootSelector === 'string' ? page.locator(rootSelector) : rootSelector;
   }
 }
