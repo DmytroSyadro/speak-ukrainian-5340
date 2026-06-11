@@ -36,10 +36,7 @@ export class ClubCardComponent extends BaseComponent {
   }
   getClubTags(): TagsComponent {
     if (!this.clubTags) {
-      this.clubTags = new TagsComponent(
-        this.page,
-        this.root.locator(SELECTORS.clubTagsRoot)
-      );
+      this.clubTags = new TagsComponent(this.page, this.root.locator(SELECTORS.clubTagsRoot));
     }
     return this.clubTags;
   }

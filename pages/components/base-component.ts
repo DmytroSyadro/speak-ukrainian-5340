@@ -18,7 +18,7 @@ export abstract class BaseComponent {
   async waitForVisible(): Promise<void> {
     await this.root.waitFor({ state: 'visible' });
   }
-  async waitForHidden(): Promise<void>{
+  async waitForHidden(): Promise<void> {
     await this.root.waitFor({ state: 'hidden' });
   }
 }
