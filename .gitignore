@@ -149,6 +149,10 @@ vite.config.ts.timestamp-*
 /playwright/.cache/
 /playwright/.auth/
 
-.idea/
+
+# Allure
 allure-report/
 allure-results/
+
+# JetBrains IDEs
+.idea/
