@@ -80,7 +80,7 @@ jobs:
         run: sudo chmod -R 777 allure-history
 
       - name: Install jq
-        if: !cancelled()
+        if: ${{ !cancelled() }}
         run: |
           sudo apt-get update
           sudo apt-get install -y jq
