@@ -1,12 +1,12 @@
-import { Locator, Page } from '@playwright/test';
+import type { Locator, Page } from '@playwright/test';
 
 export abstract class BaseComponent {
   protected page: Page;
   protected root: Locator;
 
-  protected constructor(page: Page, rootSelector: Locator) {
-    this.page = page;
-    this.root = rootSelector;
+  protected constructor(rootLocator: Locator, page?: Page) {
+    this.page = page ?? rootLocator.page();
+    this.root = rootLocator;
   }
 
   async isVisible(): Promise<boolean> {

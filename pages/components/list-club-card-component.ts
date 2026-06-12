@@ -1,19 +1,21 @@
-﻿import { BaseComponent } from './base-component';
-import { Locator, Page } from '@playwright/test';
+﻿import type { Locator } from '@playwright/test';
+
+import { BaseComponent } from './base-component';
 import { ClubCardComponent } from './club-card-component';
 
 export class ListClubCardComponent extends BaseComponent {
   private readonly cardItems: Locator;
-  constructor(page: Page, rootSelector: Locator) {
-    super(page, rootSelector);
+
+  constructor(rootSelector: Locator) {
+    super(rootSelector);
     this.cardItems = this.root.locator(".//div[@class='ant-card-body']");
   }
 
   async getClubs(): Promise<ClubCardComponent[]> {
     const count = await this.cardItems.count();
     const clubCards: ClubCardComponent[] = [];
-    for (let iii = 0; iii < count; iii++) {
-      clubCards.push(new ClubCardComponent(this.page, this.cardItems.nth(iii)));
+    for (let i = 0; i < count; i++) {
+      clubCards.push(new ClubCardComponent(this.cardItems.nth(i)));
     }
     return clubCards;
   }
@@ -29,7 +31,7 @@ export class ListClubCardComponent extends BaseComponent {
   }
 
   async getClubCardByIndex(index: number): Promise<ClubCardComponent> {
-    return new ClubCardComponent(this.page, this.cardItems.nth(index));
+    return new ClubCardComponent(this.cardItems.nth(index));
   }
 
   async getClubCardCount(): Promise<number> {

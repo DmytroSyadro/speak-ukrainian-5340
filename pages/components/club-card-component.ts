@@ -1,5 +1,6 @@
-﻿import { BaseComponent } from './base-component.js';
-import { Locator, Page } from '@playwright/test';
+﻿import type { Locator } from '@playwright/test';
+
+import { BaseComponent } from './base-component';
 import { TagsComponent } from './tags-component';
 
 export class ClubCardComponent extends BaseComponent {
@@ -10,11 +11,12 @@ export class ClubCardComponent extends BaseComponent {
   private readonly clubFullStars: Locator;
   private readonly clubHalfStars: Locator;
   private readonly clubOnline: Locator;
+  private readonly clubTagsLocator: Locator;
 
   private clubTags: TagsComponent;
 
-  constructor(page: Page, rootSelector: Locator) {
-    super(page, rootSelector);
+  constructor(rootLocator: Locator) {
+    super(rootLocator);
     this.moreDetailsButton = this.root.locator('.//a[contains(@class, "ant-btn-default")]');
     this.clubAddress = this.root.locator('.oneAddress');
     this.clubDescription = this.root.locator('.description');
@@ -22,10 +24,10 @@ export class ClubCardComponent extends BaseComponent {
     this.clubHalfStars = this.root.locator('li.ant-rate-star-half');
     this.clubTitle = this.root.locator('.name');
     this.clubOnline = this.root.locator('.online');
-    this.clubTags = new TagsComponent(
-      this.page,
-      this.root.locator('.//div[contains(@class, "club-tags") and not(contains(@class, "box"))]')
+    this.clubTagsLocator = this.root.locator(
+      './/div[contains(@class, "club-tags") and not(contains(@class, "box"))]'
     );
+    this.clubTags = new TagsComponent(this.clubTagsLocator);
   }
   async clickMoreDetailsButton(): Promise<void> {
     await this.moreDetailsButton.click();
