@@ -14,16 +14,47 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
     baseURL: env.BASE_URL,
-
+    headless: env.HEADLESS,
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
-    headless: env.HEADLESS,
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
   },
+  reporter: [
+    ['list'],
+    [
+      'allure-playwright',
+      {
+        detail: true,
+        suiteTitle: true,
+        outputFolder: 'allure-results',
+        environmentInfo: {
+          BASE_URL: env.BASE_URL,
+          HEADLESS: String(env.HEADLESS),
+        },
+        categories: [
+          {
+            name: 'Failed tests',
+            matchedStatuses: ['failed'],
+          },
+          {
+            name: 'Broken tests',
+            matchedStatuses: ['broken'],
+          },
+          {
+            name: 'Flaky tests',
+            matchedStatuses: ['failed'],
+            messageRegex: '.*RetryError.*',
+          },
+        ],
+      },
+    ],
+  ],
 
   /* Configure projects for major browsers */
   projects: [
