@@ -1,20 +1,6 @@
-import { Locator, Page } from '@playwright/test';
+import type { Locator, Page } from '@playwright/test';
 import { BaseModal } from './base-modal';
-
-const SELECTORS = {
-  root: "//div[@class='ant-modal-content']",
-  tagsRoot: ".//div[contains(@class, 'categories')]",
-  number: ".//*[@class='contact-name' and contains(text(), '+')]",
-  link: ".//*[@class='contact-name']/a",
-  download: ".//button[contains(@class, 'download-button')]",
-  moreAboutClub: ".//button[contains(@class, 'more-button')]",
-  address: ".//div[@class='address']/span[@class='text']",
-  title: ".//div[@class='club-name']",
-  description: "//div[@class='description']",
-  clubFullStars: 'li.ant-rate-star-full',
-  clubHalfStars: 'li.ant-rate-star-half',
-  age: ".//span[@class='years']",
-} as const;
+import { TagsComponent } from '../pages/components/tags-component';
 
 export class ClubModal extends BaseModal {
   private readonly root: Locator;
@@ -28,21 +14,25 @@ export class ClubModal extends BaseModal {
   private readonly moreAboutClubButton: Locator;
   private readonly age: Locator;
   private readonly contactNumbers: Locator;
-  //private tags: TagsComponent;
+  private readonly clubTagsLocator: Locator;
+
+  private clubTags: TagsComponent;
 
   constructor(page: Page) {
     super(page);
-    this.root = this.page.locator(SELECTORS.root);
-    this.clubFullStars = this.root.locator(SELECTORS.clubFullStars);
-    this.clubHalfStars = this.root.locator(SELECTORS.clubHalfStars);
-    this.addressText = this.root.locator(SELECTORS.address);
-    this.titleText = this.root.locator(SELECTORS.title);
-    this.descriptionText = this.root.locator(SELECTORS.description);
-    this.linkText = this.root.locator(SELECTORS.link);
-    this.downloadButton = this.root.locator(SELECTORS.download);
-    this.moreAboutClubButton = this.root.locator(SELECTORS.moreAboutClub);
-    this.age = this.root.locator(SELECTORS.age);
-    this.contactNumbers = this.root.locator(SELECTORS.number);
+    this.root = this.page.locator("//div[@class='ant-modal-content']");
+    this.clubFullStars = this.root.locator("li.ant-rate-star-full");
+    this.clubHalfStars = this.root.locator("li.ant-rate-star-half");
+    this.addressText = this.root.locator(".//div[@class='address']/span[@class='text']");
+    this.titleText = this.root.locator(".//div[@class='club-name']");
+    this.descriptionText = this.root.locator("//div[@class='description']");
+    this.linkText = this.root.locator(".//*[@class='contact-name']/a");
+    this.downloadButton = this.root.locator(".//button[contains(@class, 'download-button')]");
+    this.moreAboutClubButton = this.root.locator(".//button[contains(@class, 'more-button')]");
+    this.age = this.root.locator(".//span[@class='years']");
+    this.contactNumbers = this.root.locator(".//*[@class='contact-name' and contains(text(), '+')]");
+    this.clubTagsLocator = this.root.locator(".//div[contains(@class, 'categories')]");
+    this.clubTags = new TagsComponent(this.clubTagsLocator);
   }
   async getRoot(): Promise<Locator> {
     return this.root;
