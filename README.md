@@ -2,6 +2,10 @@
 
 UI test automation project for the Speak Ukrainian website using Playwright and TypeScript.
 
+## 📊 Test Reports
+
+[![Allure Report](https://img.shields.io/badge/Allure-View%20Report-brightgreen?logo=allure)](https://UA-5340-TAQC.github.io/speak-ukrainian-5340/main/index.html)
+
 ## Tech stack
 
 - Playwright Test
