@@ -21,8 +21,8 @@ export class ClubModal extends BaseModal {
   constructor(page: Page) {
     super(page);
     this.root = this.page.locator("//div[@class='ant-modal-content']");
-    this.clubFullStars = this.root.locator("li.ant-rate-star-full");
-    this.clubHalfStars = this.root.locator("li.ant-rate-star-half");
+    this.clubFullStars = this.root.locator('li.ant-rate-star-full');
+    this.clubHalfStars = this.root.locator('li.ant-rate-star-half');
     this.addressText = this.root.locator(".//div[@class='address']/span[@class='text']");
     this.titleText = this.root.locator(".//div[@class='club-name']");
     this.descriptionText = this.root.locator("//div[@class='description']");
@@ -30,7 +30,9 @@ export class ClubModal extends BaseModal {
     this.downloadButton = this.root.locator(".//button[contains(@class, 'download-button')]");
     this.moreAboutClubButton = this.root.locator(".//button[contains(@class, 'more-button')]");
     this.age = this.root.locator(".//span[@class='years']");
-    this.contactNumbers = this.root.locator(".//*[@class='contact-name' and contains(text(), '+')]");
+    this.contactNumbers = this.root.locator(
+      ".//*[@class='contact-name' and contains(text(), '+')]"
+    );
     this.clubTagsLocator = this.root.locator(".//div[contains(@class, 'categories')]");
     this.clubTags = new TagsComponent(this.clubTagsLocator);
   }
