@@ -1,10 +1,16 @@
-import type { Page } from '@playwright/test';
+import type { Locator, Page } from '@playwright/test';
+import { SearchBarComponent } from './components/search-bar-component';
 
 export abstract class BasePage {
   protected page: Page;
+  protected searchBar: SearchBarComponent;
+
+  private readonly searchBarLocator: Locator;
 
   protected constructor(page: Page) {
     this.page = page;
+    this.searchBarLocator = page.locator("//div[@class='search']");
+    this.searchBar = new SearchBarComponent(this.searchBarLocator);
   }
 
   async navigateTo(url: string): Promise<void> {
