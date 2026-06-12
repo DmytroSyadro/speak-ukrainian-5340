@@ -5,7 +5,7 @@ import { ClubBannerTitleComponent } from './components/club-banner-title-compone
 export class ClubPage extends BasePage {
   private readonly clubBannerTitleLocator: Locator;
 
-  private clubBannerTitle: ClubBannerTitleComponent;
+  protected clubBannerTitle: ClubBannerTitleComponent;
 
   constructor(page: Page) {
     super(page);
