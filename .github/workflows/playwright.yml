@@ -86,7 +86,7 @@ jobs:
           sudo apt-get install -y jq
 
       - name: Validate test results
-        if: !cancelled() && github.event_name == 'pull_request'
+        if: ${{ !cancelled() && github.event_name == 'pull_request' }}
         run: |
           SUMMARY_FILE="allure-history/pr-${{ github.event.number }}/widgets/summary.json"
 
@@ -109,7 +109,7 @@ jobs:
           echo "✅ All tests passed"
 
       - name: Deploy Allure Report
-        if: success()
+        if: ${{ success() }}
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -117,7 +117,7 @@ jobs:
           publish_dir: allure-history
 
       - name: Comment PR with report link
-        if: success() && github.event_name == 'pull_request'
+        if: ${{ !cancelled() && github.event_name == 'pull_request' }}
         uses: thollander/actions-comment-pull-request@v2
         with:
           comment_tag: allure-report-link
