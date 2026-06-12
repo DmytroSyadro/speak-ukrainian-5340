@@ -1,20 +1,17 @@
-import { Page, Locator } from '@playwright/test';
+import type { Locator } from '@playwright/test';
 import { BaseComponent } from './base-component';
 
 export class ClubCategoryCardComponent extends BaseComponent {
   private categoryTitle: Locator;
   private categoryDescription: Locator;
   private seeMoreButton: Locator;
-  private cardRoot: Locator;
 
-  constructor(page: Page, rootSelector: string, categoryTitle: string) {
-    super(page, rootSelector);
+  constructor(rootLocator: Locator) {
+    super(rootLocator);
 
-    this.cardRoot = this.root.filter({ hasText: categoryTitle });
-
-    this.categoryTitle = this.cardRoot.locator('.name');
-    this.categoryDescription = this.cardRoot.locator('.description');
-    this.seeMoreButton = this.cardRoot.locator('.details');
+    this.categoryTitle = this.root.locator('.name');
+    this.categoryDescription = this.root.locator('.description');
+    this.seeMoreButton = this.root.locator('.details');
   }
 
   async getCategoryTitle(): Promise<string | null> {

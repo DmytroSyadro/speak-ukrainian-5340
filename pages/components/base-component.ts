@@ -1,11 +1,24 @@
-import { Locator, Page } from '@playwright/test';
+import type { Locator, Page } from '@playwright/test';
 
 export abstract class BaseComponent {
   protected page: Page;
   protected root: Locator;
 
-  constructor(page: Page, rootSelector: string) {
-    this.page = page;
-    this.root = page.locator(rootSelector);
+  protected constructor(rootLocator: Locator, page?: Page) {
+    this.page = page ?? rootLocator.page();
+    this.root = rootLocator;
+  }
+
+  async isVisible(): Promise<boolean> {
+    return this.root.isVisible();
+  }
+  async isHidden(): Promise<boolean> {
+    return this.root.isHidden();
+  }
+  async waitForVisible(): Promise<void> {
+    await this.root.waitFor({ state: 'visible' });
+  }
+  async waitForHidden(): Promise<void> {
+    await this.root.waitFor({ state: 'hidden' });
   }
 }
