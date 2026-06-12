@@ -11,6 +11,7 @@ const SELECTORS = {
 };
 
 export class ChallengeTasksCarouselComponent extends BaseComponent {
+  private readonly rootSelectorString: string;
   private readonly sectionLabel: Locator;
   private readonly prevArrow: Locator;
   private readonly nextArrow: Locator;
@@ -19,6 +20,7 @@ export class ChallengeTasksCarouselComponent extends BaseComponent {
 
   constructor(page: Page, rootSelector: string) {
     super(page, rootSelector);
+    this.rootSelectorString = rootSelector;
     this.sectionLabel = this.root.locator(SELECTORS.sectionLabel);
     this.prevArrow = this.root.locator(SELECTORS.prevArrow);
     this.nextArrow = this.root.locator(SELECTORS.nextArrow);
@@ -35,6 +37,10 @@ export class ChallengeTasksCarouselComponent extends BaseComponent {
   }
 
   async clickCarouselDot(index: number): Promise<void> {
+    const count = await this.carouselDots.count();
+    if (index < 0 || index >= count) {
+      throw new RangeError(`Carousel dot index out of range: ${index} (count: ${count})`);
+    }
     await this.carouselDots.nth(index).click();
   }
 
@@ -42,11 +48,10 @@ export class ChallengeTasksCarouselComponent extends BaseComponent {
     const count = await this.taskCards.count();
     const cards: TaskCardComponent[] = [];
     for (let i = 0; i < count; i++) {
-      // Passes a strict string selector by utilizing Playwright's nth index engine
       cards.push(
         new TaskCardComponent(
           this.page,
-          `.challenge-day-carousel ${SELECTORS.taskCards} >> nth=${i}`
+          `${this.rootSelectorString} ${SELECTORS.taskCards} >> nth=${i}`
         )
       );
     }
@@ -54,9 +59,13 @@ export class ChallengeTasksCarouselComponent extends BaseComponent {
   }
 
   async getTaskCardByIndex(index: number): Promise<TaskCardComponent> {
+    const count = await this.taskCards.count();
+    if (index < 0 || index >= count) {
+      throw new RangeError(`Task card index out of range: ${index} (count: ${count})`);
+    }
     return new TaskCardComponent(
       this.page,
-      `.challenge-day-carousel ${SELECTORS.taskCards} >> nth=${index}`
+      `${this.rootSelectorString} ${SELECTORS.taskCards} >> nth=${index}`
     );
   }
 

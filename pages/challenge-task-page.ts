@@ -56,12 +56,32 @@ export class ChallengeTaskPage extends BasePage {
   }
 
   async playVideo(index: number): Promise<void> {
+    const count = await this.videoIframes.count();
+    if (index < 0 || index >= count) {
+      throw new RangeError(`Video iframe index out of range: ${index} (count: ${count})`);
+    }
+
     const frame = this.page.frameLocator('iframe.ql-video').nth(index);
-    await frame.locator('.ytp-play-button').click();
+    
+    const isPlaying = await frame.locator('.html5-video-player.playing-mode').isVisible().catch(() => false);
+    
+    if (!isPlaying) {
+      await frame.locator('.ytp-play-button').click();
+    }
   }
 
   async pauseVideo(index: number): Promise<void> {
+    const count = await this.videoIframes.count();
+    if (index < 0 || index >= count) {
+      throw new RangeError(`Video iframe index out of range: ${index} (count: ${count})`);
+    }
+
     const frame = this.page.frameLocator('iframe.ql-video').nth(index);
-    await frame.locator('.ytp-play-button').click(); // The YouTube button toggles
+    
+    const isPlaying = await frame.locator('.html5-video-player.playing-mode').isVisible().catch(() => false);
+    
+    if (isPlaying) {
+      await frame.locator('.ytp-play-button').click();
+    }
   }
 }
