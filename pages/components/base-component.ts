@@ -4,9 +4,9 @@ export abstract class BaseComponent {
   protected page: Page;
   protected root: Locator;
 
-  protected constructor(page: Page, rootSelector: string | Locator) {
+  protected constructor(page: Page, rootSelector: Locator) {
     this.page = page;
-    this.root = typeof rootSelector === 'string' ? page.locator(rootSelector) : rootSelector;
+    this.root = rootSelector;
   }
 
   async isVisible(): Promise<boolean> {

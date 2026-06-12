@@ -1,16 +1,12 @@
 ﻿import { BaseComponent } from './base-component.js';
 import { Locator, Page } from '@playwright/test';
 
-const SELECTORS = {
-  categoryName: '.ant-tag .name',
-};
-
 export class TagsComponent extends BaseComponent {
   private readonly categoryName: Locator;
 
-  constructor(page: Page, rootSelector: string | Locator) {
+  constructor(page: Page, rootSelector: Locator) {
     super(page, rootSelector);
-    this.categoryName = this.root.locator(SELECTORS.categoryName);
+    this.categoryName = this.root.locator('.ant-tag .name');
   }
   async getCategoryName(): Promise<string> {
     return this.categoryName.innerText();

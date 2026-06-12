@@ -2,15 +2,12 @@
 import { Locator, Page } from '@playwright/test';
 import { ClubCardComponent } from './club-card-component';
 
-const SELECTORS = {
-  cardItems: "//div[@class='ant-card-body']",
-};
 
 export class ListClubCardComponent extends BaseComponent {
   private readonly cardItems: Locator;
-  constructor(page: Page, rootSelector: string | Locator) {
+  constructor(page: Page, rootSelector: Locator) {
     super(page, rootSelector);
-    this.cardItems = this.page.locator(SELECTORS.cardItems);
+    this.cardItems = this.root.locator(".//div[@class='ant-card-body']");
   }
 
   async getClubs(): Promise<ClubCardComponent[]> {
