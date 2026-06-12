@@ -58,7 +58,7 @@ jobs:
         continue-on-error: true
 
       - name: Download Allure history
-        if: always()
+        if: !cancelled()
         continue-on-error: true
         uses: actions/checkout@v4
         with:
@@ -66,7 +66,7 @@ jobs:
           path: gh-pages
 
       - name: Generate Allure Report
-        if: always()
+        if: !cancelled()
         uses: simple-elf/allure-report-action@master
         with:
           allure_results: allure-results
@@ -76,17 +76,17 @@ jobs:
           subfolder: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.number) || 'main' }}
 
       - name: Fix permissions
-        if: always()
+        if: !cancelled()
         run: sudo chmod -R 777 allure-history
 
       - name: Install jq
-        if: always()
+        if: !cancelled()
         run: |
           sudo apt-get update
           sudo apt-get install -y jq
 
       - name: Validate test results
-        if: always() && github.event_name == 'pull_request'
+        if: !cancelled() && github.event_name == 'pull_request'
         run: |
           SUMMARY_FILE="allure-history/pr-${{ github.event.number }}/widgets/summary.json"
 
@@ -109,7 +109,7 @@ jobs:
           echo "✅ All tests passed"
 
       - name: Deploy Allure Report
-        if: always()
+        if: success()
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -117,7 +117,7 @@ jobs:
           publish_dir: allure-history
 
       - name: Comment PR with report link
-        if: always() && github.event_name == 'pull_request'
+        if: success() && github.event_name == 'pull_request'
         uses: thollander/actions-comment-pull-request@v2
         with:
           comment_tag: allure-report-link
