@@ -1,4 +1,4 @@
-import { Page, Locator } from '@playwright/test';
+import { Locator } from '@playwright/test';
 import { BaseComponent } from './base-component';
 
 export class HomePageHeroComponent extends BaseComponent {
@@ -9,8 +9,8 @@ export class HomePageHeroComponent extends BaseComponent {
   private heroCarouselPrevArrow: Locator;
   private heroCarouselDots: Locator;
 
-  constructor(page: Page, rootSelector: string) {
-    super(page, rootSelector);
+  constructor(rootLocator: Locator) {
+    super(rootLocator);
 
     this.heroTitle = this.root.locator('.slick-active .label');
     this.heroDescription = this.root.locator('.slick-active .description');
