@@ -62,9 +62,12 @@ export class ChallengeTaskPage extends BasePage {
     }
 
     const frame = this.page.frameLocator('iframe.ql-video').nth(index);
-    
-    const isPlaying = await frame.locator('.html5-video-player.playing-mode').isVisible().catch(() => false);
-    
+
+    const isPlaying = await frame
+      .locator('.html5-video-player.playing-mode')
+      .isVisible()
+      .catch(() => false);
+
     if (!isPlaying) {
       await frame.locator('.ytp-play-button').click();
     }
@@ -77,9 +80,12 @@ export class ChallengeTaskPage extends BasePage {
     }
 
     const frame = this.page.frameLocator('iframe.ql-video').nth(index);
-    
-    const isPlaying = await frame.locator('.html5-video-player.playing-mode').isVisible().catch(() => false);
-    
+
+    const isPlaying = await frame
+      .locator('.html5-video-player.playing-mode')
+      .isVisible()
+      .catch(() => false);
+
     if (isPlaying) {
       await frame.locator('.ytp-play-button').click();
     }
