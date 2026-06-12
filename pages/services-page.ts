@@ -27,7 +27,6 @@ export class ServicesPage extends BasePage {
     this.faqItems = page.locator('.faq .ant-collapse-item');
   }
 
-
   async navigateToServicesPage(): Promise<void> {
     await this.page.goto('/services');
   }
@@ -63,27 +62,18 @@ export class ServicesPage extends BasePage {
   }
 
   async getFaqItemTitle(index: number): Promise<string> {
-    return (
-      (await this.faqItems
-        .nth(index)
-        .locator('.ant-collapse-header')
-        .textContent()) || ''
-    );
+    return (await this.faqItems.nth(index).locator('.ant-collapse-header').textContent()) || '';
   }
 
   async getFaqItemContent(index: number): Promise<string> {
     return (
-      (await this.faqItems
-        .nth(index)
-        .locator('.ant-collapse-content-box')
-        .textContent()) || ''
+      (await this.faqItems.nth(index).locator('.ant-collapse-content-box').textContent()) || ''
     );
   }
 
   async getFaqToggleArrow(index: number): Promise<Locator> {
     return this.faqItems.nth(index).locator('.ant-collapse-arrow');
   }
-
 
   async clickSocialLink(index: number): Promise<void> {
     await this.links.nth(index).click();
@@ -102,7 +92,6 @@ export class ServicesPage extends BasePage {
     const classAttr = (await item.getAttribute('class')) || '';
     return classAttr.includes('ant-collapse-item-active');
   }
-
 
   async isHeroBannerVisible(): Promise<boolean> {
     return await this.heroBannerImage.isVisible();
