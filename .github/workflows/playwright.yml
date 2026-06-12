@@ -117,7 +117,7 @@ jobs:
           publish_dir: allure-history
 
       - name: Comment PR with report link
-        if: ${{ !cancelled() && github.event_name == 'pull_request' }}
+        if: ${{ success() && github.event_name == 'pull_request' }}
         uses: thollander/actions-comment-pull-request@v2
         with:
           comment_tag: allure-report-link
