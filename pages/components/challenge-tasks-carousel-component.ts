@@ -43,13 +43,21 @@ export class ChallengeTasksCarouselComponent extends BaseComponent {
     const cards: TaskCardComponent[] = [];
     for (let i = 0; i < count; i++) {
       // Passes a strict string selector by utilizing Playwright's nth index engine
-      cards.push(new TaskCardComponent(this.page, `.challenge-day-carousel ${SELECTORS.taskCards} >> nth=${i}`));
+      cards.push(
+        new TaskCardComponent(
+          this.page,
+          `.challenge-day-carousel ${SELECTORS.taskCards} >> nth=${i}`
+        )
+      );
     }
     return cards;
   }
 
   async getTaskCardByIndex(index: number): Promise<TaskCardComponent> {
-    return new TaskCardComponent(this.page, `.challenge-day-carousel ${SELECTORS.taskCards} >> nth=${index}`);
+    return new TaskCardComponent(
+      this.page,
+      `.challenge-day-carousel ${SELECTORS.taskCards} >> nth=${index}`
+    );
   }
 
   async getTaskCardByName(name: string): Promise<TaskCardComponent | undefined> {

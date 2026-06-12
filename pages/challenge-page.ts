@@ -35,7 +35,10 @@ export class ChallengePage extends BasePage {
 
   getTasksCarouselComponent(): ChallengeTasksCarouselComponent {
     if (!this.tasksCarouselComponent) {
-      this.tasksCarouselComponent = new ChallengeTasksCarouselComponent(this.page, '.challenge-day-carousel');
+      this.tasksCarouselComponent = new ChallengeTasksCarouselComponent(
+        this.page,
+        '.challenge-day-carousel'
+      );
     }
     return this.tasksCarouselComponent;
   }

@@ -45,7 +45,9 @@ export class SocialInfoComponent extends BaseComponent {
     await this.donateButton.click();
   }
 
-  async getSocialLinkHref(platform: 'facebook' | 'youtube' | 'instagram' | 'mail'): Promise<string | null> {
+  async getSocialLinkHref(
+    platform: 'facebook' | 'youtube' | 'instagram' | 'mail'
+  ): Promise<string | null> {
     switch (platform) {
       case 'facebook':
         return await this.facebookLink.getAttribute('href');
