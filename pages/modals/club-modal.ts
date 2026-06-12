@@ -1,6 +1,6 @@
 import type { Locator, Page } from '@playwright/test';
 import { BaseModal } from './base-modal';
-import { TagsComponent } from '../pages/components/tags-component';
+import { TagsComponent } from '../components/tags-component';
 
 export class ClubModal extends BaseModal {
   private readonly root: Locator;
