@@ -2,6 +2,7 @@
 
 import { BaseComponent } from './base-component';
 import { TagsComponent } from './tags-component';
+import { ClubModal } from '../modals/club-modal';
 
 export class ClubCardComponent extends BaseComponent {
   private readonly moreDetailsButton: Locator;
@@ -32,8 +33,9 @@ export class ClubCardComponent extends BaseComponent {
   async clickMoreDetailsButton(): Promise<void> {
     await this.moreDetailsButton.click();
   }
-  async clickTitleButton(): Promise<void> {
+  async clickTitleButton(): Promise<ClubModal> {
     await this.clubTitle.click();
+    return new ClubModal(this.page);
   }
   async getClubTitle(): Promise<string> {
     return this.clubTitle.innerText();
