@@ -2,7 +2,6 @@
 import { Locator, Page } from '@playwright/test';
 import { TagsComponent } from './tags-component';
 
-
 export class ClubCardComponent extends BaseComponent {
   private readonly moreDetailsButton: Locator;
   private readonly clubTitle: Locator;

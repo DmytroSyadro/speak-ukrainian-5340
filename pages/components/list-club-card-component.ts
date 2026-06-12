@@ -2,7 +2,6 @@
 import { Locator, Page } from '@playwright/test';
 import { ClubCardComponent } from './club-card-component';
 
-
 export class ListClubCardComponent extends BaseComponent {
   private readonly cardItems: Locator;
   constructor(page: Page, rootSelector: Locator) {
