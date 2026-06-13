@@ -26,5 +26,4 @@ export class NewsCardComponent extends BaseComponent {
   async clickDetailsButton(): Promise<void> {
     await this.detailsButton.click();
   }
-  
 }
