@@ -20,7 +20,9 @@ export class SearchBarComponent extends BaseComponent {
     this.searchFieldText = this.root.locator('.//span[@class="ant-select-selection-placeholder"]');
     this.dropdownLocator = this.root
       .page()
-      .locator('.//div[contains(@class,"ant-select-dropdown")]');
+      .locator(
+        "//div[contains(@class, 'ant-select-dropdown') and not(contains(@class, 'hidden'))]"
+      );
     this.dropdown = new DropdownComponent(this.dropdownLocator);
   }
 

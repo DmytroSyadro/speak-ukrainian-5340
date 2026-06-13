@@ -16,7 +16,9 @@ export class FilterMapComponent extends BaseComponent {
     this.categoryField = this.root.locator('.ant-select.selectCity').nth(1);
     this.dropdownLocator = this.root
       .page()
-      .locator('.//div[contains(@class,".ant-select-dropdown")]');
+      .locator(
+        "//div[contains(@class, 'ant-select-dropdown') and not(contains(@class, 'hidden'))]"
+      );
     this.dropdown = new DropdownComponent(this.dropdownLocator);
   }
 
