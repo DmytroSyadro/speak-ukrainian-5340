@@ -1,4 +1,5 @@
 export enum ClubCategory {
+  ALL = 'Всі категорії',
   SPORTS = 'Спортивні секції',
   DANCING = 'Танці, хореографія',
   EARLY_DEVELOPMENT = 'Студії раннього розвитку',
