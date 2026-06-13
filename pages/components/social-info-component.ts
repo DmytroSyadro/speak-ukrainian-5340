@@ -1,13 +1,5 @@
-import { Locator, Page } from '@playwright/test';
+import type { Locator } from '@playwright/test';
 import { BaseComponent } from './base-component';
-
-const SELECTORS = {
-  facebookLink: 'a:has([aria-label="facebook"])',
-  youtubeLink: 'a:has([aria-label="youtube"])',
-  instagramLink: 'a:has([aria-label="instagram"])',
-  mailLink: 'a:has([aria-label="mail"])',
-  donateButton: '.donate-button',
-};
 
 export class SocialInfoComponent extends BaseComponent {
   private readonly facebookLink: Locator;
@@ -16,13 +8,13 @@ export class SocialInfoComponent extends BaseComponent {
   private readonly mailLink: Locator;
   private readonly donateButton: Locator;
 
-  constructor(page: Page, rootSelector: string) {
-    super(page, rootSelector);
-    this.facebookLink = this.root.locator(SELECTORS.facebookLink);
-    this.youtubeLink = this.root.locator(SELECTORS.youtubeLink);
-    this.instagramLink = this.root.locator(SELECTORS.instagramLink);
-    this.mailLink = this.root.locator(SELECTORS.mailLink);
-    this.donateButton = this.root.locator(SELECTORS.donateButton);
+  constructor(rootLocator: Locator) {
+    super(rootLocator);
+    this.facebookLink = this.root.locator('a:has([aria-label="facebook"])');
+    this.youtubeLink = this.root.locator('a:has([aria-label="youtube"])');
+    this.instagramLink = this.root.locator('a:has([aria-label="instagram"])');
+    this.mailLink = this.root.locator('a:has([aria-label="mail"])');
+    this.donateButton = this.root.locator('.donate-button');
   }
 
   async clickFacebookLink(): Promise<void> {

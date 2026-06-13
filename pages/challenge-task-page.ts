@@ -1,4 +1,4 @@
-import { Locator, Page } from '@playwright/test';
+import type { Locator, Page } from '@playwright/test';
 import { BasePage } from './base-page';
 
 export class ChallengeTaskPage extends BasePage {
@@ -20,18 +20,21 @@ export class ChallengeTaskPage extends BasePage {
   }
 
   async goto(id: number): Promise<void> {
-    await this.page.goto(`/challenges/task/${id}`);
+    await this.page.goto(`/challenges/task/${id}`, { waitUntil: 'domcontentloaded' });
   }
 
   async getTaskHeader(): Promise<string> {
+    await this.taskHeader.waitFor({ state: 'visible' });
     return (await this.taskHeader.innerText()).trim();
   }
 
   async getHeaderContentText(): Promise<string> {
+    await this.headerContentText.waitFor({ state: 'visible' });
     return (await this.headerContentText.innerText()).trim();
   }
 
   async getMainContentText(): Promise<string> {
+    await this.mainContentText.waitFor({ state: 'visible', timeout: 5000 }).catch(() => {});
     return (await this.mainContentText.innerText()).trim();
   }
 
@@ -61,15 +64,18 @@ export class ChallengeTaskPage extends BasePage {
       throw new RangeError(`Video iframe index out of range: ${index} (count: ${count})`);
     }
 
+    const iframe = this.videoIframes.nth(index);
+    await iframe.scrollIntoViewIfNeeded();
+    await this.page.waitForTimeout(500); // Wait for scrolling & lazy loading
+
     const frame = this.page.frameLocator('iframe.ql-video').nth(index);
+    const largePlayBtn = frame.locator('.ytp-large-play-button');
 
-    const isPlaying = await frame
-      .locator('.html5-video-player.playing-mode')
-      .isVisible()
-      .catch(() => false);
-
-    if (!isPlaying) {
-      await frame.locator('.ytp-play-button').click();
+    try {
+      await largePlayBtn.waitFor({ state: 'visible', timeout: 3000 });
+      await largePlayBtn.click({ force: true });
+    } catch {
+      await iframe.click({ force: true });
     }
   }
 
@@ -79,15 +85,37 @@ export class ChallengeTaskPage extends BasePage {
       throw new RangeError(`Video iframe index out of range: ${index} (count: ${count})`);
     }
 
+    const iframe = this.videoIframes.nth(index);
+    await iframe.scrollIntoViewIfNeeded();
+    await iframe.click({ force: true });
+  }
+
+  async isVideoPlaying(index: number): Promise<boolean> {
+    const count = await this.videoIframes.count();
+    if (index < 0 || index >= count) {
+      throw new RangeError(`Video iframe index out of range: ${index} (count: ${count})`);
+    }
+
     const frame = this.page.frameLocator('iframe.ql-video').nth(index);
+    const video = frame.locator('video');
 
-    const isPlaying = await frame
-      .locator('.html5-video-player.playing-mode')
-      .isVisible()
-      .catch(() => false);
+    try {
+      await video.waitFor({ state: 'attached', timeout: 10000 });
 
-    if (isPlaying) {
-      await frame.locator('.ytp-play-button').click();
+      for (let i = 0; i < 30; i++) {
+        const isPlaying = await video
+          .evaluate((vid: HTMLVideoElement) => {
+            return !vid.paused && !vid.ended && vid.readyState >= 2 && vid.currentTime > 0;
+          })
+          .catch(() => false);
+
+        if (isPlaying) return true;
+
+        await this.page.waitForTimeout(500);
+      }
+      return false;
+    } catch {
+      return false;
     }
   }
 }

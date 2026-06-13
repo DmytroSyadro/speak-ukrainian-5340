@@ -1,4 +1,4 @@
-import { Locator, Page } from '@playwright/test';
+import type { Locator, Page } from '@playwright/test';
 import { BasePage } from './base-page';
 import { SocialInfoComponent } from './components/social-info-component';
 import { ChallengeTasksCarouselComponent } from './components/challenge-tasks-carousel-component';
@@ -23,12 +23,12 @@ export class ChallengePage extends BasePage {
   }
 
   async goto(id: number): Promise<void> {
-    await this.page.goto(`/challenges/${id}`);
+    await this.navigateTo(`/challenges/${id}`);
   }
 
   getSocialInfoComponent(): SocialInfoComponent {
     if (!this.socialInfoComponent) {
-      this.socialInfoComponent = new SocialInfoComponent(this.page, '.social-info');
+      this.socialInfoComponent = new SocialInfoComponent(this.page.locator('.social-info'));
     }
     return this.socialInfoComponent;
   }
@@ -36,8 +36,7 @@ export class ChallengePage extends BasePage {
   getTasksCarouselComponent(): ChallengeTasksCarouselComponent {
     if (!this.tasksCarouselComponent) {
       this.tasksCarouselComponent = new ChallengeTasksCarouselComponent(
-        this.page,
-        '.challenge-day-carousel'
+        this.page.locator('.challenge-day-carousel')
       );
     }
     return this.tasksCarouselComponent;

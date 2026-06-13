@@ -7,7 +7,7 @@ const __dirname = path.dirname(__filename);
 
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
-const BASE_URL: string | undefined = process.env.BASE_URL;
+const BASE_URL: string = process.env.BASE_URL || 'https://speak-ukrainian.org.ua';
 const HEADLESS: boolean = process.env.HEADLESS !== 'false';
 
 export default {
