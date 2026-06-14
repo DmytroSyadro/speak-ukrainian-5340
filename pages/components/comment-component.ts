@@ -48,6 +48,3 @@ export class CommentComponent extends BaseComponent {
     return await this.replyButton.isVisible();
   }
 }
-
-
-
