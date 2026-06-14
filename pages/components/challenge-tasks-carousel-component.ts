@@ -36,7 +36,6 @@ export class ChallengeTasksCarouselComponent extends BaseComponent {
 
   async getAllTaskCards(): Promise<TaskCardComponent[]> {
     await this.taskCards.first().waitFor({ state: 'attached' });
-
     const count = await this.taskCards.count();
     const cards: TaskCardComponent[] = [];
     for (let i = 0; i < count; i++) {
@@ -62,5 +61,18 @@ export class ChallengeTasksCarouselComponent extends BaseComponent {
       }
     }
     return undefined;
+  }
+
+  async scrollToTaskCardByName(name: string): Promise<TaskCardComponent | undefined> {
+    const targetCard = await this.getTaskCardByName(name);
+    if (!targetCard) return undefined;
+
+    let attempts = 0;
+    while (!(await targetCard.isVisible()) && attempts < 15) {
+      await this.clickNextArrow();
+      await this.page.waitForTimeout(400); // Wait for the CSS sliding animation
+      attempts++;
+    }
+    return targetCard;
   }
 }

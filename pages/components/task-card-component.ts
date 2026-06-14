@@ -15,6 +15,10 @@ export class TaskCardComponent extends BaseComponent {
     this.detailsLink = this.root.locator('.details');
   }
 
+  getRootLocator(): Locator {
+    return this.root;
+  }
+
   async getTaskName(): Promise<string> {
     return (await this.taskName.textContent())?.trim() || '';
   }
