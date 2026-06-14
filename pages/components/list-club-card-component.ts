@@ -37,4 +37,9 @@ export class ListClubCardComponent extends BaseComponent {
   async getClubCardCount(): Promise<number> {
     return this.cardItems.count();
   }
+  async clickClubCardByTitle(title: string): Promise<void> {
+    const clubCard: ClubCardComponent | undefined = await this.getClubCardByTitle(title);
+    if (!clubCard) throw new Error(`Club with title "${title}" not found`);
+    await clubCard.click();
+  }
 }
