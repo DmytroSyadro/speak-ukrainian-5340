@@ -5,7 +5,7 @@ import { FilterMapComponent } from '../components/filter-map-component';
 import { MapComponent } from '../components/map-component';
 
 export class MapModal extends BaseModal {
-  private readonly root: Locator;
+  private static readonly ROOT_SELECTOR = "//div[@class='ant-modal-content']";
   private readonly closeButton: Locator;
   private readonly mapLocator: Locator;
   private readonly filtersLocator: Locator;
@@ -17,7 +17,7 @@ export class MapModal extends BaseModal {
 
   constructor(page: Page) {
     super(page);
-    this.root = this.page.locator("//div[@class='ant-modal-content']");
+    this.root = page.locator(MapModal.ROOT_SELECTOR);
     this.closeButton = this.root.locator(".//span[@class='ant-modal-close-x']");
     this.mapLocator = this.root.locator(".//div[@class='gm-style']");
     this.filtersLocator = this.root.locator(".//div[@class='selectBlock']");
@@ -28,7 +28,7 @@ export class MapModal extends BaseModal {
     this.clubs = new ClubItemListComponent(this.clubsLocator);
   }
   async getRoot(): Promise<Locator> {
-    return this.root;
+    return this.page.locator(MapModal.ROOT_SELECTOR);
   }
   async isVisible(): Promise<boolean> {
     return (await this.getRoot()).isVisible();
