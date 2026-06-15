@@ -1,5 +1,6 @@
-import { BasePage } from './base-page';
 import type { Locator, Page } from '@playwright/test';
+import { BasePage } from './base-page';
+import { FilterClubListComponent } from './components/filter-club-list-component';
 import { ClubBannerTitleComponent } from './components/club-banner-title-component';
 import { AdvancedSearchComponent } from './components/advanced-search-component';
 import { ListClubCardComponent } from './components/list-club-card-component';
@@ -8,6 +9,7 @@ import { CitiesUser } from '../data/cities-user';
 import { ClubCardComponent } from './components/club-card-component';
 
 export class ClubPage extends BasePage {
+  private readonly filterClubListLocator: Locator;
   private readonly clubBannerTitleLocator: Locator;
   private readonly advancedSearchLocator: Locator;
   private readonly listCardLocator: Locator;
@@ -15,6 +17,7 @@ export class ClubPage extends BasePage {
   protected clubBannerTitle: ClubBannerTitleComponent;
   protected advancedSearch: AdvancedSearchComponent;
   protected clubList: ListClubCardComponent;
+  protected filterClubList: FilterClubListComponent;
 
   constructor(page: Page) {
     super(page);
@@ -24,6 +27,8 @@ export class ClubPage extends BasePage {
     this.clubBannerTitle = new ClubBannerTitleComponent(this.clubBannerTitleLocator);
     this.advancedSearch = new AdvancedSearchComponent(this.advancedSearchLocator);
     this.clubList = new ListClubCardComponent(this.listCardLocator);
+    this.filterClubListLocator = this.page.locator("//*[@class='club-list-control']");
+    this.filterClubList = new FilterClubListComponent(this.filterClubListLocator);
   }
   async navigate(): Promise<void> {
     await this.page.goto('/clubs');
