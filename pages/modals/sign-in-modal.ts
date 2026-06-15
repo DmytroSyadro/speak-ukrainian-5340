@@ -4,8 +4,23 @@ import { BaseModal } from './base-modal';
 export class SignInModal extends BaseModal {
   private static readonly ROOT_SELECTOR = 'div.ant-modal.modal-login[role="dialog"]';
 
+  private readonly emailInput: Locator;
+  private readonly passwordInput: Locator;
+  private readonly googleSignInButton: Locator;
+  private readonly facebookSignInButton: Locator;
+  private readonly submitButton: Locator;
+  private readonly forgotPasswordLink: Locator;
+  private readonly closeButton: Locator;
+
   constructor(page: Page) {
     super(page);
+    this.emailInput = this.page.locator('#basic_email');
+    this.passwordInput = this.page.locator('#basic_password');
+    this.googleSignInButton = this.page.locator('a[href*="google"]');
+    this.facebookSignInButton = this.page.locator('a[href*="facebook"]');
+    this.submitButton = this.page.getByRole('button', { name: /увійти/i });
+    this.forgotPasswordLink = this.page.getByRole('link', { name: /забули пароль?/i });
+    this.closeButton = this.page.locator('button.ant-modal-close, button[aria-label="Close"]');
   }
 
   async getRoot(): Promise<Locator> {
@@ -13,33 +28,27 @@ export class SignInModal extends BaseModal {
   }
 
   async fillCredentials(email: string, password: string) {
-    const root = await this.getRoot();
-    await root.locator('#basic_email').fill(email);
-    await root.locator('#basic_password').fill(password);
+    await this.emailInput.fill(email);
+    await this.passwordInput.fill(password);
   }
 
   async submit() {
-    const root = await this.getRoot();
-    await root.getByRole('button', { name: /увійти/i }).click();
+    await this.submitButton.click();
   }
 
   async forgotPassword() {
-    const root = await this.getRoot();
-    await root.getByRole('link', { name: /забули пароль?/i }).click();
+    await this.forgotPasswordLink.click();
   }
 
   async loginWithGoogle() {
-    const root = await this.getRoot();
-    await root.locator('a[href*="google"]').click();
+    await this.googleSignInButton.click();
   }
 
   async loginWithFacebook() {
-    const root = await this.getRoot();
-    await root.locator('a[href*="facebook"]').click();
+    await this.facebookSignInButton.click();
   }
 
   async close() {
-    const root = await this.getRoot();
-    await root.locator('button.ant-modal-close, button[aria-label="Close"]').click();
+    await this.closeButton.click();
   }
 }
