@@ -12,7 +12,6 @@ export class ClubCardComponent extends BaseComponent {
   private readonly clubHalfStars: Locator;
   private readonly clubOnline: Locator;
 
-
   constructor(rootLocator: Locator) {
     super(rootLocator);
     this.moreDetailsButton = this.root.locator('xpath=.//a[contains(@class, "ant-btn-default")]');
