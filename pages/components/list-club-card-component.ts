@@ -2,6 +2,7 @@
 
 import { BaseComponent } from './base-component';
 import { ClubCardComponent } from './club-card-component';
+import { ClubModal } from '../modals/club-modal';
 
 export class ListClubCardComponent extends BaseComponent {
   private readonly cardItems: Locator;
@@ -37,9 +38,15 @@ export class ListClubCardComponent extends BaseComponent {
   async getClubCardCount(): Promise<number> {
     return this.cardItems.count();
   }
-  async clickClubCardByTitle(title: string): Promise<void> {
+  async clickClubCardByTitle(title: string): Promise<ClubModal> {
     const clubCard: ClubCardComponent | undefined = await this.getClubCardByTitle(title);
     if (!clubCard) throw new Error(`Club with title "${title}" not found`);
     await clubCard.click();
+    return new ClubModal(this.page);
+  }
+  async clickButtonDetailByName(title: string): Promise<void> {
+    const clubCard: ClubCardComponent | undefined = await this.getClubCardByTitle(title);
+    if (!clubCard) throw new Error(`Club with title "${title}" not found`);
+    await clubCard.clickMoreDetailsButton();
   }
 }
