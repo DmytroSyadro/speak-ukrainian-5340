@@ -17,7 +17,7 @@ export class FilterMapComponent extends BaseComponent {
     this.dropdownLocator = this.root
       .page()
       .locator(
-        "//div[contains(@class, 'ant-select-dropdown') and not(contains(@class, 'hidden'))]"
+        "xpath=//div[contains(@class, 'ant-select-dropdown') and not(contains(@class, 'hidden'))]"
       );
     this.dropdown = new DropdownComponent(this.dropdownLocator);
   }

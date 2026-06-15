@@ -7,6 +7,7 @@ import { ListClubCardComponent } from './components/list-club-card-component';
 import { ClubCategory } from '../data/club-category';
 import { CitiesUser } from '../data/cities-user';
 import { ClubCardComponent } from './components/club-card-component';
+import { TagsComponent } from './components/tags-component';
 
 export class ClubPage extends BasePage {
   private readonly filterClubListLocator: Locator;
@@ -21,13 +22,13 @@ export class ClubPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    this.clubBannerTitleLocator = page.locator("//div[@class='city-name-box']");
-    this.advancedSearchLocator = page.locator("//div[@class='ant-layout-sider-children']");
-    this.listCardLocator = page.locator("//*[contains(@class,'club-list-content')]");
+    this.clubBannerTitleLocator = page.locator("xpath=//div[@class='city-name-box']");
+    this.advancedSearchLocator = page.locator("xpath=//div[@class='ant-layout-sider-children']");
+    this.listCardLocator = page.locator("xpath=//*[contains(@class,'club-list-content')]");
     this.clubBannerTitle = new ClubBannerTitleComponent(this.clubBannerTitleLocator);
     this.advancedSearch = new AdvancedSearchComponent(this.advancedSearchLocator);
     this.clubList = new ListClubCardComponent(this.listCardLocator);
-    this.filterClubListLocator = this.page.locator("//*[@class='club-list-control']");
+    this.filterClubListLocator = this.page.locator("xpath=//*[@class='club-list-control']");
     this.filterClubList = new FilterClubListComponent(this.filterClubListLocator);
   }
   async navigate(): Promise<void> {
@@ -39,7 +40,7 @@ export class ClubPage extends BasePage {
   }
   async searchByText(text: string): Promise<ClubPage> {
     await this.searchBar.fillSearchInput(text);
-    await this.searchBar.clickSearchButton();
+    await this.searchBar.pressEnter();
     return this;
   }
   async filterByCity(city: CitiesUser): Promise<ClubPage> {
@@ -77,6 +78,10 @@ export class ClubPage extends BasePage {
     return this;
   }
 
+  async waitForTitle(title: string): Promise<void> {
+    await this.clubList.waitForClubTitle(title);
+  }
+
   async switchToCentreMode(): Promise<ClubPage> {
     await this.advancedSearch.clickCentreRadioButton();
     return this;
@@ -93,7 +98,9 @@ export class ClubPage extends BasePage {
   async isRemoteFilterChecked(): Promise<boolean> {
     return await this.advancedSearch.isRemoteButtonChecked();
   }
-
+  async getClubTags(): Promise<TagsComponent> {
+    return await this.clubList.getClubTags();
+  }
   async isAgeFieldVisible(): Promise<boolean> {
     return await this.advancedSearch.isAgeFieldVisible();
   }
@@ -127,5 +134,13 @@ export class ClubPage extends BasePage {
   }
   async getFirstClubCard(): Promise<ClubCardComponent> {
     return await this.clubList.getClubCardByIndex(0);
+  }
+  async getClubByTitle(title: string): Promise<ClubCardComponent> {
+    const card: ClubCardComponent | undefined = await this.clubList.getClubCardByTitle(title);
+    if (!card) throw new Error(`Club "${title}" not found`);
+    return card;
+  }
+  async getSearchInput(): Promise<string> {
+    return await this.searchBar.getSearchInputText();
   }
 }

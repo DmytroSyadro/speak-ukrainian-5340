@@ -3,13 +3,21 @@
 import { BaseComponent } from './base-component';
 import { ClubCardComponent } from './club-card-component';
 import { ClubModal } from '../modals/club-modal';
+import { TagsComponent } from './tags-component';
 
 export class ListClubCardComponent extends BaseComponent {
   private readonly cardItems: Locator;
+  private readonly clubTagsLocator: Locator;
+
+  private clubTags: TagsComponent;
 
   constructor(rootSelector: Locator) {
     super(rootSelector);
-    this.cardItems = this.root.locator(".//div[@class='ant-card-body']");
+    this.cardItems = this.root.locator("xpath=.//div[@class='ant-card-body']");
+    this.clubTagsLocator = this.root.locator(
+      'xpath=.//div[contains(@class, "club-tags") and not(contains(@class, "box"))]'
+    );
+    this.clubTags = new TagsComponent(this.clubTagsLocator);
   }
 
   async getClubs(): Promise<ClubCardComponent[]> {
@@ -19,6 +27,10 @@ export class ListClubCardComponent extends BaseComponent {
       clubCards.push(new ClubCardComponent(this.cardItems.nth(i)));
     }
     return clubCards;
+  }
+
+  async waitForClubTitle(title: string): Promise<void> {
+    await this.page.getByText(title).first().waitFor({ state: 'visible' });
   }
 
   async getClubCardByTitle(title: string): Promise<ClubCardComponent | undefined> {
@@ -48,5 +60,8 @@ export class ListClubCardComponent extends BaseComponent {
     const clubCard: ClubCardComponent | undefined = await this.getClubCardByTitle(title);
     if (!clubCard) throw new Error(`Club with title "${title}" not found`);
     await clubCard.clickMoreDetailsButton();
+  }
+  async getClubTags(): Promise<TagsComponent> {
+    return this.clubTags;
   }
 }

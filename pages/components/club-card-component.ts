@@ -1,7 +1,6 @@
 ﻿import type { Locator } from '@playwright/test';
 
 import { BaseComponent } from './base-component';
-import { TagsComponent } from './tags-component';
 import { ClubModal } from '../modals/club-modal';
 
 export class ClubCardComponent extends BaseComponent {
@@ -12,23 +11,17 @@ export class ClubCardComponent extends BaseComponent {
   private readonly clubFullStars: Locator;
   private readonly clubHalfStars: Locator;
   private readonly clubOnline: Locator;
-  private readonly clubTagsLocator: Locator;
 
-  private clubTags: TagsComponent;
 
   constructor(rootLocator: Locator) {
     super(rootLocator);
-    this.moreDetailsButton = this.root.locator('.//a[contains(@class, "ant-btn-default")]');
+    this.moreDetailsButton = this.root.locator('xpath=.//a[contains(@class, "ant-btn-default")]');
     this.clubAddress = this.root.locator('.oneAddress');
     this.clubDescription = this.root.locator('.description');
     this.clubFullStars = this.root.locator('li.ant-rate-star-full');
     this.clubHalfStars = this.root.locator('li.ant-rate-star-half');
-    this.clubTitle = this.root.locator('.name');
+    this.clubTitle = this.root.locator('div.name');
     this.clubOnline = this.root.locator('.online');
-    this.clubTagsLocator = this.root.locator(
-      './/div[contains(@class, "club-tags") and not(contains(@class, "box"))]'
-    );
-    this.clubTags = new TagsComponent(this.clubTagsLocator);
   }
   async clickMoreDetailsButton(): Promise<void> {
     await this.moreDetailsButton.click();

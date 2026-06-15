@@ -18,10 +18,10 @@ export class MapModal extends BaseModal {
   constructor(page: Page) {
     super(page);
     this.root = page.locator(MapModal.ROOT_SELECTOR);
-    this.closeButton = this.root.locator(".//span[@class='ant-modal-close-x']");
-    this.mapLocator = this.root.locator(".//div[@class='gm-style']");
-    this.filtersLocator = this.root.locator(".//div[@class='selectBlock']");
-    this.clubsLocator = this.root.locator(".//div[@class='clubList']");
+    this.closeButton = this.root.locator("xpath=.//span[@class='ant-modal-close-x']");
+    this.mapLocator = this.root.locator("xpath=.//div[@class='gm-style']");
+    this.filtersLocator = this.root.locator("xpath=.//div[@class='selectBlock']");
+    this.clubsLocator = this.root.locator("xpath=.//div[@class='clubList']");
 
     this.map = new MapComponent(this.mapLocator);
     this.filters = new FilterMapComponent(this.filtersLocator);

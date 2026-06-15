@@ -10,7 +10,7 @@ export abstract class BasePage {
 
   protected constructor(page: Page) {
     this.page = page;
-    this.searchBarLocator = page.locator("//div[@class='search']");
+    this.searchBarLocator = page.locator("xpath=//div[@class='search']");
     this.searchBar = new SearchBarComponent(this.searchBarLocator);
     this.context = page.context();
   }

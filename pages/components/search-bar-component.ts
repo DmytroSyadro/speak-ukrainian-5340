@@ -14,25 +14,30 @@ export class SearchBarComponent extends BaseComponent {
 
   constructor(rootLocator: Locator) {
     super(rootLocator);
-    this.searchInput = this.root.locator(".//*[@type='search']");
-    this.searchButton = this.root.locator(".//span[@aria-label='search']");
-    this.advancedSearchButton = this.root.locator(".//*[@aria-label='search']");
-    this.searchFieldText = this.root.locator('.//span[@class="ant-select-selection-placeholder"]');
+    this.searchInput = this.root.locator("xpath=.//*[@type='search']");
+    this.searchButton = this.root.locator("xpath=.//span[@aria-label='search']");
+    this.advancedSearchButton = this.root.locator("xpath=.//*[@aria-label='search']");
+    this.searchFieldText = this.root.locator(
+      'xpath=.//span[@class="ant-select-selection-placeholder"]'
+    );
     this.dropdownLocator = this.root
       .page()
       .locator(
-        "//div[contains(@class, 'ant-select-dropdown') and not(contains(@class, 'hidden'))]"
+        "xpath=//div[contains(@class, 'ant-select-dropdown') and not(contains(@class, 'hidden'))]"
       );
     this.dropdown = new DropdownComponent(this.dropdownLocator);
   }
 
   async fillSearchInput(text: string): Promise<void> {
     await this.searchInput.clear();
-    await this.searchInput.pressSequentially(text, { delay: 100 });
+    await this.searchInput.fill(text);
+  }
+  async pressEnter(): Promise<void> {
+    await this.searchInput.press('Enter');
   }
 
   async getSearchInputText(): Promise<string> {
-    return await this.searchFieldText.inputValue();
+    return ((await this.searchFieldText.textContent()) ?? '').trim();
   }
   async clickSearchButton(): Promise<void> {
     await this.searchButton.click();
