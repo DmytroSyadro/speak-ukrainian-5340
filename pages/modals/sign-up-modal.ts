@@ -12,60 +12,79 @@ interface RegistrationData {
 
 export class SignUpModal extends BaseModal {
   private static readonly ROOT_SELECTOR = 'div.ant-modal.modal-registration[role="dialog"]';
+  private readonly root: Locator;
+  private readonly lastNameInput: Locator;
+  private readonly firstNameInput: Locator;
+  private readonly phoneInput: Locator;
+  private readonly emailInput: Locator;
+  private readonly passwordInput: Locator;
+  private readonly confirmPasswordInput: Locator;
+  private readonly googleSignInButton: Locator;
+  private readonly facebookSignInButton: Locator;
+  private readonly registerButton: Locator;
+  private readonly CloseButton: Locator;
+  private readonly visitorTab: Locator;
+  private readonly managerTab: Locator;
 
   constructor(page: Page) {
     super(page);
+    this.root = page.locator(SignUpModal.ROOT_SELECTOR);
+    this.lastNameInput = this.root.locator('#lastName');
+    this.firstNameInput = this.root.locator('#firstName');
+    this.phoneInput = this.root.locator('#phone');
+    this.emailInput = this.root.locator('#email');
+    this.passwordInput = this.root.locator('#password');
+    this.confirmPasswordInput = this.root.locator('#confirm');
+    this.registerButton = this.root.getByRole('button', {
+      name: /зареєструватись|зареєструватися/i,
+    });
+    this.googleSignInButton = this.root.locator('a[href*="google"]');
+    this.facebookSignInButton = this.root.locator('a[href*="facebook"]');
+    this.CloseButton = this.root.locator('button[aria-label="Close"]');
+    this.visitorTab = this.root
+      .locator('label.ant-radio-button-wrapper')
+      .filter({ hasText: /відвідувач/i })
+      .first();
+    this.managerTab = this.root
+      .locator('label.ant-radio-button-wrapper')
+      .filter({ hasText: /керівник/i })
+      .first();
   }
 
   async getRoot(): Promise<Locator> {
-    return this.page.locator(SignUpModal.ROOT_SELECTOR);
+    return this.root;
   }
 
   async selectVisitorTab() {
-    const root = await this.getRoot();
-    await root
-      .locator('label.ant-radio-button-wrapper')
-      .filter({ hasText: /відвідувач/i })
-      .first()
-      .click();
+    await this.visitorTab.click();
   }
 
   async selectManagerTab() {
-    const root = await this.getRoot();
-    await root
-      .locator('label.ant-radio-button-wrapper')
-      .filter({ hasText: /керівник/i })
-      .first()
-      .click();
+    await this.managerTab.click();
   }
 
   async fillRegistration(data: RegistrationData) {
-    const root = await this.getRoot();
-    await root.locator('#lastName').fill(data.lastName);
-    await root.locator('#firstName').fill(data.firstName);
-    await root.locator('#phone').fill(data.phone);
-    await root.locator('#email').fill(data.email);
-    await root.locator('#password').fill(data.password);
-    await root.locator('#confirm').fill(data.confirmPassword);
+    await this.lastNameInput.fill(data.lastName);
+    await this.firstNameInput.fill(data.firstName);
+    await this.phoneInput.fill(data.phone);
+    await this.emailInput.fill(data.email);
+    await this.passwordInput.fill(data.password);
+    await this.confirmPasswordInput.fill(data.confirmPassword);
   }
 
   async registerWithGoogle() {
-    const root = await this.getRoot();
-    await root.locator('a[href*="google"]').click();
+    await this.googleSignInButton.click();
   }
 
   async registerWithFacebook() {
-    const root = await this.getRoot();
-    await root.locator('a[href*="facebook"]').click();
+    await this.facebookSignInButton.click();
   }
 
   async submit() {
-    const root = await this.getRoot();
-    await root.getByRole('button', { name: /зареєструватись|зареєструватися/i }).click();
+    await this.registerButton.click();
   }
 
   async close() {
-    const root = await this.getRoot();
-    await root.locator('button[aria-label="Close"]').click();
+    await this.CloseButton.click();
   }
 }
