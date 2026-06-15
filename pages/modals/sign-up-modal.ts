@@ -12,7 +12,6 @@ interface RegistrationData {
 
 export class SignUpModal extends BaseModal {
   private static readonly ROOT_SELECTOR = 'div.ant-modal.modal-registration[role="dialog"]';
-  private readonly root: Locator;
   private readonly lastNameInput: Locator;
   private readonly firstNameInput: Locator;
   private readonly phoneInput: Locator;
@@ -52,7 +51,7 @@ export class SignUpModal extends BaseModal {
   }
 
   async getRoot(): Promise<Locator> {
-    return this.root;
+    return this.page.locator(SignUpModal.ROOT_SELECTOR);
   }
 
   async selectVisitorTab() {
