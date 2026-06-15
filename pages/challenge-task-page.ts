@@ -34,7 +34,7 @@ export class ChallengeTaskPage extends BasePage {
   }
 
   async getMainContentText(): Promise<string> {
-    await this.mainContentText.waitFor({ state: 'visible', timeout: 5000 }).catch(() => {});
+    await this.mainContentText.waitFor({ state: 'visible', timeout: 5000 });
     return (await this.mainContentText.innerText()).trim();
   }
 

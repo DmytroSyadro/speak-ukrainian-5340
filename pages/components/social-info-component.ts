@@ -1,6 +1,7 @@
 import type { Locator } from '@playwright/test';
 import { BaseComponent } from './base-component';
 
+export type SocialPlatform = 'facebook' | 'youtube' | 'instagram' | 'mail';
 export class SocialInfoComponent extends BaseComponent {
   private readonly facebookLink: Locator;
   private readonly youtubeLink: Locator;
@@ -37,9 +38,7 @@ export class SocialInfoComponent extends BaseComponent {
     await this.donateButton.click();
   }
 
-  async getSocialLinkHref(
-    platform: 'facebook' | 'youtube' | 'instagram' | 'mail'
-  ): Promise<string | null> {
+  async getSocialLinkHref(platform: SocialPlatform): Promise<string | null> {
     switch (platform) {
       case 'facebook':
         return await this.facebookLink.getAttribute('href');
