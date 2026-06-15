@@ -68,7 +68,8 @@ export class ChallengeTaskPage extends BasePage {
     await iframe.scrollIntoViewIfNeeded();
     await this.page.waitForTimeout(500); // Wait for scrolling & lazy loading
 
-    const frame = this.page.frameLocator('iframe.ql-video').nth(index);
+    // const frame = this.page.frameLocator('iframe.ql-video').nth(index);
+    const frame = this.page.locator('iframe.ql-video').nth(index).frameLocator('iframe');
     const largePlayBtn = frame.locator('.ytp-large-play-button');
 
     try {

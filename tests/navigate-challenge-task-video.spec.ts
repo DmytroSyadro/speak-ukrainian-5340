@@ -10,7 +10,8 @@ test('Navigate from Challenge page to a specific Task and interact with video @L
   test.setTimeout(60000);
 
   const challengePage = new ChallengePage(page);
-  await page.goto('/challenges/5', { waitUntil: 'domcontentloaded' });
+  await challengePage.goto(5);
+  await challengePage.waitForPageLoad();
 
   const carousel = challengePage.getTasksCarouselComponent();
   const targetCardName = 'День 12. Мовна практика';
