@@ -1,7 +1,9 @@
 import { expect, test } from '@playwright/test';
 
 test.describe('Help the Project button', () => {
-  test('TC-07 Verify the functionality of the "Help the Project" button on a news article page', async ({ page }) => {
+  test('TC-07 Verify the functionality of the "Help the Project" button on a news article page', async ({
+    page,
+  }) => {
     await page.goto('/news');
 
     const newsCards = page.locator('#newsContainer');
