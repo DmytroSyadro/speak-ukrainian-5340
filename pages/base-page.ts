@@ -26,6 +26,9 @@ export abstract class BasePage {
   async waitForPageLoad(): Promise<void> {
     await this.page.waitForLoadState('load');
   }
+  async waitForNetworkIdle(): Promise<void> {
+    await this.page.waitForLoadState('networkidle');
+  }
 
   async switchToNewTab(): Promise<Page> {
     const [newPage] = await Promise.all([this.context.waitForEvent('page')]);

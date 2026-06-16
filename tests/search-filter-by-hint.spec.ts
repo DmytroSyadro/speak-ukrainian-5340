@@ -64,7 +64,7 @@ test.describe('search-bar', (): void => {
     const firstCategory: string = await clubPage.getFirstCategory();
     await clubPage.selectSearchBarHint(firstCategory);
 
-    await clubPage.waitForPageLoad();
+    await clubPage.waitForNetworkIdle();
     await clubPage.waitForClubsResponse();
 
     const isEmpty: boolean = await clubPage.isTagEmpty();
