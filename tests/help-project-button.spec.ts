@@ -14,7 +14,7 @@ test.describe('Help the Project button', () => {
 
     await newsCards.last().locator('a').first().click();
 
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('load');
     await expect(page).not.toHaveURL(/\/news$/);
 
     const donateButton = page.locator('.help-button .donate-button');
