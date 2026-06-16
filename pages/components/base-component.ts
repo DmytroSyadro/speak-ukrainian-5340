@@ -21,4 +21,7 @@ export abstract class BaseComponent {
   async waitForHidden(): Promise<void> {
     await this.root.waitFor({ state: 'hidden' });
   }
+  async click(): Promise<void> {
+    await this.root.click();
+  }
 }

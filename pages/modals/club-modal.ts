@@ -3,7 +3,7 @@ import { BaseModal } from './base-modal';
 import { TagsComponent } from '../components/tags-component';
 
 export class ClubModal extends BaseModal {
-  private readonly root: Locator;
+  private static readonly ROOT_SELECTOR = "//div[@class='ant-modal-content']";
   private readonly clubFullStars: Locator;
   private readonly clubHalfStars: Locator;
   private readonly addressText: Locator;
@@ -20,7 +20,6 @@ export class ClubModal extends BaseModal {
 
   constructor(page: Page) {
     super(page);
-    this.root = this.page.locator("//div[@class='ant-modal-content']");
     this.clubFullStars = this.root.locator('li.ant-rate-star-full');
     this.clubHalfStars = this.root.locator('li.ant-rate-star-half');
     this.addressText = this.root.locator(".//div[@class='address']/span[@class='text']");
@@ -37,7 +36,7 @@ export class ClubModal extends BaseModal {
     this.clubTags = new TagsComponent(this.clubTagsLocator);
   }
   async getRoot(): Promise<Locator> {
-    return this.root;
+    return this.page.locator(ClubModal.ROOT_SELECTOR);
   }
   async isVisible(): Promise<boolean> {
     return (await this.getRoot()).isVisible();
