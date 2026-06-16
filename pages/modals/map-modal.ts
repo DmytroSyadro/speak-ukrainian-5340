@@ -35,5 +35,5 @@ export class MapModal extends BaseModal {
   }
   async getClubsCount(): Promise<number> {
     return await this.clubs.getClubItemCount();
-  }
+  } //
 }

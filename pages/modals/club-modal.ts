@@ -83,5 +83,5 @@ export class ClubModal extends BaseModal {
   async getLateAge(): Promise<string> {
     const text = await this.age.innerText();
     return text.split(' ')[3];
-  }
+  } //
 }

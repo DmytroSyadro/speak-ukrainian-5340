@@ -29,18 +29,14 @@ export class ListClubCardComponent extends BaseComponent {
     return clubCards;
   }
 
-  async waitForClubTitle(title: string): Promise<void> {
-    await this.page.getByText(title).first().waitFor({ state: 'visible' });
-  }
-
   async getClubCardByTitle(title: string): Promise<ClubCardComponent | undefined> {
-    const clubCards: ClubCardComponent[] = await this.getClubs();
-    for (const clubCard of clubCards) {
-      if ((await clubCard.getClubTitle()) === title) {
-        return clubCard;
-      }
+    const cardLocator = this.cardItems.filter({ hasText: title }).first();
+    try {
+      await cardLocator.waitFor({ state: 'visible', timeout: 10000 });
+      return new ClubCardComponent(cardLocator);
+    } catch {
+      return undefined;
     }
-    return undefined;
   }
 
   async getClubCardByIndex(index: number): Promise<ClubCardComponent> {

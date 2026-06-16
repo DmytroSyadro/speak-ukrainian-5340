@@ -18,7 +18,7 @@ export class FilterClubListComponent extends BaseComponent {
     this.sortArrowUp = this.root.locator('.anticon-arrow-up');
     this.sortArrowDown = this.root.locator('.anticon-arrow-down');
     this.listViewButton = this.root.locator("xpath=.//input[@value='LIST']/parent::span");
-    this.gridViewButton = this.root.locator("xpath=.//input[@value='BLOCK']/parent::span");
+    this.gridViewButton = this.root.locator("xpath=.//input[@value='BLOCK']/parent::span"); //
   }
   async getSortLabel(): Promise<string> {
     return this.sortLabel.innerText();

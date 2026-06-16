@@ -11,7 +11,7 @@ export class ClubItemListComponent extends BaseComponent {
     super(rootLocator);
     this.clubItems = this.root.locator('div.club-item');
     this.clubInfoPopupLocator = this.root.locator('[role="dialog"].gm-style-iw');
-  }
+  } //
 
   async getAllClubItems(): Promise<string[]> {
     const clubItems = await this.clubItems.count();

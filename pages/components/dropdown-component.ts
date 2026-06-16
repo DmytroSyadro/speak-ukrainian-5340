@@ -6,12 +6,16 @@ export class DropdownComponent extends BaseComponent {
 
   constructor(rootLocator: Locator) {
     super(rootLocator);
-    this.dropdownOptions = this.root.locator(
-      "xpath=.//span[@class='ant-select-item-option-content']"
-    );
-  }
+    this.dropdownOptions = this.root.locator('.ant-select-item-option-content');
+  } //
   async isVisible(): Promise<boolean> {
     return await this.root.isVisible();
+  }
+  async clickFirstOption(): Promise<void> {
+    await this.dropdownOptions.first().click();
+  }
+  async getFirstOptionText(): Promise<string> {
+    return await this.dropdownOptions.first().innerText();
   }
   async isHidden(): Promise<boolean> {
     return await this.root.isHidden();

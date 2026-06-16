@@ -8,6 +8,7 @@ import { ClubCategory } from '../data/club-category';
 import { CitiesUser } from '../data/cities-user';
 import { ClubCardComponent } from './components/club-card-component';
 import { TagsComponent } from './components/tags-component';
+import { DropdownComponent } from './components/dropdown-component';
 
 export class ClubPage extends BasePage {
   private readonly filterClubListLocator: Locator;
@@ -38,14 +39,20 @@ export class ClubPage extends BasePage {
   async waitForPageLoad(): Promise<void> {
     await this.listCardLocator.waitFor({ state: 'visible' });
   }
-  async searchByText(text: string): Promise<ClubPage> {
+  async searchByText(text: string): Promise<void> {
     await this.searchBar.fillSearchInput(text);
     await this.searchBar.pressEnter();
-    return this;
   }
   async filterByCity(city: CitiesUser): Promise<ClubPage> {
     await this.advancedSearch.selectCity(city);
     return this;
+  }
+  async getFirstCategory(): Promise<string> {
+    const searchInput: DropdownComponent = await this.searchBar.clickSearchInput();
+    return await searchInput.getFirstOptionText();
+  }
+  async getClubList(): Promise<ClubCardComponent[]> {
+    return this.clubList.getClubs();
   }
 
   async filterByDistrict(district: string): Promise<ClubPage> {
@@ -56,6 +63,13 @@ export class ClubPage extends BasePage {
   async filterByStation(station: string): Promise<ClubPage> {
     await this.advancedSearch.selectClosestStation(station);
     return this;
+  }
+  async getClubCount(): Promise<number> {
+    await this.listCardLocator.waitFor({ state: 'visible' });
+    return await this.clubList.getClubCardCount();
+  }
+  async waitForClubsResponse(): Promise<void> {
+    await this.page.waitForResponse((resp): boolean => resp.status() === 200);
   }
 
   async filterByAge(age: string): Promise<ClubPage> {
@@ -78,10 +92,6 @@ export class ClubPage extends BasePage {
     return this;
   }
 
-  async waitForTitle(title: string): Promise<void> {
-    await this.clubList.waitForClubTitle(title);
-  }
-
   async switchToCentreMode(): Promise<ClubPage> {
     await this.advancedSearch.clickCentreRadioButton();
     return this;
@@ -101,6 +111,10 @@ export class ClubPage extends BasePage {
   async getClubTags(): Promise<TagsComponent> {
     return await this.clubList.getClubTags();
   }
+  async isTagEmpty(): Promise<boolean> {
+    const tags: TagsComponent = await this.getClubTags();
+    return await tags.isTagEmpty();
+  }
   async isAgeFieldVisible(): Promise<boolean> {
     return await this.advancedSearch.isAgeFieldVisible();
   }
@@ -119,6 +133,20 @@ export class ClubPage extends BasePage {
 
   async isStationDropdownVisible(): Promise<boolean> {
     return await this.advancedSearch.isClosestStationDropdownVisible();
+  }
+
+  async selectSearchBarHint(text: string): Promise<void> {
+    const searchInput: DropdownComponent = await this.searchBar.clickSearchInput();
+    await searchInput.select(text);
+    await this.waitUntilCardLoads();
+  }
+  async selectFirstCategory(): Promise<void> {
+    const searchInput: DropdownComponent = await this.searchBar.clickSearchInput();
+    await searchInput.clickFirstOption();
+    await this.waitUntilCardLoads();
+  }
+  async waitUntilCardLoads(): Promise<void> {
+    await this.listCardLocator.first().waitFor({ state: 'visible' });
   }
 
   async isOnlineLabelVisible(): Promise<boolean> {
@@ -142,5 +170,5 @@ export class ClubPage extends BasePage {
   }
   async getSearchInput(): Promise<string> {
     return await this.searchBar.getSearchInputText();
-  }
+  } //
 }
