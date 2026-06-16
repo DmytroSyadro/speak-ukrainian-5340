@@ -15,6 +15,7 @@ export class ClubPage extends BasePage {
   private readonly clubBannerTitleLocator: Locator;
   private readonly advancedSearchLocator: Locator;
   private readonly listCardLocator: Locator;
+  private readonly cardLocator: Locator;
 
   protected clubBannerTitle: ClubBannerTitleComponent;
   protected advancedSearch: AdvancedSearchComponent;
@@ -30,6 +31,7 @@ export class ClubPage extends BasePage {
     this.advancedSearch = new AdvancedSearchComponent(this.advancedSearchLocator);
     this.clubList = new ListClubCardComponent(this.listCardLocator);
     this.filterClubListLocator = this.page.locator("xpath=//*[@class='club-list-control']");
+    this.cardLocator = this.page.locator('div.ant-card');
     this.filterClubList = new FilterClubListComponent(this.filterClubListLocator);
   }
   async navigate(): Promise<void> {
@@ -146,7 +148,7 @@ export class ClubPage extends BasePage {
     await this.waitUntilCardLoads();
   }
   async waitUntilCardLoads(): Promise<void> {
-    await this.listCardLocator.first().waitFor({ state: 'visible' });
+    await this.cardLocator.first().waitFor({ state: 'visible' });
   }
 
   async isOnlineLabelVisible(): Promise<boolean> {
