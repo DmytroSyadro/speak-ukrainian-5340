@@ -1,5 +1,6 @@
 import type { Page, Locator } from '@playwright/test';
 import { BasePage } from './base-page';
+import { FaqComponent } from './components/faq-component';
 
 export class ServicesPage extends BasePage {
   readonly heroTitle: Locator;
@@ -7,9 +8,8 @@ export class ServicesPage extends BasePage {
   readonly description: Locator;
   readonly supportProjectButton: Locator;
   readonly links: Locator;
-  readonly faqItems: Locator;
   readonly heroBannerImage: Locator;
-  readonly faqSection: Locator;
+  readonly faq: FaqComponent;
 
   constructor(page: Page) {
     super(page);
@@ -23,8 +23,7 @@ export class ServicesPage extends BasePage {
     this.descriptionTitle = page.locator('.content-title');
     this.description = page.locator('.content-text');
 
-    this.faqSection = page.locator('.faq');
-    this.faqItems = page.locator('.faq .ant-collapse-item');
+    this.faq = new FaqComponent(page.locator('.faq'));
   }
 
   async navigateToServicesPage(): Promise<void> {
@@ -57,40 +56,12 @@ export class ServicesPage extends BasePage {
     return hrefs;
   }
 
-  async getFaqItems(): Promise<Locator> {
-    return this.faqItems;
-  }
-
-  async getFaqItemTitle(index: number): Promise<string> {
-    return (await this.faqItems.nth(index).locator('.ant-collapse-header').textContent()) || '';
-  }
-
-  async getFaqItemContent(index: number): Promise<string> {
-    return (
-      (await this.faqItems.nth(index).locator('.ant-collapse-content-box').textContent()) || ''
-    );
-  }
-
-  async getFaqToggleArrow(index: number): Promise<Locator> {
-    return this.faqItems.nth(index).locator('.ant-collapse-arrow');
-  }
-
   async clickSocialLink(index: number): Promise<void> {
     await this.links.nth(index).click();
   }
 
   async clickSupportProjectButton(): Promise<void> {
     await this.supportProjectButton.click();
-  }
-
-  async clickFaqItem(index: number): Promise<void> {
-    await this.faqItems.nth(index).locator('.ant-collapse-header').click();
-  }
-
-  async isFaqItemExpanded(index: number): Promise<boolean> {
-    const item = this.faqItems.nth(index);
-    const classAttr = (await item.getAttribute('class')) || '';
-    return classAttr.includes('ant-collapse-item-active');
   }
 
   async isHeroBannerVisible(): Promise<boolean> {
@@ -102,33 +73,6 @@ export class ServicesPage extends BasePage {
   }
 
   async isFaqSectionVisible(): Promise<boolean> {
-    return await this.faqSection.isVisible();
-  }
-
-  async getFaqItemsCount(): Promise<number> {
-    return await this.faqItems.count();
-  }
-
-  async getAllFaqTitles(): Promise<string[]> {
-    const count = await this.getFaqItemsCount();
-    const titles: string[] = [];
-    for (let i = 0; i < count; i++) {
-      titles.push(await this.getFaqItemTitle(i));
-    }
-    return titles;
-  }
-
-  async expandFaqItem(index: number): Promise<void> {
-    const isExpanded = await this.isFaqItemExpanded(index);
-    if (!isExpanded) {
-      await this.clickFaqItem(index);
-    }
-  }
-
-  async collapseFaqItem(index: number): Promise<void> {
-    const isExpanded = await this.isFaqItemExpanded(index);
-    if (isExpanded) {
-      await this.clickFaqItem(index);
-    }
+    return this.faq.isVisible();
   }
 }

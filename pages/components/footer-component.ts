@@ -8,7 +8,7 @@ export class FooterComponent extends BaseComponent {
 
   constructor(page: Page) {
     super(page.locator('footer.footer'));
-    this.socialLinks = page.locator('.social-media .links a');
+    this.socialLinks = this.root.locator('.social-media .links a');
     this.donateButton = this.root.locator('.donate-button');
     this.partnerLogos = this.root.locator('.sponsors img');
   }
