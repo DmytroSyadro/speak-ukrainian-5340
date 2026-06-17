@@ -1,6 +1,6 @@
 import { BaseComponent } from './base-component';
 import type { Locator } from '@playwright/test';
-import { MapModal } from '../modals/map-modal';
+import { MapModal } from '@/modals/map-modal';
 
 export class ClubBannerTitleComponent extends BaseComponent {
   private readonly title: Locator;

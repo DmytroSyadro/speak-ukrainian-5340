@@ -1,15 +1,14 @@
 import type { Locator, Page } from '@playwright/test';
 import { BasePage } from './base-page';
-import { FilterClubListComponent } from './components/filter-club-list-component';
-import { ClubBannerTitleComponent } from './components/club-banner-title-component';
-import { AdvancedSearchComponent } from './components/advanced-search-component';
-import { ListClubCardComponent } from './components/list-club-card-component';
-import { ClubCategory } from '../data/club-category';
-import { CitiesUser } from '../data/cities-user';
-import { ClubCardComponent } from './components/club-card-component';
-import { TagsComponent } from './components/tags-component';
-import { DropdownComponent } from './components/dropdown-component';
-import { ClubDetailsPage } from './club-details-page';
+import { FilterClubListComponent } from '@/components/filter-club-list-component';
+import { ClubBannerTitleComponent } from '@/components/club-banner-title-component';
+import { AdvancedSearchComponent } from '@/components/advanced-search-component';
+import { ListClubCardComponent } from '@/components/list-club-card-component';
+import { ClubCategory } from '@/data/club-category';
+import { CitiesUser } from '@/data/cities-user';
+import { ClubCardComponent } from '@/components/club-card-component';
+import { DropdownComponent } from '@/components/dropdown-component';
+import { TagsComponent } from '@/components/tags-component';
 
 export class ClubPage extends BasePage {
   private readonly filterClubListLocator: Locator;
@@ -42,9 +41,10 @@ export class ClubPage extends BasePage {
   async waitForPageLoad(): Promise<void> {
     await this.listCardLocator.waitFor({ state: 'visible' });
   }
-  async searchByText(text: string): Promise<void> {
+  async searchByText(text: string): Promise<ClubPage> {
     await this.searchBar.fillSearchInput(text);
-    await this.searchBar.pressEnter();
+    await this.searchBar.clickSearchButton();
+    return this;
   }
   async filterByCity(city: CitiesUser): Promise<ClubPage> {
     await this.advancedSearch.selectCity(city);

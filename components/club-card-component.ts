@@ -1,8 +1,10 @@
 ﻿import type { Locator } from '@playwright/test';
 
 import { BaseComponent } from './base-component';
-import { ClubModal } from '../modals/club-modal';
-import { ClubDetailsPage } from '../club-details-page';
+import { ClubModal } from '@/modals/club-modal';
+import { ClubDetailsPage } from '@/pages';
+
+
 
 export class ClubCardComponent extends BaseComponent {
   private readonly moreDetailsButton: Locator;

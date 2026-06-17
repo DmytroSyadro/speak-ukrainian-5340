@@ -1,9 +1,10 @@
 ﻿import type { Locator } from '@playwright/test';
 
 import { BaseComponent } from './base-component';
-import { ClubCardComponent } from './club-card-component';
-import { ClubModal } from '../modals/club-modal';
-import { TagsComponent } from './tags-component';
+import { ClubModal } from '@/modals/club-modal';
+import { TagsComponent } from '@/components/tags-component';
+import { ClubCardComponent } from '@/components/club-card-component';
+
 
 export class ListClubCardComponent extends BaseComponent {
   private readonly cardItems: Locator;
