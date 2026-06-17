@@ -44,7 +44,7 @@ export class AdvancedSearchComponent extends BaseComponent {
     this.categoryLabel = this.root.locator('.ant-typography').getByText('Категорії');
 
     this.dropdown = new DropdownComponent(this.dropDownLocator);
-  } 
+  }
 
   async isClubRadioButtonChecked(): Promise<boolean> {
     return await this.clubRadioButton.isChecked();

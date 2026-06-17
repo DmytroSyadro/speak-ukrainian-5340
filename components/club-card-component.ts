@@ -4,8 +4,6 @@ import { BaseComponent } from './base-component';
 import { ClubModal } from '@/modals/club-modal';
 import { ClubDetailsPage } from '@/pages';
 
-
-
 export class ClubCardComponent extends BaseComponent {
   private readonly moreDetailsButton: Locator;
   private readonly clubTitle: Locator;

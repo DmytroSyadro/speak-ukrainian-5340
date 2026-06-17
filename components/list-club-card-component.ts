@@ -5,7 +5,6 @@ import { ClubModal } from '@/modals/club-modal';
 import { TagsComponent } from '@/components/tags-component';
 import { ClubCardComponent } from '@/components/club-card-component';
 
-
 export class ListClubCardComponent extends BaseComponent {
   private readonly cardItems: Locator;
   private readonly clubTagsLocator: Locator;
