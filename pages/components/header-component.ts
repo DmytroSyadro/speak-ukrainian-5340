@@ -1,4 +1,4 @@
-import type { Locator, Page } from '@playwright/test';
+import type { Locator } from '@playwright/test';
 import { BaseComponent } from './base-component';
 
 export class HeaderComponent extends BaseComponent {
@@ -14,8 +14,8 @@ export class HeaderComponent extends BaseComponent {
   private readonly searchButton: Locator;
   private readonly advancedSearchButton: Locator;
 
-  constructor(page: Page) {
-    super(page.locator('header.header'));
+  constructor(root: Locator) {
+    super(root);
 
     this.logo = this.root.locator('.logo');
     this.clubsLink = this.root.locator('.nav-menu a').filter({ hasText: 'Гуртки' });
@@ -26,7 +26,7 @@ export class HeaderComponent extends BaseComponent {
     this.citySelector = this.root.locator('.ant-dropdown-trigger');
     this.userMenuButton = this.root.locator('.ant-dropdown-trigger:has(.anticon-user)');
     this.searchInput = this.root.locator('.ant-select-selection-search-input, .search-input');
-    this.searchButton = page.locator('svg[data-icon="search"]');
+    this.searchButton = this.root.locator('svg[data-icon="search"]');
     this.advancedSearchButton = this.root.locator('svg[data-icon="control"]');
   }
 

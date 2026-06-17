@@ -1,4 +1,4 @@
-import type { Locator, Page } from '@playwright/test';
+import type { Locator } from '@playwright/test';
 import { BaseComponent } from './base-component';
 
 export class FooterComponent extends BaseComponent {
@@ -6,8 +6,8 @@ export class FooterComponent extends BaseComponent {
   private readonly donateButton: Locator;
   private readonly partnerLogos: Locator;
 
-  constructor(page: Page) {
-    super(page.locator('footer.footer'));
+  constructor(root: Locator) {
+    super(root);
     this.socialLinks = this.root.locator('.social-media .links a');
     this.donateButton = this.root.locator('.donate-button');
     this.partnerLogos = this.root.locator('.sponsors img');

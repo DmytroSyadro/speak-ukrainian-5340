@@ -3,13 +3,14 @@ import { BasePage } from './base-page';
 import { FaqComponent } from './components/faq-component';
 
 export class ServicesPage extends BasePage {
-  readonly heroTitle: Locator;
-  readonly descriptionTitle: Locator;
-  readonly description: Locator;
-  readonly supportProjectButton: Locator;
-  readonly links: Locator;
-  readonly heroBannerImage: Locator;
-  readonly faq: FaqComponent;
+  protected readonly heroTitle: Locator;
+  protected readonly descriptionTitle: Locator;
+  protected readonly description: Locator;
+  protected readonly supportProjectButton: Locator;
+  protected readonly links: Locator;
+  protected readonly heroBannerImage: Locator;
+  protected readonly faqLocator: Locator;
+  public readonly faq: FaqComponent;
 
   constructor(page: Page) {
     super(page);
@@ -23,7 +24,8 @@ export class ServicesPage extends BasePage {
     this.descriptionTitle = page.locator('.content-title');
     this.description = page.locator('.content-text');
 
-    this.faq = new FaqComponent(page.locator('.faq'));
+    this.faqLocator = page.locator('.faq');
+    this.faq = new FaqComponent(this.faqLocator);
   }
 
   async navigateToServicesPage(): Promise<void> {
