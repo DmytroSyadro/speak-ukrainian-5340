@@ -3,27 +3,36 @@ import type { Locator } from '@playwright/test';
 import { BaseComponent } from './base-component';
 
 export class NewsCardComponent extends BaseComponent {
-  readonly title: Locator;
-  readonly date: Locator;
-  readonly detailsButton: Locator;
+  private readonly detailsButton: Locator;
+  private readonly date: Locator;
+  private readonly title: Locator;
+  private readonly image: Locator;
 
   constructor(rootLocator: Locator) {
     super(rootLocator);
-
-    this.title = rootLocator.locator('#newsTitle');
-    this.date = rootLocator.locator('#newsDate');
-    this.detailsButton = rootLocator.locator('#detailButton a');
-  }
-
-  async getNewsTitle(): Promise<string | null> {
-    return this.title.textContent();
-  }
-
-  async getNewsDate(): Promise<string | null> {
-    return this.date.textContent();
+    this.detailsButton = this.root.getByRole('link', { name: 'Детальніше' });
+    this.date = this.root.locator('#newsDate');
+    this.title = this.root.locator('#newsTitle');
+    this.image = this.root.locator('#newsImage');
   }
 
   async clickDetailsButton(): Promise<void> {
     await this.detailsButton.click();
+  }
+
+  async getDate(): Promise<string> {
+    return this.date.innerText();
+  }
+
+  async getTitle(): Promise<string> {
+    return this.title.innerText();
+  }
+
+  async getImageStyle(): Promise<string | null> {
+    return await this.image.getAttribute('style');
+  }
+
+  async clickCard(): Promise<void> {
+    await this.root.click();
   }
 }
