@@ -1,7 +1,7 @@
 import type { Locator, Page } from '@playwright/test';
 import { BasePage } from './base-page';
 import { SocialInfoComponent } from '@/components/social-info-component';
-import { ChallengeTasksCarouselComponent } from '@/components/home/challenge-tasks-carousel-component';
+import { ChallengeTasksCarouselComponent } from '@/components/challenge/challenge-tasks-carousel-component';
 
 export class ChallengePage extends BasePage {
   private readonly initiativeNameText: Locator;
