@@ -2,6 +2,7 @@
 
 import { BaseComponent } from './base-component';
 import { ClubModal } from '../modals/club-modal';
+import { ClubDetailsPage } from '../club-details-page';
 
 export class ClubCardComponent extends BaseComponent {
   private readonly moreDetailsButton: Locator;
@@ -24,8 +25,9 @@ export class ClubCardComponent extends BaseComponent {
     this.clubOnline = this.root.locator('.club-online');
     this.ratingField = this.root.locator('ul.rating');
   }
-  async clickMoreDetailsButton(): Promise<void> {
+  async clickMoreDetailsButton(): Promise<ClubDetailsPage> {
     await this.moreDetailsButton.click();
+    return new ClubDetailsPage(this.page);
   }
   async clickTitleButton(): Promise<ClubModal> {
     await this.clubTitle.click();

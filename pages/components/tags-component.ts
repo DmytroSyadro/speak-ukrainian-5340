@@ -33,5 +33,5 @@ export class TagsComponent extends BaseComponent {
   }
   async isTagEmpty(): Promise<boolean> {
     return (await this.categoryName.count()) === 0;
-  } //
+  }
 }

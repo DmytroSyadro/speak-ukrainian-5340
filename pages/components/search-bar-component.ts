@@ -26,7 +26,7 @@ export class SearchBarComponent extends BaseComponent {
         "xpath=//div[contains(@class, 'ant-select-dropdown') and not(contains(@class, 'hidden'))]"
       );
     this.dropdown = new DropdownComponent(this.dropdownLocator);
-  } //
+  }
 
   async fillSearchInput(text: string): Promise<void> {
     await this.searchInput.clear();

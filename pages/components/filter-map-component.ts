@@ -20,7 +20,7 @@ export class FilterMapComponent extends BaseComponent {
         "xpath=//div[contains(@class, 'ant-select-dropdown') and not(contains(@class, 'hidden'))]"
       );
     this.dropdown = new DropdownComponent(this.dropdownLocator);
-  } //
+  }
 
   async selectCity(city: CitiesUser): Promise<FilterMapComponent> {
     await this.cityField.click();

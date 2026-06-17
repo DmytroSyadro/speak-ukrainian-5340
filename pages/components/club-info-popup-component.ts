@@ -6,7 +6,7 @@ export class ClubInfoPopupComponent extends BaseComponent {
   private readonly addressText: Locator;
   private readonly clubName: Locator;
   private readonly clubDescription: Locator;
-  private readonly closeButton: Locator; //
+  private readonly closeButton: Locator;
 
   constructor(rootLocator: Locator) {
     super(rootLocator);

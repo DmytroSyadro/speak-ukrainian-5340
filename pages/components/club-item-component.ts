@@ -5,7 +5,7 @@ export class ClubItemComponent extends BaseComponent {
   private readonly clubIcon: Locator;
   private readonly clubName: Locator;
   private readonly address: Locator;
-  //
+
   constructor(rootLocator: Locator) {
     super(rootLocator);
     this.clubIcon = this.root.locator("xpath=.//div[@class='icon-box']");

@@ -7,7 +7,7 @@ export class DropdownComponent extends BaseComponent {
   constructor(rootLocator: Locator) {
     super(rootLocator);
     this.dropdownOptions = this.root.locator('.ant-select-item-option-content');
-  } //
+  }
   async isVisible(): Promise<boolean> {
     return await this.root.isVisible();
   }

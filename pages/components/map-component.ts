@@ -14,7 +14,7 @@ export class MapComponent extends BaseComponent {
   }
   async getMarkersCount(): Promise<number> {
     return await this.markers.count();
-  } //
+  }
   async isMarkersVisible(): Promise<boolean> {
     return await this.markers.isVisible();
   }

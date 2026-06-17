@@ -9,6 +9,7 @@ import { CitiesUser } from '../data/cities-user';
 import { ClubCardComponent } from './components/club-card-component';
 import { TagsComponent } from './components/tags-component';
 import { DropdownComponent } from './components/dropdown-component';
+import { ClubDetailsPage } from './club-details-page';
 
 export class ClubPage extends BasePage {
   private readonly filterClubListLocator: Locator;
@@ -172,5 +173,5 @@ export class ClubPage extends BasePage {
   }
   async getSearchInput(): Promise<string> {
     return await this.searchBar.getSearchInputText();
-  } //
+  }
 }
