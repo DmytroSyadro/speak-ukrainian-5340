@@ -6,6 +6,8 @@ test.describe('News page arrow navigation', () => {
   test('Verify that the News component displays the same news articles after navigating right and then left', async ({
     page,
   }) => {
+    const visibleCardsCount = 3;
+
     const newsPage = new NewsPage(page);
     await newsPage.navigateTo('/news');
     await newsPage.waitForPageLoad();
@@ -21,7 +23,7 @@ test.describe('News page arrow navigation', () => {
     const otherNews = newsDetailsPage.otherNews;
     await otherNews.waitForVisible();
     const firstVisibleCards = await otherNews.getVisibleCardsTitles();
-    expect(firstVisibleCards).toHaveLength(3);
+    expect(firstVisibleCards).toHaveLength(visibleCardsCount);
 
     await otherNews.clickRightArrow();
     let secondVisibleCards: string[] = [];
@@ -31,7 +33,7 @@ test.describe('News page arrow navigation', () => {
       expect(secondVisibleCards).not.toEqual(firstVisibleCards);
     }).toPass({ timeout: 3000 });
 
-    expect(secondVisibleCards).toHaveLength(3);
+    expect(secondVisibleCards).toHaveLength(visibleCardsCount);
 
     await otherNews.clickLeftArrow();
     let thirdVisibleCards: string[] = [];
@@ -41,6 +43,6 @@ test.describe('News page arrow navigation', () => {
       expect(thirdVisibleCards).toEqual(firstVisibleCards);
     }).toPass({ timeout: 3000 });
 
-    expect(thirdVisibleCards).toHaveLength(3);
+    expect(thirdVisibleCards).toHaveLength(visibleCardsCount);
   });
 });
