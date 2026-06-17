@@ -2,7 +2,7 @@
 
 import { BaseComponent } from './base-component';
 import { TagsComponent } from './tags-component';
-import { ClubModal } from '../modals/club-modal';
+import { ClubModal } from '@/modals/club-modal';
 
 export class ClubCardComponent extends BaseComponent {
   private readonly moreDetailsButton: Locator;

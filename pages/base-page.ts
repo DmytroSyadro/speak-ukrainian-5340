@@ -1,6 +1,6 @@
 import type { BrowserContext, Page, Locator } from '@playwright/test';
-import { HeaderComponent } from './components/header-component';
-import { FooterComponent } from './components/footer-component';
+import { HeaderComponent } from '@/components/header-component';
+import { FooterComponent } from '@/components/footer-component';
 
 export abstract class BasePage {
   protected page: Page;

@@ -2,7 +2,7 @@
 
 import { BaseComponent } from './base-component';
 import { ClubCardComponent } from './club-card-component';
-import { ClubModal } from '../modals/club-modal';
+import { ClubModal } from '@/modals/club-modal';
 
 export class ListClubCardComponent extends BaseComponent {
   private readonly cardItems: Locator;

@@ -51,4 +51,13 @@ export class SignInModal extends BaseModal {
   async close() {
     await this.closeButton.click();
   }
+
+  async login(email: string, password: string): Promise<void> {
+    await this.fillCredentials(email, password);
+    await this.submit();
+
+    await this.page
+      .locator('div.ant-modal.modal-login[role="dialog"]')
+      .waitFor({ state: 'hidden' });
+  }
 }

@@ -1,7 +1,7 @@
 import { Locator, Page } from '@playwright/test';
 import { BasePage } from './base-page';
 
-import { OtherNewsComponent } from './components/other-news-component';
+import { OtherNewsComponent } from '@/components/other-news-component';
 
 export class NewsDetailsPage extends BasePage {
   private readonly newsTitle: Locator;

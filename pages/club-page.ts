@@ -1,12 +1,12 @@
 import type { Locator, Page } from '@playwright/test';
 import { BasePage } from './base-page';
-import { FilterClubListComponent } from './components/filter-club-list-component';
-import { ClubBannerTitleComponent } from './components/club-banner-title-component';
-import { AdvancedSearchComponent } from './components/advanced-search-component';
-import { ListClubCardComponent } from './components/list-club-card-component';
-import { ClubCategory } from '../data/club-category';
-import { CitiesUser } from '../data/cities-user';
-import { ClubCardComponent } from './components/club-card-component';
+import { FilterClubListComponent } from '@/components/filter-club-list-component';
+import { ClubBannerTitleComponent } from '@/components/club-banner-title-component';
+import { AdvancedSearchComponent } from '@/components/advanced-search-component';
+import { ListClubCardComponent } from '@/components/list-club-card-component';
+import { ClubCategory } from '@/data/club-category';
+import { CitiesUser } from '@/data/cities-user';
+import { ClubCardComponent } from '@/components/club-card-component';
 
 export class ClubPage extends BasePage {
   private readonly filterClubListLocator: Locator;
