@@ -1,7 +1,7 @@
 import { BaseComponent } from './base-component';
 import type { Locator } from '@playwright/test';
 import { DropdownComponent } from './dropdown-component';
-import { ClubCategory } from '../../data/club-category';
+import { ClubCategory } from '@/data/club-category';
 
 export class SearchBarComponent extends BaseComponent {
   private readonly searchInput: Locator;

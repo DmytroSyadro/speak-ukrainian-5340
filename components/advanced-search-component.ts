@@ -1,8 +1,8 @@
 import { BaseComponent } from './base-component';
 import type { Locator } from '@playwright/test';
 import { DropdownComponent } from './dropdown-component';
-import { ClubCategory } from '../../data/club-category';
-import { CitiesUser } from '../../data/cities-user';
+import { ClubCategory } from '@/data/club-category';
+import { CitiesUser } from '@/data/cities-user';
 
 export class AdvancedSearchComponent extends BaseComponent {
   private readonly clubRadioButton: Locator;

@@ -1,9 +1,9 @@
 import type { Page, Locator } from '@playwright/test';
 
 import { BasePage } from './base-page';
-import { SideBarComponent } from './components/side-bar-component';
-import { UserProfileCardComponent } from './components/user-profile-card-component';
-import { UserItemsSectionComponent } from './components/user-items-section-component';
+import { SideBarComponent } from '@/components/side-bar-component';
+import { UserProfileCardComponent } from '@/components/user-profile-card-component';
+import { UserItemsSectionComponent } from '@/components/user-items-section-component';
 
 export class ProfilePage extends BasePage {
   private readonly profilePage: Locator;

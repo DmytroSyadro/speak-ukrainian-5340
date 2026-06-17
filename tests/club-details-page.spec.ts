@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { ClubDetailsPage } from '../pages/club-details-page';
+import { ClubDetailsPage } from '@/pages/club-details-page';
 
 test.describe('Club details page', () => {
   test('should display main club details', async ({ page }) => {
