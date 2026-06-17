@@ -49,7 +49,7 @@ export class HomePage extends BasePage {
     await this.categoryCards.filter({ hasText: categoryName }).click();
   }
 
-  async getCategoryCardComponentByName(categoryName: string): Promise<ClubCategoryCardComponent> {
+  getCategoryCardComponentByName(categoryName: string): ClubCategoryCardComponent {
     const categoryCardLocator = this.categoryCards.filter({ hasText: categoryName });
     return new ClubCategoryCardComponent(categoryCardLocator);
   }
