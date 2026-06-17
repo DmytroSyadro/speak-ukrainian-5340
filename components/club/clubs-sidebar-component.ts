@@ -1,7 +1,6 @@
 import type { Locator } from '@playwright/test';
-
-import { BaseComponent } from '../base-component';
-import { ClubCardComponent } from './club-card-component';
+import { BaseComponent } from '@/components/base-component';
+import { ClubCardComponent } from '@/components/club/club-card-component';
 
 export class ClubsSidebarComponent extends BaseComponent {
   private readonly sidebarTitle: Locator;

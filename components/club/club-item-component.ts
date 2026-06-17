@@ -1,5 +1,5 @@
-import { BaseComponent } from '../base-component';
 import type { Locator } from '@playwright/test';
+import { BaseComponent } from '@/components/base-component';
 
 export class ClubItemComponent extends BaseComponent {
   private readonly clubIcon: Locator;

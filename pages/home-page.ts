@@ -1,6 +1,6 @@
 import type { Locator, Page } from '@playwright/test';
-import { BasePage } from './base-page';
 import { ClubCategoryCardComponent } from '@/components/club/club-category-card-component';
+import { BasePage } from '@/pages/base-page';
 
 export class HomePage extends BasePage {
   private readonly initiativeText: Locator;

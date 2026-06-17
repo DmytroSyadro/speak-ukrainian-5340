@@ -1,5 +1,4 @@
 import type { Locator, Page } from '@playwright/test';
-import { BasePage } from './base-page';
 import { FilterClubListComponent } from '@/components/filters/filter-club-list-component';
 import { ClubBannerTitleComponent } from '@/components/club/club-banner-title-component';
 import { AdvancedSearchComponent } from '@/components/filters/advanced-search-component';
@@ -7,6 +6,7 @@ import { ListClubCardComponent } from '@/components/club/list-club-card-componen
 import { ClubCategory } from '@/data/club-category';
 import { CitiesUser } from '@/data/cities-user';
 import { ClubCardComponent } from '@/components/club/club-card-component';
+import { BasePage } from '@/pages/base-page';
 
 export class ClubPage extends BasePage {
   private readonly filterClubListLocator: Locator;

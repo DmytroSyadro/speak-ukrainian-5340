@@ -1,7 +1,7 @@
-import { BaseComponent } from '../base-component';
 import type { Locator } from '@playwright/test';
-import { DropdownComponent } from '../common/dropdown-component';
 import { ClubCategory, CitiesUser } from '@/data';
+import { DropdownComponent } from '@/components/common/dropdown-component';
+import { BaseComponent } from '@/components/base-component';
 
 export class FilterMapComponent extends BaseComponent {
   private readonly cityField: Locator;

@@ -1,8 +1,7 @@
 ﻿import type { Locator } from '@playwright/test';
-
-import { BaseComponent } from '../base-component';
-import { TagsComponent } from '../common/tags-component';
 import { ClubModal } from '@/modals/club-modal';
+import { BaseComponent } from '@/components/base-component';
+import { TagsComponent } from '@/components/common/tags-component';
 
 export class ClubCardComponent extends BaseComponent {
   private readonly moreDetailsButton: Locator;

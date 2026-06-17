@@ -1,6 +1,6 @@
 import type { Locator } from '@playwright/test';
-import { BaseComponent } from '../base-component';
-import { TaskCardComponent } from './task-card-component';
+import { BaseComponent } from '@/components/base-component';
+import { TaskCardComponent } from '@/components/challenge/task-card-component';
 
 export class ChallengeTasksCarouselComponent extends BaseComponent {
   private readonly sectionLabel: Locator;

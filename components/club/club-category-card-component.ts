@@ -1,5 +1,5 @@
 import type { Locator } from '@playwright/test';
-import { BaseComponent } from '../base-component';
+import { BaseComponent } from '@/components/base-component';
 
 export class ClubCategoryCardComponent extends BaseComponent {
   private categoryTitle: Locator;

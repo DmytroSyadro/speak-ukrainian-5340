@@ -1,7 +1,7 @@
-import { BaseComponent } from '../base-component';
 import type { Locator } from '@playwright/test';
 import { ClubItemComponent } from './club-item-component';
 import { ClubInfoPopupComponent } from './club-info-popup-component';
+import { BaseComponent } from '@/components/base-component';
 
 export class ClubItemListComponent extends BaseComponent {
   private readonly clubItems: Locator;

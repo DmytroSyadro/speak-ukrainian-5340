@@ -1,5 +1,5 @@
 import type { Locator } from '@playwright/test';
-import { BaseComponent } from '../base-component';
+import { BaseComponent } from '@/components/base-component';
 
 export class FooterComponent extends BaseComponent {
   private readonly socialLinks: Locator;

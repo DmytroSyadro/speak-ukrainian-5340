@@ -1,6 +1,6 @@
 import type { Locator, Page } from '@playwright/test';
-import { BaseModal } from './base-modal';
 import { TagsComponent } from '@/components/common/tags-component';
+import { BaseModal } from '@/modals/base-modal';
 
 export class ClubModal extends BaseModal {
   private static readonly ROOT_SELECTOR = "//div[@class='ant-modal-content']";

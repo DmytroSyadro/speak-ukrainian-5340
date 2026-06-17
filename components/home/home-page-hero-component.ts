@@ -1,5 +1,5 @@
 import { Locator } from '@playwright/test';
-import { BaseComponent } from '../base-component';
+import { BaseComponent } from '@/components/base-component';
 
 export class HomePageHeroComponent extends BaseComponent {
   private heroTitle: Locator;

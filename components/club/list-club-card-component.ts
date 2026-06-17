@@ -1,8 +1,7 @@
 ﻿import type { Locator } from '@playwright/test';
-
-import { BaseComponent } from '../base-component';
-import { ClubCardComponent } from './club-card-component';
 import { ClubModal } from '@/modals/club-modal';
+import { BaseComponent } from '@/components/base-component';
+import { ClubCardComponent } from '@/components/club/club-card-component';
 
 export class ListClubCardComponent extends BaseComponent {
   private readonly cardItems: Locator;
@@ -41,7 +40,7 @@ export class ListClubCardComponent extends BaseComponent {
   async clickClubCardByTitle(title: string): Promise<ClubModal> {
     const clubCard: ClubCardComponent | undefined = await this.getClubCardByTitle(title);
     if (!clubCard) throw new Error(`Club with title "${title}" not found`);
-    await clubCard.click();
+    await clubCard.clickTitleButton();
     return new ClubModal(this.page);
   }
   async clickButtonDetailByName(title: string): Promise<void> {

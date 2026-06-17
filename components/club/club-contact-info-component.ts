@@ -1,6 +1,5 @@
 import type { Locator } from '@playwright/test';
-
-import { BaseComponent } from '../base-component';
+import { BaseComponent } from '@/components/base-component';
 
 export class ClubContactInfoComponent extends BaseComponent {
   private readonly address: Locator;

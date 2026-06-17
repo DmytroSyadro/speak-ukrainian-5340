@@ -1,7 +1,7 @@
 import type { Locator } from '@playwright/test';
 
-import { BaseComponent } from '../base-component';
-import { NewsCardComponent } from './news-card-component';
+import { BaseComponent } from '@/components/base-component';
+import { NewsCardComponent } from '@/components/news/news-card-component';
 
 export class NewsCardListComponent extends BaseComponent {
   private readonly cardItemsLocator: Locator;

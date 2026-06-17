@@ -1,6 +1,6 @@
 import type { Locator } from '@playwright/test';
-import { BaseComponent } from '../base-component';
-import { FaqItemComponent } from './faq-item-component';
+import { BaseComponent } from '@/components/base-component';
+import { FaqItemComponent } from '@/components/faq/faq-item-component';
 
 export class FaqComponent extends BaseComponent {
   private readonly itemLocators: Locator;

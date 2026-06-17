@@ -1,7 +1,6 @@
 import type { Locator } from '@playwright/test';
-
-import { BaseComponent } from '../base-component';
-import { CommentComponent } from './comment-component';
+import { BaseComponent } from '@/components/base-component';
+import { CommentComponent } from '@/components/comment/comment-component';
 
 export class CommentsSectionComponent extends BaseComponent {
   private readonly leaveCommentButton: Locator;
