@@ -1,10 +1,22 @@
-import type { Page } from '@playwright/test';
+import type { BrowserContext, Page, Locator } from '@playwright/test';
+import { HeaderComponent } from './components/header-component';
+import { FooterComponent } from './components/footer-component';
 
 export abstract class BasePage {
   protected page: Page;
+  protected context: BrowserContext;
+  private readonly headerLocator: Locator;
+  readonly header: HeaderComponent;
+  private readonly footerLocator: Locator;
+  readonly footer: FooterComponent;
 
   protected constructor(page: Page) {
     this.page = page;
+    this.context = page.context();
+    this.headerLocator = page.locator('header.header');
+    this.header = new HeaderComponent(this.headerLocator);
+    this.footerLocator = page.locator('footer.footer');
+    this.footer = new FooterComponent(this.footerLocator);
   }
 
   async navigateTo(url: string): Promise<void> {
@@ -17,5 +29,22 @@ export abstract class BasePage {
 
   async waitForPageLoad(): Promise<void> {
     await this.page.waitForLoadState('load');
+  }
+
+  async switchToNewTab(): Promise<Page> {
+    const [newPage] = await Promise.all([this.context.waitForEvent('page')]);
+    await newPage.waitForLoadState();
+    return newPage;
+  }
+  async getAllPage(): Promise<Page[]> {
+    return this.context.pages();
+  }
+  async switchToTabByIndex(index: number): Promise<Page> {
+    const pages = this.context.pages();
+    await pages[index].bringToFront();
+    return pages[index];
+  }
+  async closeCurrentTab(): Promise<void> {
+    await this.page.close();
   }
 }
