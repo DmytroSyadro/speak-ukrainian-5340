@@ -1,4 +1,4 @@
-import type { Page } from '@playwright/test';
+import type { Page, Locator } from '@playwright/test';
 
 import { BasePage } from './base-page';
 import { SideBarComponent } from './components/side-bar-component';
@@ -6,22 +6,25 @@ import { UserProfileCardComponent } from './components/user-profile-card-compone
 import { UserItemsSectionComponent } from './components/user-items-section-component';
 
 export class ProfilePage extends BasePage {
-  private readonly profilePage: ReturnType<Page['locator']>;
+  private readonly profilePage: Locator;
 
+  public readonly sideBarLocator: Locator;
   public readonly sideBar: SideBarComponent;
+  public readonly profileCardLocator: Locator;
   public readonly profileCard: UserProfileCardComponent;
+  public readonly userItemsLocator: Locator;
   public readonly userItems: UserItemsSectionComponent;
 
   constructor(page: Page) {
     super(page);
 
     this.profilePage = this.page.locator('.user-page');
-
-    this.sideBar = new SideBarComponent(this.page.locator('.sider-profile'));
-
-    this.profileCard = new UserProfileCardComponent(this.page.locator('.user-information'));
-
-    this.userItems = new UserItemsSectionComponent(this.page.locator('main.user-content'));
+    this.sideBarLocator = this.page.locator('.sider-profile');
+    this.sideBar = new SideBarComponent(this.sideBarLocator);
+    this.profileCardLocator = this.page.locator('.user-information');
+    this.profileCard = new UserProfileCardComponent(this.profileCardLocator);
+    this.userItemsLocator = this.page.locator('main.user-content');
+    this.userItems = new UserItemsSectionComponent(this.userItemsLocator);
   }
 
   async navigateToProfile(userId: number): Promise<void> {

@@ -10,15 +10,15 @@ export class UserItemsSectionComponent extends BaseComponent {
   constructor(rootLocator: Locator) {
     super(rootLocator);
 
-    this.itemTypeDropdown = this.page.locator('.club-center-select');
-    this.addButton = this.page.getByRole('button', { name: /додати/i });
-    this.userClubContent = this.page.locator('.user-club-content');
+    this.itemTypeDropdown = this.root.locator('.club-center-select');
+    this.addButton = this.root.getByRole('button', { name: /додати/i });
+    this.userClubContent = this.root.locator('.user-club-content');
   }
 
   async selectItemType(type: string): Promise<void> {
     await this.itemTypeDropdown.click();
 
-    await this.page.locator('.ant-select-dropdown').getByText(type, { exact: true }).click();
+    await this.root.locator('.ant-select-dropdown').getByText(type, { exact: true }).click();
   }
 
   async clickAdd(): Promise<void> {
