@@ -1,6 +1,6 @@
 import type { Page, Locator } from '@playwright/test';
 import { BasePage } from './base-page';
-import { FaqComponent } from '@/components/faq-component';
+import { FaqComponent } from '@/components/faq/faq-component';
 
 export class ServicesPage extends BasePage {
   protected readonly heroTitle: Locator;

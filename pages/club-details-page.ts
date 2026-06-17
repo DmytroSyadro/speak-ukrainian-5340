@@ -1,11 +1,11 @@
 import type { Page } from '@playwright/test';
 
 import { BasePage } from './base-page';
-import { ClubHeroComponent } from '@/components/club-hero-component';
-import { ClubDescriptionComponent } from '@/components/club-description-component';
-import { ClubContactInfoComponent } from '@/components/club-contact-info-component';
-import { CommentsSectionComponent } from '@/components/comments-section-component';
-import { SimilarClubsComponent } from '@/components/similar-clubs-component';
+import { ClubHeroComponent } from '@/components/club/club-hero-component';
+import { ClubDescriptionComponent } from '@/components/club/club-description-component';
+import { ClubContactInfoComponent } from '@/components/club/club-contact-info-component';
+import { CommentsSectionComponent } from '@/components/comment/comments-section-component';
+import { SimilarClubsComponent } from '@/components/club/similar-clubs-component';
 
 export class ClubDetailsPage extends BasePage {
   private readonly clubPage: ReturnType<Page['locator']>;
