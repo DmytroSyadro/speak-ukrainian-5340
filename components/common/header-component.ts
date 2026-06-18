@@ -64,6 +64,7 @@ export class HeaderComponent extends BaseComponent {
       .locator('ul.ant-dropdown-menu[role="menu"]')
       .getByRole('menuitem')
       .filter({ hasText: itemRegex })
+      .filter({ visible: true })
       .first();
     await menuItem.waitFor({ state: 'visible' });
     await menuItem.click();

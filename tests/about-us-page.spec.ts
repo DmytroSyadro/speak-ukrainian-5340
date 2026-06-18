@@ -6,17 +6,16 @@ import { SignInModal } from '@/modals/sign-in-modal';
 
 test.describe('AboutUs team verification', () => {
   let aboutUsPage: AboutUsPage;
+  const hasAuthCreds = Boolean(env.TEST_EMAIL && env.TEST_PASSWORD);
+
+  // eslint-disable-next-line playwright/no-skipped-test
+  test.skip(!hasAuthCreds, 'TEST_EMAIL and TEST_PASSWORD are required for this suite.');
 
   test.beforeEach(async ({ page }) => {
     await page.setViewportSize({ width: 1920, height: 1080 });
 
     const email = env.TEST_EMAIL;
     const password = env.TEST_PASSWORD;
-    if (!email || !password) {
-      throw new Error(
-        'TEST_EMAIL and TEST_PASSWORD environment variables must be set for this test.'
-      );
-    }
 
     aboutUsPage = new AboutUsPage(page);
     await aboutUsPage.navigateToAboutPage();
@@ -25,7 +24,7 @@ test.describe('AboutUs team verification', () => {
     await aboutUsPage.header.clickUserMenuItem(/увійти/i);
 
     const signInModal = new SignInModal(page);
-    await signInModal.login(email, password);
+    await signInModal.login(email!, password!);
   });
 
   test('Verify that team member names and roles are displayed correctly for all team members', async () => {
