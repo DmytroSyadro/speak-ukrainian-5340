@@ -58,6 +58,17 @@ export class HeaderComponent extends BaseComponent {
     await this.userMenuButton.click();
   }
 
+  async clickUserMenuItem(itemRegex: RegExp): Promise<void> {
+    await this.openUserMenu();
+    const menuItem = this.page
+      .locator('ul.ant-dropdown-menu[role="menu"]')
+      .getByRole('menuitem')
+      .filter({ hasText: itemRegex })
+      .first();
+    await menuItem.waitFor({ state: 'visible' });
+    await menuItem.click();
+  }
+
   async getSelectedCity(): Promise<string> {
     return (await this.citySelector.textContent()) || '';
   }
