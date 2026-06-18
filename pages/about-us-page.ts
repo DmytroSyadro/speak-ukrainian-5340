@@ -1,5 +1,5 @@
 import type { Page, Locator } from '@playwright/test';
-import { BasePage } from './base-page';
+import { BasePage } from '@/pages/base-page';
 
 export class AboutUsPage extends BasePage {
   readonly heroTitle: Locator;

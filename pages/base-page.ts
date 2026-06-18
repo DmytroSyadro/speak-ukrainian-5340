@@ -1,6 +1,7 @@
 import type { BrowserContext, Page, Locator } from '@playwright/test';
-import { HeaderComponent } from '@/components/header-component';
-import { FooterComponent } from '@/components/footer-component';
+import { HeaderComponent } from '@/components/common/header-component';
+import { FooterComponent } from '@/components/common/footer-component';
+import { SearchBarComponent } from '@/components/common/search-bar-component';
 
 export abstract class BasePage {
   protected page: Page;
@@ -9,6 +10,8 @@ export abstract class BasePage {
   readonly header: HeaderComponent;
   private readonly footerLocator: Locator;
   readonly footer: FooterComponent;
+  private readonly searchBarLocator: Locator;
+  protected searchBar: SearchBarComponent;
 
   protected constructor(page: Page) {
     this.page = page;
@@ -17,6 +20,8 @@ export abstract class BasePage {
     this.header = new HeaderComponent(this.headerLocator);
     this.footerLocator = page.locator('footer.footer');
     this.footer = new FooterComponent(this.footerLocator);
+    this.searchBarLocator = page.locator('div.search');
+    this.searchBar = new SearchBarComponent(this.searchBarLocator);
   }
 
   async navigateTo(url: string): Promise<void> {

@@ -1,10 +1,10 @@
 import type { Page, Locator } from '@playwright/test';
 
-import { BasePage } from './base-page';
-import { NewsCardListComponent } from '@/components/news-card-list-component';
-import { PaginationComponent } from '@/components/pagination-component';
-import { ClubsSidebarComponent } from '@/components/clubs-sidebar-component';
-import { NewsCardComponent } from '@/components/news-card-component';
+import { NewsCardListComponent } from '@/components/news/news-card-list-component';
+import { PaginationComponent } from '@/components/common/pagination-component';
+import { ClubsSidebarComponent } from '@/components/club/clubs-sidebar-component';
+import { NewsCardComponent } from '@/components/news/news-card-component';
+import { BasePage } from '@/pages/base-page';
 
 export class NewsPage extends BasePage {
   private readonly newsList: Locator;
