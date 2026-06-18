@@ -3,7 +3,6 @@ import { ClubItemListComponent } from '@/components/club/club-item-list-componen
 import { FilterMapComponent } from '@/components/filters/filter-map-component';
 import { MapComponent } from '@/components/map/map-component';
 import { BaseModal } from '@/modals/base-modal';
-import { ClubItemComponent } from '@/components/club/club-item-component';
 import { ClubPage } from '@/pages';
 import { ClubInfoPopupComponent } from '@/components/club/club-info-popup-component';
 

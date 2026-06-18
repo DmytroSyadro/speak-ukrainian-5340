@@ -26,7 +26,7 @@ test.describe('club-city-located', (): void => {
   allure.description('Verify that the clubs are located in the city selected in the City dropdown');
   allure.issue('https://github.com/UA-5340-TAQC/speak-ukrainian-5340/issues/32');
 
-  test('should display clubs in the particular city', async ({ page }): Promise<void> => {
+  test('should display clubs in the particular city', async (): Promise<void> => {
     await clubPage.selectCity(kharkiv);
     await clubPage.waitUntilCityLoads(kharkiv);
     await clubPage.hasCitySelected(kharkiv);
