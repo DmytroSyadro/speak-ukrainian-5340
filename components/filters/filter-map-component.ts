@@ -7,12 +7,14 @@ export class FilterMapComponent extends BaseComponent {
   private readonly cityField: Locator;
   private readonly categoryField: Locator;
   private readonly dropdownLocator: Locator;
+  private readonly cityText: Locator;
   private readonly dropdown: DropdownComponent;
 
   constructor(rootLocator: Locator) {
     super(rootLocator);
     this.cityField = this.root.locator('#mapCitiesList');
-    this.categoryField = this.root.locator('.ant-select.selectCity').nth(1);
+    this.categoryField = this.root.locator('.ant-select.selectCity').nth(0);
+    this.cityText = this.root.locator('span.ant-select-selection-item').nth(0);
     this.dropdownLocator = this.root
       .page()
       .locator(
@@ -34,7 +36,7 @@ export class FilterMapComponent extends BaseComponent {
   }
 
   async getCityFieldText(): Promise<string> {
-    return await this.cityField.inputValue();
+    return (await this.cityText.textContent()) ?? '';
   }
 
   async getCategoryFieldText(): Promise<string> {

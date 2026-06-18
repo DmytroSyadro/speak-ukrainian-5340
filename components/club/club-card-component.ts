@@ -5,7 +5,6 @@ import { BaseComponent } from '@/components/base-component';
 import { ClubDetailsPage } from '@/pages';
 import { TagsComponent } from '@/components/common/tags-component';
 
-
 export class ClubCardComponent extends BaseComponent {
   private readonly moreDetailsButton: Locator;
   private readonly clubTitle: Locator;
@@ -29,7 +28,6 @@ export class ClubCardComponent extends BaseComponent {
     this.clubOnline = this.root.locator('.club-online');
     this.ratingField = this.root.locator('ul.rating');
     this.clubTitle = this.root.locator('div.name');
-    this.clubOnline = this.root.locator('.online');
     this.clubTagsLocator = this.root.locator(
       'xpath=.//div[contains(@class, "club-tags") and not(contains(@class, "box"))]'
     );
@@ -49,6 +47,7 @@ export class ClubCardComponent extends BaseComponent {
   async getClubTitle(): Promise<string> {
     return this.clubTitle.innerText();
   }
+
   async getClubDescription(): Promise<string> {
     return this.clubDescription.innerText();
   }

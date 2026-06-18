@@ -2,6 +2,7 @@ import type { BrowserContext, Page, Locator } from '@playwright/test';
 import { HeaderComponent } from '@/components/common/header-component';
 import { FooterComponent } from '@/components/common/footer-component';
 import { SearchBarComponent } from '@/components/common/search-bar-component';
+import { PaginationComponent } from '@/components/common/pagination-component';
 
 export abstract class BasePage {
   protected page: Page;
@@ -11,7 +12,9 @@ export abstract class BasePage {
   private readonly footerLocator: Locator;
   readonly footer: FooterComponent;
   private readonly searchBarLocator: Locator;
+  private readonly paginationLocator: Locator;
 
+  protected pagination: PaginationComponent;
   protected searchBar: SearchBarComponent;
 
   protected constructor(page: Page) {
@@ -22,6 +25,8 @@ export abstract class BasePage {
     this.header = new HeaderComponent(this.headerLocator);
     this.footerLocator = page.locator('footer.footer');
     this.footer = new FooterComponent(this.footerLocator);
+    this.paginationLocator = page.locator('ul.ant-pagination');
+    this.pagination = new PaginationComponent(this.paginationLocator);
     this.context = page.context();
   }
 
