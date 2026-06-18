@@ -18,8 +18,8 @@ test.describe('Header Navigation Tests', () => {
   let challengePage: ChallengePage;
   let servicesPage: ServicesPage;
 
-  test.beforeEach(async ({ browser }) => {
-    page = await browser.newPage();
+  test.beforeEach(async ({ page: fixturePage }) => {
+    page = fixturePage;
     homePage = new HomePage(page);
     clubPage = new ClubPage(page);
     newsPage = new NewsPage(page);
@@ -31,11 +31,8 @@ test.describe('Header Navigation Tests', () => {
     await homePage.waitForPageLoad();
   });
 
-  test.afterEach(async () => {
-    await page.close();
-  });
-
   test('TC-029: Verify that all navigation menu links redirect to the correct pages', async () => {
+    // Step 1: Click on "Гуртки" link
     await test.step('Click on "Гуртки" link and verify redirect to Clubs page', async () => {
       await homePage.header.clickClubs();
       await expect(page).toHaveURL(/.*\/clubs/);
@@ -44,7 +41,7 @@ test.describe('Header Navigation Tests', () => {
 
     await test.step('Click browser Back button and verify return to main page', async () => {
       await page.goBack();
-      await expect(page).toHaveURL(BASE_URL);
+      await expect(page).toHaveURL(new RegExp(BASE_URL.replace(/\/$/, '') + '/?$'));
       await homePage.waitForPageLoad();
     });
 
@@ -79,13 +76,13 @@ test.describe('Header Navigation Tests', () => {
       await homePage.navigateTo(BASE_URL);
       await homePage.waitForPageLoad();
       await homePage.header.clickServices();
-      await expect(page).toHaveURL(/.*\/service/);
+      await expect(page).toHaveURL(/\/service\/?$/);
       await servicesPage.waitForPageLoad();
     });
 
     await test.step('Click on logo and verify return to main page', async () => {
       await homePage.header.clickLogo();
-      await expect(page).toHaveURL(BASE_URL);
+      await expect(page).toHaveURL(new RegExp(BASE_URL.replace(/\/$/, '') + '/?$'));
     });
   });
 });
