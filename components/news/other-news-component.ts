@@ -39,7 +39,7 @@ export class OtherNewsComponent extends BaseComponent {
   }
 
   async getVisibleCardsTitles(): Promise<string[]> {
-    await this.activeCards.first().waitFor({ state: 'attached' });
+    await this.activeCards.first().waitFor({ state: 'visible' });
 
     const titles: string[] = [];
     const count = await this.activeCards.count();
