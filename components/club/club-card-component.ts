@@ -17,12 +17,12 @@ export class ClubCardComponent extends BaseComponent {
 
   constructor(rootLocator: Locator) {
     super(rootLocator);
-    this.moreDetailsButton = this.root.locator('.//a[contains(@class, "ant-btn-default")]');
+    this.moreDetailsButton = this.root.locator('a.ant-btn-default');
     this.clubAddress = this.root.locator('.oneAddress');
     this.clubDescription = this.root.locator('.description');
     this.clubFullStars = this.root.locator('li.ant-rate-star-full');
     this.clubHalfStars = this.root.locator('li.ant-rate-star-half');
-    this.clubTitle = this.root.locator('.name');
+    this.clubTitle = this.root.locator('div.name');
     this.clubOnline = this.root.locator('.online');
     this.clubTagsLocator = this.root.locator(
       './/div[contains(@class, "club-tags") and not(contains(@class, "box"))]'

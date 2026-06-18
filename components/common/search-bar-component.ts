@@ -14,8 +14,8 @@ export class SearchBarComponent extends BaseComponent {
 
   constructor(rootLocator: Locator) {
     super(rootLocator);
-    this.searchInput = this.root.locator(".//*[@type='search']");
-    this.searchButton = this.root.locator(".//span[@aria-label='search']");
+    this.searchInput = this.root.locator("input[type='search']");
+    this.searchButton = this.root.locator("span[aria-label='search']");
     this.advancedSearchButton = this.root.locator(".//*[@aria-label='search']");
     this.searchFieldText = this.root.locator('.//span[@class="ant-select-selection-placeholder"]');
     this.dropdownLocator = this.root

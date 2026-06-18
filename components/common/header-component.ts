@@ -23,7 +23,7 @@ export class HeaderComponent extends BaseComponent {
     this.newsLink = this.root.locator('.nav-menu a').filter({ hasText: 'Новини' });
     this.aboutUsLink = this.root.locator('.nav-menu a').filter({ hasText: 'Про нас' });
     this.servicesLink = this.root.locator('.nav-menu a').filter({ hasText: 'Послуги українською' });
-    this.citySelector = this.root.locator('.ant-dropdown-trigger');
+    this.citySelector = this.root.locator('.ant-dropdown-trigger.city');
     this.userMenuButton = this.root.locator('.ant-dropdown-trigger:has(.anticon-user)');
     this.searchInput = this.root.locator('.ant-select-selection-search-input, .search-input');
     this.searchButton = this.root.locator('svg[data-icon="search"]');

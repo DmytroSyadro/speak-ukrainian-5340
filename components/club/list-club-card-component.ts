@@ -8,7 +8,7 @@ export class ListClubCardComponent extends BaseComponent {
 
   constructor(rootSelector: Locator) {
     super(rootSelector);
-    this.cardItems = this.root.locator(".//div[@class='ant-card-body']");
+    this.cardItems = this.root.locator('.ant-card-body');
   }
 
   async getClubs(): Promise<ClubCardComponent[]> {
