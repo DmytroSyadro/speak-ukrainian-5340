@@ -15,7 +15,7 @@ export class CommentComponent extends BaseComponent {
 
     this.authorName = this.root.locator('.name');
     this.date = this.root.locator('.datetime');
-    this.text = this.root.locator('.ant-comment-content-detail p');
+    this.text = this.root.locator('.ant-comment-content-detail p:not(.answer-p)').first();
     this.fullStars = this.root.locator('li.ant-rate-star-full');
     this.halfStars = this.root.locator('li.ant-rate-star-half');
     this.replyButton = this.root.locator('button.answer-comment');

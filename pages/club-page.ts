@@ -23,7 +23,7 @@ export class ClubPage extends BasePage {
     super(page);
     this.clubBannerTitleLocator = page.locator("//div[@class='city-name-box']");
     this.advancedSearchLocator = page.locator("//div[@class='ant-layout-sider-children']");
-    this.listCardLocator = page.locator("//*[contains(@class,'club-list-content')]");
+    this.listCardLocator = page.locator('main.club-list-content');
     this.clubBannerTitle = new ClubBannerTitleComponent(this.clubBannerTitleLocator);
     this.advancedSearch = new AdvancedSearchComponent(this.advancedSearchLocator);
     this.clubList = new ListClubCardComponent(this.listCardLocator);
@@ -35,7 +35,14 @@ export class ClubPage extends BasePage {
   }
 
   async waitForPageLoad(): Promise<void> {
+    await this.page.waitForLoadState('networkidle');
     await this.listCardLocator.waitFor({ state: 'visible' });
+  }
+
+  async openFirstClubPage(): Promise<void> {
+    const firstClubLink = this.page.locator('main.club-list-content a[href*="/club/"]').first();
+    await firstClubLink.waitFor({ state: 'visible' });
+    await firstClubLink.click();
   }
   async searchByText(text: string): Promise<ClubPage> {
     await this.searchBar.fillSearchInput(text);

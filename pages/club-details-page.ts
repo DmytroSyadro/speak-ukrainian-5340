@@ -9,6 +9,7 @@ import { SimilarClubsComponent } from './components/similar-clubs-component';
 
 export class ClubDetailsPage extends BasePage {
   private readonly clubPage: ReturnType<Page['locator']>;
+  private readonly formErrors: ReturnType<Page['locator']>;
 
   public readonly hero: ClubHeroComponent;
   public readonly description: ClubDescriptionComponent;
@@ -20,6 +21,7 @@ export class ClubDetailsPage extends BasePage {
     super(page);
 
     this.clubPage = this.page.locator('.club-page');
+    this.formErrors = this.page.locator('.ant-form-item-explain-error');
 
     this.hero = new ClubHeroComponent(this.page.locator('header.page-header'));
     this.description = new ClubDescriptionComponent(this.page.locator('main.page-content'));
@@ -66,7 +68,15 @@ export class ClubDetailsPage extends BasePage {
     await this.comments.clickLeaveComment();
   }
 
+  async scrollToCommentsSection(): Promise<void> {
+    await this.comments.scrollIntoView();
+  }
+
   async isClubDetailsDisplayed(): Promise<boolean> {
     return await this.clubPage.isVisible();
+  }
+
+  async getFormErrorCount(): Promise<number> {
+    return this.formErrors.count();
   }
 }

@@ -28,7 +28,15 @@ export class CommentsSectionComponent extends BaseComponent {
     return new CommentComponent(this.comments.nth(index));
   }
 
+  getCommentByText(text: string): CommentComponent {
+    return new CommentComponent(this.comments.filter({ hasText: text }).first());
+  }
+
   async isCommentsSectionDisplayed(): Promise<boolean> {
     return await this.root.isVisible();
+  }
+
+  async scrollIntoView(): Promise<void> {
+    await this.root.scrollIntoViewIfNeeded();
   }
 }
