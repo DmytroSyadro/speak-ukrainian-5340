@@ -128,7 +128,7 @@ export class ClubPage extends BasePage {
   async getFirstClubCard(): Promise<ClubCardComponent> {
     return await this.clubList.getClubCardByIndex(0);
   }
-  
+
   public getClubList(): ListClubCardComponent {
     return this.clubList;
   }
