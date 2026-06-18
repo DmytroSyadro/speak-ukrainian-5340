@@ -1,7 +1,8 @@
-import type { BrowserContext, Locator, Page } from '@playwright/test';
-import { SearchBarComponent } from '@/components/search-bar-component';
-import { HeaderComponent } from '@/components/header-component';
-import { FooterComponent } from '@/components/footer-component';
+import type { BrowserContext, Page, Locator } from '@playwright/test';
+import { HeaderComponent } from '@/components/common/header-component';
+import { FooterComponent } from '@/components/common/footer-component';
+import { SearchBarComponent } from '@/components/common/search-bar-component';
+
 export abstract class BasePage {
   protected page: Page;
   protected context: BrowserContext;
@@ -9,9 +10,9 @@ export abstract class BasePage {
   readonly header: HeaderComponent;
   private readonly footerLocator: Locator;
   readonly footer: FooterComponent;
-  protected searchBar: SearchBarComponent;
-
   private readonly searchBarLocator: Locator;
+
+  protected searchBar: SearchBarComponent;
 
   protected constructor(page: Page) {
     this.page = page;

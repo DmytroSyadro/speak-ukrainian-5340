@@ -1,8 +1,9 @@
 import { expect, test } from '@playwright/test';
 import { ClubPage } from '@/pages/club-page';
 import { ClubCategory } from '@/data/club-category';
-import { ClubCardComponent } from '@/components/club-card-component';
-import { TagsComponent } from '@/components/tags-component';
+import { ClubCardComponent } from '@/components/club/club-card-component';
+import { TagsComponent } from '@/components/common/tags-component';
+
 
 test.describe('search-bar', (): void => {
   const title = 'IT освіта: курси "ГРАНД"';

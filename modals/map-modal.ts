@@ -1,8 +1,8 @@
-import { BaseModal } from './base-modal';
 import type { Locator, Page } from '@playwright/test';
-import { ClubItemListComponent } from '@/components/club-item-list-component';
-import { FilterMapComponent } from '@/components/filter-map-component';
-import { MapComponent } from '@/components/map-component';
+import { ClubItemListComponent } from '@/components/club/club-item-list-component';
+import { FilterMapComponent } from '@/components/filters/filter-map-component';
+import { MapComponent } from '@/components/map/map-component';
+import { BaseModal } from '@/modals/base-modal';
 
 export class MapModal extends BaseModal {
   private static readonly ROOT_SELECTOR = "//div[@class='ant-modal-content']";

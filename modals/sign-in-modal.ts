@@ -1,5 +1,5 @@
 import { Locator, Page } from '@playwright/test';
-import { BaseModal } from './base-modal';
+import { BaseModal } from '@/modals/base-modal';
 
 export class SignInModal extends BaseModal {
   private static readonly ROOT_SELECTOR = 'div.ant-modal.modal-login[role="dialog"]';
