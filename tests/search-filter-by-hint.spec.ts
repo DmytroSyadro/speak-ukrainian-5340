@@ -153,7 +153,7 @@ test.describe('search-bar', (): void => {
 
   allure.severity('critical');
   allure.description('Verify that the clubs are located in the city selected in the City dropdown');
-  allure.issue('https://github.com/orgs/speak-ukrainian/projects/1/views/1');
+  allure.issue('https://github.com/UA-5340-TAQC/speak-ukrainian-5340/issues/73');
 
   test('should search by hint category and exact name', async ({ page }): Promise<void> => {
     const clubPage = new ClubPage(page);
