@@ -1,4 +1,4 @@
-import { expect, Route, test } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 import { ClubPage } from '@/pages/club-page';
 import { ClubCategory } from '@/data/club-category';
 import { ClubCardComponent } from '@/components/club/club-card-component';
