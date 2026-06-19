@@ -17,9 +17,35 @@ permissions:
   pull-requests: write
 
 jobs:
-  test-and-report:
+  lint-and-format:
     runs-on: ubuntu-latest
-    timeout-minutes: 40
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Code Formatting Check
+        run: npx prettier --check .
+
+      - name: Run Linter
+        run: npm run lint
+
+  test-and-report:
+    needs: lint-and-format 
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
 
     steps:
       - name: Checkout repository
@@ -33,39 +59,23 @@ jobs:
           node-version: lts/*
           cache: npm
 
+      - name: Install dependencies
+        run: npm ci
+
       - name: Cache Playwright browsers
         id: playwright-cache
         uses: actions/cache@v4
         with:
           path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ hashFiles('package-lock.json') }}
+          key: ${{ runner.os }}-playwright-${{ matrix.browser }}-${{ hashFiles('package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-playwright-
+            ${{ runner.os }}-playwright-${{ matrix.browser }}-
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run Code Formatting Check
-        run: npx prettier --check .
-
-      - name: Run Linter
-        run: npm run lint
-
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps
-
-      - name: Install Playwright browsers (full, cache miss)
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: npx playwright install --with-deps chromium
-        timeout-minutes: 15
-
-      - name: Install Playwright OS dependencies (cache hit)
-        if: steps.playwright-cache.outputs.cache-hit == 'true'
-        run: npx playwright install-deps chromium
-        timeout-minutes: 10
+      - name: Install Playwright browser & deps
+        run: npx playwright install --with-deps ${{ matrix.browser }}
 
       - name: Run Playwright tests
-        run: npx playwright test
+        run: npx playwright test --project=${{ matrix.browser }}
         continue-on-error: true
 
       - name: Download Allure history
@@ -84,22 +94,16 @@ jobs:
           gh_pages: gh-pages
           allure_report: allure-report
           allure_history: allure-history
-          subfolder: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.number) || 'main' }}
+          subfolder: ${{ github.event_name == 'pull_request' && format('pr-{0}-{1}', github.event.number, matrix.browser) || format('main-{0}', matrix.browser) }}
 
       - name: Fix permissions
         if: ${{ !cancelled() }}
         run: sudo chmod -R 777 allure-history
 
-      - name: Install jq
-        if: ${{ !cancelled() }}
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y jq
-
       - name: Validate test results
         if: ${{ !cancelled() && github.event_name == 'pull_request' }}
         run: |
-          SUMMARY_FILE="allure-history/pr-${{ github.event.number }}/widgets/summary.json"
+          SUMMARY_FILE="allure-history/pr-${{ github.event.number }}-${{ matrix.browser }}/widgets/summary.json"
 
           if [ ! -f "$SUMMARY_FILE" ]; then
             echo "⚠️ Summary file not found. Skipping."
@@ -109,6 +113,7 @@ jobs:
           FAILED=$(jq '.statistic.failed' "$SUMMARY_FILE")
           BROKEN=$(jq '.statistic.broken' "$SUMMARY_FILE")
 
+          echo "Browser: ${{ matrix.browser }}"
           echo "Failed: $FAILED"
           echo "Broken: $BROKEN"
 
@@ -126,14 +131,14 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: allure-history
-          force_orphan: true
-
+          force_orphan: false # Змінено на false, щоб звіти не затирали один одного при паралельному пуші
+      
       - name: Comment PR with report link
         if: ${{ success() && github.event_name == 'pull_request' }}
         uses: thollander/actions-comment-pull-request@v2
         with:
-          comment_tag: allure-report-link
+          comment_tag: allure-report-link-${{ matrix.browser }}
           message: |
-            📊 **Allure Report for PR-${{ github.event.number }}**
+            📊 **Allure Report for PR-${{ github.event.number }} (${{ matrix.browser }})**
 
-            🔗 https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/pr-${{ github.event.number }}/
+            🔗 "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/pr-${{ github.event.number }}-${{ matrix.browser }}/"
