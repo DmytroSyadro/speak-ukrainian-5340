@@ -12,6 +12,7 @@ export class HeaderComponent extends BaseComponent {
   private readonly servicesLink: Locator;
   private readonly citySelector: Locator;
   private readonly userMenuButton: Locator;
+  private readonly userMenuItems: Locator;
   private readonly searchInput: Locator;
   private readonly searchButton: Locator;
   private readonly advancedSearchButton: Locator;
@@ -30,6 +31,7 @@ export class HeaderComponent extends BaseComponent {
     this.servicesLink = this.root.locator('.nav-menu a').filter({ hasText: 'Послуги українською' });
     this.citySelector = this.root.locator('.ant-dropdown-trigger.city');
     this.userMenuButton = this.root.locator('.ant-dropdown-trigger:has(.anticon-user)');
+    this.userMenuItems = this.page.locator('ul.ant-dropdown-menu[role="menu"]').getByRole('menuitem');
     this.searchInput = this.root.locator('.ant-select-selection-search-input, .search-input');
     this.searchButton = this.root.locator('svg[data-icon="search"]');
     this.advancedSearchButton = this.root.locator('svg[data-icon="control"]');
@@ -72,11 +74,7 @@ export class HeaderComponent extends BaseComponent {
 
   async clickUserMenuItem(itemRegex: RegExp): Promise<void> {
     await this.openUserMenu();
-    const menuItem = this.page
-      .locator('ul.ant-dropdown-menu[role="menu"]')
-      .getByRole('menuitem')
-      .filter({ hasText: itemRegex })
-      .first();
+    const menuItem = this.userMenuItems.filter({ hasText: itemRegex }).first();
     await menuItem.waitFor({ state: 'visible' });
     await menuItem.click();
   }

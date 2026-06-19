@@ -15,6 +15,7 @@ export class ClubPage extends BasePage {
   private readonly clubBannerTitleLocator: Locator;
   private readonly advancedSearchLocator: Locator;
   private readonly listCardLocator: Locator;
+  private readonly firstClubLink: Locator;
   private readonly cardLocator: Locator;
 
   protected clubBannerTitle: ClubBannerTitleComponent;
@@ -27,6 +28,7 @@ export class ClubPage extends BasePage {
     this.clubBannerTitleLocator = page.locator("//div[@class='city-name-box']");
     this.advancedSearchLocator = page.locator("//div[@class='ant-layout-sider-children']");
     this.listCardLocator = page.locator('main.club-list-content');
+    this.firstClubLink = this.listCardLocator.locator('a[href*="/club/"]').first();
     this.clubBannerTitle = new ClubBannerTitleComponent(this.clubBannerTitleLocator);
     this.advancedSearch = new AdvancedSearchComponent(this.advancedSearchLocator);
     this.clubList = new ListClubCardComponent(this.listCardLocator);
@@ -44,9 +46,8 @@ export class ClubPage extends BasePage {
   }
 
   async openFirstClubPage(): Promise<void> {
-    const firstClubLink = this.page.locator('main.club-list-content a[href*="/club/"]').first();
-    await firstClubLink.waitFor({ state: 'visible' });
-    await firstClubLink.click();
+    await this.firstClubLink.waitFor({ state: 'visible' });
+    await this.firstClubLink.click();
   }
   async searchByText(text: string): Promise<ClubPage> {
     await this.searchBar.fillSearchInput(text);

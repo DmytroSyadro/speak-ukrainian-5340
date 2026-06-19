@@ -7,6 +7,8 @@ export class CommentModal extends BaseModal {
   private readonly commentTab: Locator;
   private readonly complaintTab: Locator;
   private readonly ratingStars: Locator;
+  private readonly ratingStarRadios: Locator;
+  private readonly highlightedRatingStars: Locator;
   private readonly commentTextarea: Locator;
   private readonly submitButton: Locator;
   private readonly authorNameField: Locator;
@@ -17,6 +19,10 @@ export class CommentModal extends BaseModal {
     this.commentTab = this.root.getByRole('tab', { name: /^коментар$/i });
     this.complaintTab = this.root.getByRole('tab', { name: /^скарга$/i });
     this.ratingStars = this.root.locator('ul.ant-rate li.ant-rate-star');
+    this.ratingStarRadios = this.ratingStars.locator('[role="radio"]');
+    this.highlightedRatingStars = this.root.locator(
+      'ul.ant-rate li.ant-rate-star-active, ul.ant-rate li.ant-rate-star-full'
+    );
     this.commentTextarea = this.root.locator('textarea');
     this.submitButton = this.root.locator('button.do-comment-button');
     this.authorNameField = this.root.locator('.comment-fields .comment-input-box').first();
@@ -35,26 +41,17 @@ export class CommentModal extends BaseModal {
   }
 
   async hoverRatingStar(starIndex: number): Promise<void> {
-    const star = this.ratingStars.nth(starIndex - 1);
+    const star = this.ratingStarRadios.nth(starIndex - 1);
     await star.scrollIntoViewIfNeeded();
-    const box = await star.boundingBox();
-    if (!box) {
-      throw new Error(`Rating star ${starIndex} is not visible`);
-    }
-    await this.page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+    await star.hover();
   }
 
   async clickRatingStar(starIndex: number): Promise<void> {
-    await this.ratingStars.nth(starIndex - 1).click();
+    await this.ratingStarRadios.nth(starIndex - 1).click();
   }
 
   async getHighlightedStarCount(): Promise<number> {
-    const activeStars = await this.root.locator('ul.ant-rate li.ant-rate-star-active').count();
-    if (activeStars > 0) {
-      return activeStars;
-    }
-
-    return this.root.locator('ul.ant-rate li.ant-rate-star:not(.ant-rate-star-zero)').count();
+    return this.highlightedRatingStars.count();
   }
 
   async clickCommentTextarea(): Promise<void> {

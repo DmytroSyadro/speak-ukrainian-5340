@@ -24,10 +24,6 @@ test('E2E — Login → Clubs → Club Page → Post a Comment @E2E', async ({ p
     'Critical E2E flow: sign in, open the first club from the clubs list, post a comment, and verify it appears without validation errors.'
   );
 
-  if (!env.TEST_EMAIL || !env.TEST_PASSWORD) {
-    throw new Error('Set TEST_EMAIL and TEST_PASSWORD in .env');
-  }
-
   const email = env.TEST_EMAIL;
   const password = env.TEST_PASSWORD;
 
