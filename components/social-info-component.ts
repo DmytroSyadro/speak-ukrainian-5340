@@ -1,5 +1,5 @@
 import type { Locator } from '@playwright/test';
-import { BaseComponent } from './base-component';
+import { BaseComponent } from '@/components/base-component';
 
 export type SocialPlatform = 'facebook' | 'youtube' | 'instagram' | 'mail';
 export class SocialInfoComponent extends BaseComponent {

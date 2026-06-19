@@ -1,6 +1,6 @@
 import type { Page, Locator } from '@playwright/test';
-import { BasePage } from './base-page';
-import { FaqComponent } from '@/components/faq-component';
+import { FaqComponent } from '@/components/faq/faq-component';
+import { BasePage } from '@/pages/base-page';
 
 export class ServicesPage extends BasePage {
   protected readonly heroTitle: Locator;
@@ -10,7 +10,7 @@ export class ServicesPage extends BasePage {
   protected readonly links: Locator;
   protected readonly heroBannerImage: Locator;
   protected readonly faqLocator: Locator;
-  public readonly faq: FaqComponent;
+  protected readonly faq: FaqComponent;
 
   constructor(page: Page) {
     super(page);
@@ -76,5 +76,9 @@ export class ServicesPage extends BasePage {
 
   async isFaqSectionVisible(): Promise<boolean> {
     return this.faq.isVisible();
+  }
+
+  getFaqComponent(): FaqComponent {
+    return this.faq;
   }
 }

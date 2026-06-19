@@ -1,6 +1,6 @@
 import type { Locator, Page } from '@playwright/test';
-import { BasePage } from './base-page';
-import { ClubCategoryCardComponent } from '@/components/club-category-card-component';
+import { ClubCategoryCardComponent } from '@/components/club/club-category-card-component';
+import { BasePage } from '@/pages/base-page';
 
 export class HomePage extends BasePage {
   private readonly initiativeText: Locator;
@@ -49,7 +49,7 @@ export class HomePage extends BasePage {
     await this.categoryCards.filter({ hasText: categoryName }).click();
   }
 
-  async getCategoryCardComponentByName(categoryName: string): Promise<ClubCategoryCardComponent> {
+  getCategoryCardComponentByName(categoryName: string): ClubCategoryCardComponent {
     const categoryCardLocator = this.categoryCards.filter({ hasText: categoryName });
     return new ClubCategoryCardComponent(categoryCardLocator);
   }
