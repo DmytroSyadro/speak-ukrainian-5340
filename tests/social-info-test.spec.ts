@@ -25,7 +25,7 @@ test.describe('Check Social Media and Donation links routing on the Challenge pa
     );
 
     await challengePage.clickHelpButton();
-    const newPage = await challengePage.switchToNewTab();
-    await expect(newPage.url()).toBe('https://secure.wayforpay.com/payment/s0f2891d77061');
+    const challengePageURL = await challengePage.switchToNewTab();
+    await expect(challengePageURL).toBe('https://secure.wayforpay.com/payment/s0f2891d77061');
   });
 });
