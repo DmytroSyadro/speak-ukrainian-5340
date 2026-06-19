@@ -10,7 +10,7 @@ export class ServicesPage extends BasePage {
   protected readonly links: Locator;
   protected readonly heroBannerImage: Locator;
   protected readonly faqLocator: Locator;
-  public readonly faq: FaqComponent;
+  protected readonly faq: FaqComponent;
 
   constructor(page: Page) {
     super(page);
@@ -76,5 +76,9 @@ export class ServicesPage extends BasePage {
 
   async isFaqSectionVisible(): Promise<boolean> {
     return this.faq.isVisible();
+  }
+
+  getFaqComponent(): FaqComponent {
+    return this.faq;
   }
 }
