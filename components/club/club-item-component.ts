@@ -8,9 +8,9 @@ export class ClubItemComponent extends BaseComponent {
 
   constructor(rootLocator: Locator) {
     super(rootLocator);
-    this.clubIcon = this.root.locator(".//div[@class='icon-box']");
-    this.clubName = this.root.locator(".//*[@class='text']");
-    this.address = this.root.locator(".//*[@class='name']");
+    this.clubIcon = this.root.locator("xpath=.//div[@class='icon-box']");
+    this.clubName = this.root.locator("xpath=.//*[@class='text']");
+    this.address = this.root.locator("xpath=.//*[@class='name']");
   }
   async isClubIconVisible(): Promise<boolean> {
     return await this.clubIcon.isVisible();
