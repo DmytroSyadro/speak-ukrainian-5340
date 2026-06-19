@@ -22,17 +22,19 @@ export class ClubModal extends BaseModal {
     super(page);
     this.clubFullStars = this.root.locator('li.ant-rate-star-full');
     this.clubHalfStars = this.root.locator('li.ant-rate-star-half');
-    this.addressText = this.root.locator(".//div[@class='address']/span[@class='text']");
-    this.titleText = this.root.locator(".//div[@class='club-name']");
-    this.descriptionText = this.root.locator("//div[@class='description']");
-    this.linkText = this.root.locator(".//*[@class='contact-name']/a");
-    this.downloadButton = this.root.locator(".//button[contains(@class, 'download-button')]");
-    this.moreAboutClubButton = this.root.locator(".//button[contains(@class, 'more-button')]");
-    this.age = this.root.locator(".//span[@class='years']");
-    this.contactNumbers = this.root.locator(
-      ".//*[@class='contact-name' and contains(text(), '+')]"
+    this.addressText = this.root.locator("xpath=.//div[@class='address']/span[@class='text']");
+    this.titleText = this.root.locator("xpath=.//div[@class='club-name']");
+    this.descriptionText = this.root.locator("xpath=//div[@class='description']");
+    this.linkText = this.root.locator("xpath=.//*[@class='contact-name']/a");
+    this.downloadButton = this.root.locator("xpath=.//button[contains(@class, 'download-button')]");
+    this.moreAboutClubButton = this.root.locator(
+      "xpath=.//button[contains(@class, 'more-button')]"
     );
-    this.clubTagsLocator = this.root.locator(".//div[contains(@class, 'categories')]");
+    this.age = this.root.locator("xpath=.//span[@class='years']");
+    this.contactNumbers = this.root.locator(
+      "xpath=.//*[@class='contact-name' and contains(text(), '+')]"
+    );
+    this.clubTagsLocator = this.root.locator("xpath=.//div[contains(@class, 'categories')]");
     this.clubTags = new TagsComponent(this.clubTagsLocator);
   }
   async getRoot(): Promise<Locator> {
@@ -81,5 +83,5 @@ export class ClubModal extends BaseModal {
   async getLateAge(): Promise<string> {
     const text = await this.age.innerText();
     return text.split(' ')[3];
-  }
+  } //
 }

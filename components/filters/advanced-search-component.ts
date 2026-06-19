@@ -24,20 +24,20 @@ export class AdvancedSearchComponent extends BaseComponent {
     super(rootLocator);
     this.clubRadioButton = this.root.locator('.ant-radio', { hasText: 'Гурток' });
     this.centerRadioButton = this.root.locator('.ant-radio', { hasText: 'Центр' });
-    this.ageField = this.root.locator(".//input[@class='ant-input-number-input']");
+    this.ageField = this.root.locator("xpath=.//input[@class='ant-input-number-input']");
     this.categoryButton = this.root.locator(
-      ".//div[@id='basic_categoriesName']//input[@class='ant-checkbox-input']"
+      "xpath=.//div[@id='basic_categoriesName']//input[@class='ant-checkbox-input']"
     );
     this.remoteButton = this.root.locator(
-      ".//div[@id='basic_isOnline']//input[@class='ant-checkbox-input']"
+      "xpath=.//div[@id='basic_isOnline']//input[@class='ant-checkbox-input']"
     );
-    this.cityDropdown = this.root.locator(".//*[@id='basic_cityName']");
-    this.districtDropdown = this.root.locator(".//*[@id='basic_districtName']");
-    this.closestStationDropdown = this.root.locator(".//*[@id='basic_stationName']");
+    this.cityDropdown = this.root.locator("xpath=.//*[@id='basic_cityName']");
+    this.districtDropdown = this.root.locator("xpath=.//*[@id='basic_districtName']");
+    this.closestStationDropdown = this.root.locator("xpath=.//*[@id='basic_stationName']");
     this.dropDownLocator = this.root
       .page()
       .locator(
-        "//div[contains(@class, 'ant-select-dropdown') and not(contains(@class, 'hidden'))]"
+        "xpath=//div[contains(@class, 'ant-select-dropdown') and not(contains(@class, 'hidden'))]"
       );
     this.onlineLabel = this.root.locator('.ant-typography').getByText('Ремоут');
     this.ageLabel = this.root.locator('.ant-typography').getByText('Вік дитини');

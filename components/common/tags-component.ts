@@ -21,17 +21,10 @@ export class TagsComponent extends BaseComponent {
     return this.categoryName.nth(index).innerText();
   }
   async getAllCategoryTags(): Promise<string[]> {
-    const count = await this.categoryName.count();
-    const tags: string[] = [];
-
-    for (let i = 0; i < count; i++) {
-      tags.push(await this.categoryName.nth(i).innerText());
-    }
-
-    return tags;
+    return await this.categoryName.allInnerTexts();
   }
   async hasCategoryTag(tag: string): Promise<boolean> {
-    const tags = await this.getAllCategoryTags();
+    const tags: string[] = await this.getAllCategoryTags();
     return tags.includes(tag);
   }
   async hasTags(): Promise<boolean> {

@@ -1,14 +1,23 @@
 ﻿import type { Locator } from '@playwright/test';
+
 import { ClubModal } from '@/modals/club-modal';
 import { BaseComponent } from '@/components/base-component';
 import { ClubCardComponent } from '@/components/club/club-card-component';
+import { TagsComponent } from '@/components/common/tags-component';
 
 export class ListClubCardComponent extends BaseComponent {
   private readonly cardItems: Locator;
+  private readonly clubTagsLocator: Locator;
+
+  private clubTags: TagsComponent;
 
   constructor(rootSelector: Locator) {
     super(rootSelector);
-    this.cardItems = this.root.locator('.ant-card-body');
+    this.cardItems = this.root.locator("xpath=.//div[@class='ant-card-body']");
+    this.clubTagsLocator = this.root.locator(
+      'xpath=.//div[contains(@class, "club-tags") and not(contains(@class, "box"))]'
+    );
+    this.clubTags = new TagsComponent(this.clubTagsLocator);
   }
 
   async getClubs(): Promise<ClubCardComponent[]> {
@@ -21,13 +30,13 @@ export class ListClubCardComponent extends BaseComponent {
   }
 
   async getClubCardByTitle(title: string): Promise<ClubCardComponent | undefined> {
-    const clubCards: ClubCardComponent[] = await this.getClubs();
-    for (const clubCard of clubCards) {
-      if ((await clubCard.getClubTitle()) === title) {
-        return clubCard;
-      }
+    const cardLocator = this.cardItems.filter({ hasText: title }).first();
+    try {
+      await cardLocator.waitFor({ state: 'visible', timeout: 10000 });
+      return new ClubCardComponent(cardLocator);
+    } catch {
+      return undefined;
     }
-    return undefined;
   }
 
   async getClubCardByIndex(index: number): Promise<ClubCardComponent> {
@@ -40,12 +49,15 @@ export class ListClubCardComponent extends BaseComponent {
   async clickClubCardByTitle(title: string): Promise<ClubModal> {
     const clubCard: ClubCardComponent | undefined = await this.getClubCardByTitle(title);
     if (!clubCard) throw new Error(`Club with title "${title}" not found`);
-    await clubCard.clickTitleButton();
+    await clubCard.click();
     return new ClubModal(this.page);
   }
   async clickButtonDetailByName(title: string): Promise<void> {
     const clubCard: ClubCardComponent | undefined = await this.getClubCardByTitle(title);
     if (!clubCard) throw new Error(`Club with title "${title}" not found`);
     await clubCard.clickMoreDetailsButton();
+  }
+  async getClubTags(): Promise<TagsComponent> {
+    return this.clubTags;
   }
 }

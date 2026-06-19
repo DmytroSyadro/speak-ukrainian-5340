@@ -13,5 +13,5 @@ export abstract class BaseModal {
 
   async isVisible(): Promise<boolean> {
     return this.root.isVisible();
-  }
+  } //
 }
