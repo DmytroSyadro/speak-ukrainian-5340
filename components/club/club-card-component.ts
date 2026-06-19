@@ -28,9 +28,8 @@ export class ClubCardComponent extends BaseComponent {
     this.clubOnline = this.root.locator('.club-online');
     this.ratingField = this.root.locator('ul.rating');
     this.clubTitle = this.root.locator('div.name');
-    this.clubTagsLocator = this.root.locator(
-      'xpath=.//div[contains(@class, "club-tags") and not(contains(@class, "box"))]'
-    );
+    this.clubOnline = this.root.locator('.online');
+    this.clubTagsLocator = this.root.locator('[class*="club-tags"]:not([class*="box"])');
     this.clubTags = new TagsComponent(this.clubTagsLocator);
   }
   async clickMoreDetailsButton(): Promise<ClubDetailsPage> {
