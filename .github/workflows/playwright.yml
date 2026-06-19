@@ -51,6 +51,9 @@ jobs:
       - name: Run Linter
         run: npm run lint
 
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
       - name: Install Playwright browsers (full, cache miss)
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps chromium
