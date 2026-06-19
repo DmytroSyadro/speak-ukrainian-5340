@@ -38,7 +38,7 @@ jobs:
       - name: Run Linter
         run: npm run lint
 
-  test-and-report:
+  run-tests:
     needs: lint-and-format
     runs-on: ubuntu-latest
     timeout-minutes: 30
@@ -50,8 +50,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -78,32 +76,71 @@ jobs:
         run: npx playwright test --project=${{ matrix.browser }}
         continue-on-error: true
 
-      - name: Download Allure history
+      - name: Upload Allure Results
         if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results-${{ matrix.browser }}
+          path: allure-results
+          retention-days: 1
+
+  generate-report:
+    needs: run-tests
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download Allure history
         continue-on-error: true
         uses: actions/checkout@v4
         with:
           ref: gh-pages
           path: gh-pages
 
-      - name: Generate Allure Report
-        if: ${{ !cancelled() }}
+      - name: Create Combined Results Directory
+        run: mkdir combined-results
+
+      - name: Download Chromium Results
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: allure-results-chromium
+          path: combined-results
+
+      - name: Download Firefox Results
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: allure-results-firefox
+          path: combined-results
+
+      - name: Download Webkit Results
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: allure-results-webkit
+          path: combined-results
+
+      - name: Generate Combined Allure Report
         uses: simple-elf/allure-report-action@master
         with:
-          allure_results: allure-results
+          allure_results: combined-results
           gh_pages: gh-pages
           allure_report: allure-report
           allure_history: allure-history
-          subfolder: ${{ github.event_name == 'pull_request' && format('pr-{0}-{1}', github.event.number, matrix.browser) || format('main-{0}', matrix.browser) }}
+          subfolder: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.number) || 'main' }}
 
       - name: Fix permissions
-        if: ${{ !cancelled() }}
         run: sudo chmod -R 777 allure-history
 
       - name: Validate test results
-        if: ${{ !cancelled() && github.event_name == 'pull_request' }}
+        if: ${{ github.event_name == 'pull_request' }}
         run: |
-          SUMMARY_FILE="allure-history/pr-${{ github.event.number }}-${{ matrix.browser }}/widgets/summary.json"
+          SUMMARY_FILE="allure-history/pr-${{ github.event.number }}/widgets/summary.json"
 
           if [ ! -f "$SUMMARY_FILE" ]; then
             echo "⚠️ Summary file not found. Skipping."
@@ -113,16 +150,15 @@ jobs:
           FAILED=$(jq '.statistic.failed' "$SUMMARY_FILE")
           BROKEN=$(jq '.statistic.broken' "$SUMMARY_FILE")
 
-          echo "Browser: ${{ matrix.browser }}"
-          echo "Failed: $FAILED"
-          echo "Broken: $BROKEN"
+          echo "Total Failed: $FAILED"
+          echo "Total Broken: $BROKEN"
 
           if [ "$FAILED" -gt 0 ] || [ "$BROKEN" -gt 0 ]; then
-            echo "❌ Tests failed"
+            echo "❌ Tests failed in one or more browsers"
             exit 1
           fi
 
-          echo "✅ All tests passed"
+          echo "✅ All tests passed across all browsers"
 
       - name: Deploy Allure Report
         if: ${{ success() }}
@@ -131,14 +167,16 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: allure-history
-          force_orphan: false # Змінено на false, щоб звіти не затирали один одного при паралельному пуші
+          force_orphan: false
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
 
       - name: Comment PR with report link
         if: ${{ success() && github.event_name == 'pull_request' }}
         uses: thollander/actions-comment-pull-request@v2
         with:
-          comment_tag: allure-report-link-${{ matrix.browser }}
+          comment_tag: allure-report-link
           message: |
-            📊 **Allure Report for PR-${{ github.event.number }} (${{ matrix.browser }})**
+            📊 **Allure Report for PR-${{ github.event.number }} (All Browsers)**
 
-            🔗 "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/pr-${{ github.event.number }}-${{ matrix.browser }}/"
+            🔗 "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/pr-${{ github.event.number }}/"
