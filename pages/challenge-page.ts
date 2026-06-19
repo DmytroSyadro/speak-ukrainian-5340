@@ -9,6 +9,7 @@ export class ChallengePage extends BasePage {
   private readonly challengeDescription: Locator;
   private readonly applyButton: Locator;
   private readonly registerButton: Locator;
+  private readonly helpButton: Locator;
 
   private socialInfoComponent: SocialInfoComponent | null = null;
   private tasksCarouselComponent: ChallengeTasksCarouselComponent | null = null;
@@ -19,6 +20,7 @@ export class ChallengePage extends BasePage {
     this.bannerTitle = page.locator('.banner span.title');
     this.challengeDescription = page.locator('.challenge-description');
     this.applyButton = page.locator('.apply-button');
+    this.helpButton = page.locator('.help-button .donate-button');
     this.registerButton = page.locator('.details-button');
   }
 
@@ -79,5 +81,8 @@ export class ChallengePage extends BasePage {
 
   async isRegisterButtonVisible(): Promise<boolean> {
     return await this.registerButton.isVisible();
+  }
+  async clickHelpButton(): Promise<void> {
+    await this.helpButton.click();
   }
 }

@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
-import { ServicesPage } from '../pages/services-page';
-import { FaqComponent } from '../components/faq-component';
-import { FaqItemComponent } from '../components/faq-item-component';
+import { ServicesPage } from '@/pages/services-page';
+import { FaqComponent } from '@/components/faq/faq-component';
+import { FaqItemComponent } from '@/components/faq/faq-item-component';
 
 test.describe('TC-030 Сhecking the functionality of the "Services in Ukrainian" page', () => {
   let servicesPage: ServicesPage;
@@ -71,19 +71,11 @@ test.describe('TC-030 Сhecking the functionality of the "Services in Ukrainian"
   test('Step 5 – Verify accordion behaviour when multiple items are clicked', async () => {
     await firstItem.expand();
     expect(await firstItem.isExpanded()).toBe(true);
+    expect(await secondItem.isExpanded()).toBe(false);
 
     await secondItem.expand();
+    expect(await firstItem.isExpanded()).toBe(true);
     expect(await secondItem.isExpanded()).toBe(true);
-
-    const firstStillExpanded = await firstItem.isExpanded();
-
-    if (firstStillExpanded) {
-      expect(await firstItem.isExpanded()).toBe(true);
-      expect(await secondItem.isExpanded()).toBe(true);
-    } else {
-      expect(await firstItem.isExpanded()).toBe(false);
-      expect(await secondItem.isExpanded()).toBe(true);
-    }
   });
 
   test('Step 6 – Last FAQ item collapses on second click and arrow returns to original state', async () => {

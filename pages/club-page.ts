@@ -56,7 +56,7 @@ export class ClubPage extends BasePage {
     return await searchInput.getFirstOptionText();
   }
   async getClubList(): Promise<ClubCardComponent[]> {
-    return this.clubList.getClubs();
+    return await this.clubList.getClubs();
   }
 
   async filterByDistrict(district: string): Promise<ClubPage> {

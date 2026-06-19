@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test';
 import { ClubPage } from '@/pages/club-page';
+import { CitiesUser } from '@/data/cities-user';
 
 test.describe('Clubs Page - Search Functionality', () => {
   test('TC-035: Verify that the club search returns correct results when searching by club name "American Gymnastics Club" @High', async ({
@@ -12,19 +13,18 @@ test.describe('Clubs Page - Search Functionality', () => {
     await clubPage.navigate();
     await clubPage.waitForPageLoad();
 
-    const selectedCity = await clubPage.header.getSelectedCity();
-    if (!selectedCity.includes('Київ')) {
-      await clubPage.header.selectCity();
-      await page.locator('.ant-dropdown-menu-item, .city-item').filter({ hasText: 'Київ' }).click();
-      await clubPage.waitForPageLoad();
-    }
+    await clubPage.header.selectCity(CitiesUser.KYIV);
+
+    await clubPage.waitForPageLoad();
 
     // --- Step 1: Navigate to the clubs page ---
     await expect(page).toHaveURL(/.*\/clubs/);
 
     await page.locator('.ant-card-body').first().waitFor({ state: 'visible', timeout: 10000 });
     expect(
-      await clubPage.getClubList().getClubCardCount(),
+      await (
+        await clubPage.getClubList()
+      ).length,
       'List of clubs should be visible'
     ).toBeGreaterThan(0);
 
