@@ -6,10 +6,6 @@ import { SignInModal } from '@/modals/sign-in-modal';
 
 test.describe('AboutUs team verification', () => {
   let aboutUsPage: AboutUsPage;
-  const hasAuthCreds = Boolean(env.TEST_EMAIL && env.TEST_PASSWORD);
-
-  // eslint-disable-next-line playwright/no-skipped-test
-  test.skip(!hasAuthCreds, 'TEST_EMAIL and TEST_PASSWORD are required for this suite.');
 
   test.beforeEach(async ({ page }) => {
     await page.setViewportSize({ width: 1920, height: 1080 });
