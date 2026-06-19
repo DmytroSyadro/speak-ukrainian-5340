@@ -81,7 +81,6 @@ export class HeaderComponent extends BaseComponent {
     await menuItem.click();
   }
 
-
   async getSelectedCity(): Promise<string> {
     return (await this.citySelector.textContent()) || '';
   }

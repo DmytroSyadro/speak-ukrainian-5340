@@ -66,7 +66,9 @@ test('E2E — Login → Clubs → Club Page → Post a Comment @E2E', async ({ p
 
   await allure.step('Step 5: Scroll to the comments section', async () => {
     await clubDetailsPage.scrollToCommentsSection();
-    await expect.poll(async () => clubDetailsPage.comments.isCommentsSectionDisplayed()).toBeTruthy();
+    await expect
+      .poll(async () => clubDetailsPage.comments.isCommentsSectionDisplayed())
+      .toBeTruthy();
     commentsBefore = await clubDetailsPage.comments.getCommentsCount();
   });
 
@@ -104,11 +106,12 @@ test('E2E — Login → Clubs → Club Page → Post a Comment @E2E', async ({ p
   });
 
   await allure.step('Steps 11–13: Verify the new comment in the list', async () => {
-    await expect.poll(async () => clubDetailsPage.comments.getCommentsCount()).toBeGreaterThan(
-      commentsBefore
-    );
+    await expect
+      .poll(async () => clubDetailsPage.comments.getCommentsCount())
+      .toBeGreaterThan(commentsBefore);
 
-    const createdComment: CommentComponent = clubDetailsPage.comments.getCommentByText(COMMENT_TEXT);
+    const createdComment: CommentComponent =
+      clubDetailsPage.comments.getCommentByText(COMMENT_TEXT);
     await expect.poll(async () => createdComment.getText()).toContain(COMMENT_TEXT);
     await expect.poll(async () => createdComment.getAuthorName()).toContain(authorName.trim());
   });
