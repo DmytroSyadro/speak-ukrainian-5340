@@ -179,6 +179,7 @@ export class ClubPage extends BasePage {
   async getFirstClubCard(): Promise<ClubCardComponent> {
     return await this.clubList.getClubCardByIndex(0);
   }
+
   async getClubByTitle(title: string): Promise<ClubCardComponent> {
     const card: ClubCardComponent | undefined = await this.clubList.getClubCardByTitle(title);
     if (!card) throw new Error(`Club "${title}" not found`);
