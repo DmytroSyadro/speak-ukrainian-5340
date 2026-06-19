@@ -28,7 +28,6 @@ export class ClubCardComponent extends BaseComponent {
     this.clubOnline = this.root.locator('.club-online');
     this.ratingField = this.root.locator('ul.rating');
     this.clubTitle = this.root.locator('div.name');
-    this.clubOnline = this.root.locator('.online');
     this.clubTagsLocator = this.root.locator('[class*="club-tags"]:not([class*="box"])');
     this.clubTags = new TagsComponent(this.clubTagsLocator);
   }
