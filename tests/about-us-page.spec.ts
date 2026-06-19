@@ -8,8 +8,6 @@ test.describe('AboutUs team verification', () => {
   let aboutUsPage: AboutUsPage;
 
   test.beforeEach(async ({ page }) => {
-    await page.setViewportSize({ width: 1920, height: 1080 });
-
     const email = env.TEST_EMAIL;
     const password = env.TEST_PASSWORD;
 

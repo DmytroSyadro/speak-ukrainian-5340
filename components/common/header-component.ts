@@ -72,8 +72,7 @@ export class HeaderComponent extends BaseComponent {
 
   async clickUserMenuItem(itemRegex: RegExp): Promise<void> {
     await this.openUserMenu();
-    const menuItem = this.page
-      .locator('ul.ant-dropdown-menu[role="menu"]')
+    const menuItem = this.dropdownLocator
       .getByRole('menuitem')
       .filter({ hasText: itemRegex })
       .filter({ visible: true })
