@@ -1,5 +1,5 @@
 import type { Locator, Page } from '@playwright/test';
-import { BasePage } from './base-page';
+import { BasePage } from '@/pages/base-page';
 
 export class ChallengeTaskPage extends BasePage {
   private readonly taskImage: Locator;

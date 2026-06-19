@@ -1,6 +1,6 @@
 import type { Locator, Page } from '@playwright/test';
-import { BasePage } from './base-page';
-import { ClubCategoryCardComponent } from './components/club-category-card-component';
+import { ClubCategoryCardComponent } from '@/components/club/club-category-card-component';
+import { BasePage } from '@/pages/base-page';
 
 export class HomePage extends BasePage {
   private readonly initiativeText: Locator;
@@ -11,6 +11,8 @@ export class HomePage extends BasePage {
   private readonly categoriesDots: Locator;
   private readonly challengeLearnMoreButton: Locator;
   private readonly promoBanner: Locator;
+  private readonly userProfileDropdown: Locator;
+  private readonly loginMenuItem: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -27,6 +29,8 @@ export class HomePage extends BasePage {
     this.categoriesDots = page.locator('.categories-cards .slick-dots');
     this.challengeLearnMoreButton = page.getByText('Дізнатись більше', { exact: true });
     this.promoBanner = page.locator('.banner-image');
+    this.userProfileDropdown = page.locator('.user-profile');
+    this.loginMenuItem = page.locator('.ant-dropdown-menu-item').filter({ hasText: 'Увійти' });
   }
 
   async getInitiativeText(): Promise<string | null> {
@@ -72,5 +76,15 @@ export class HomePage extends BasePage {
 
   async clickPromoBanner(): Promise<void> {
     await this.promoBanner.click();
+  }
+
+  async clickSignInButton(): Promise<void> {
+    await this.userProfileDropdown.click();
+
+    await this.loginMenuItem.waitFor({
+      state: 'visible',
+    });
+
+    await this.loginMenuItem.click();
   }
 }
