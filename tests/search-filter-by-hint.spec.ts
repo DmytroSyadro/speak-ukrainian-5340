@@ -39,6 +39,7 @@ test.describe('search-bar', (): void => {
   allure.severity('critical');
   allure.description('Verify that the search bar filters clubs by the exact club name');
   allure.issue('https://github.com/UA-5340-TAQC/speak-ukrainian-5340/issues/33');
+
   test('should search by exact hint name', async ({ page }): Promise<void> => {
     const clubPage = new ClubPage(page);
 
@@ -130,25 +131,22 @@ test.describe('search-bar', (): void => {
 
     const isEmpty: boolean = await clubPage.isTagEmpty();
 
-    if (!isEmpty) {
-      const tags: TagsComponent = await clubPage.getClubTags();
-      const allTags: string[] = await tags.getAllCategoryTags();
-      expect(allTags).toContain(firstCategory);
+    expect(isEmpty).toBeFalsy();
 
-      const cards: ClubCardComponent[] = await clubPage.getClubList();
-      const cardCount: number = cards.length;
+    const tags: TagsComponent = await clubPage.getClubTags();
+    const allTags: string[] = await tags.getAllCategoryTags();
+    expect(allTags).toContain(firstCategory);
 
-      for (const card of cards) {
-        expect(await card.isRatingVisible()).toBeTruthy();
-      }
+    const cards: ClubCardComponent[] = await clubPage.getClubList();
+    const cardCount: number = cards.length;
 
-      const totalCount: number = await clubPage.getClubCount();
-      expect(totalCount).toBeGreaterThan(0);
-      expect(totalCount).toBe(cardCount);
-    } else {
-      const cardCount: number = await clubPage.getClubCount();
-      expect(cardCount).toBe(0);
+    for (const card of cards) {
+      expect(await card.isRatingVisible()).toBeTruthy();
     }
+
+    const totalCount: number = await clubPage.getClubCount();
+    expect(totalCount).toBeGreaterThan(0);
+    expect(totalCount).toBe(cardCount);
   });
 
   allure.severity('critical');

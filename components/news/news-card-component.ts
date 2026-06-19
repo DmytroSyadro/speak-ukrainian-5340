@@ -24,7 +24,7 @@ export class NewsCardComponent extends BaseComponent {
   }
 
   async getTitle(): Promise<string> {
-    return this.title.innerText();
+    return await this.title.innerText();
   }
 
   async getImageStyle(): Promise<string | null> {
