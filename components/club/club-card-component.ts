@@ -1,6 +1,8 @@
 ﻿import type { Locator } from '@playwright/test';
+
 import { ClubModal } from '@/modals/club-modal';
 import { BaseComponent } from '@/components/base-component';
+import { ClubDetailsPage } from '@/pages';
 import { TagsComponent } from '@/components/common/tags-component';
 
 export class ClubCardComponent extends BaseComponent {
@@ -11,32 +13,40 @@ export class ClubCardComponent extends BaseComponent {
   private readonly clubFullStars: Locator;
   private readonly clubHalfStars: Locator;
   private readonly clubOnline: Locator;
+  private readonly ratingField: Locator;
   private readonly clubTagsLocator: Locator;
-
   private clubTags: TagsComponent;
 
   constructor(rootLocator: Locator) {
     super(rootLocator);
-    this.moreDetailsButton = this.root.locator('a.ant-btn-default');
+    this.moreDetailsButton = this.root.locator('xpath=.//a[contains(@class, "ant-btn-default")]');
     this.clubAddress = this.root.locator('.oneAddress');
     this.clubDescription = this.root.locator('.description');
     this.clubFullStars = this.root.locator('li.ant-rate-star-full');
     this.clubHalfStars = this.root.locator('li.ant-rate-star-half');
+    this.clubTitle = this.root.locator('div.name'); //
+    this.clubOnline = this.root.locator('.club-online');
+    this.ratingField = this.root.locator('ul.rating');
     this.clubTitle = this.root.locator('div.name');
     this.clubOnline = this.root.locator('.online');
     this.clubTagsLocator = this.root.locator('[class*="club-tags"]:not([class*="box"])');
     this.clubTags = new TagsComponent(this.clubTagsLocator);
   }
-  async clickMoreDetailsButton(): Promise<void> {
+  async clickMoreDetailsButton(): Promise<ClubDetailsPage> {
     await this.moreDetailsButton.click();
+    return new ClubDetailsPage(this.page);
   }
   async clickTitleButton(): Promise<ClubModal> {
     await this.clubTitle.click();
     return new ClubModal(this.page);
   }
+  async isClubAddressVisible(): Promise<boolean> {
+    return this.clubAddress.isVisible();
+  }
   async getClubTitle(): Promise<string> {
     return this.clubTitle.innerText();
   }
+
   async getClubDescription(): Promise<string> {
     return this.clubDescription.innerText();
   }
@@ -50,6 +60,9 @@ export class ClubCardComponent extends BaseComponent {
   }
   async getClubAddress(): Promise<string> {
     return this.clubAddress.innerText();
+  }
+  async isRatingVisible(): Promise<boolean> {
+    return this.ratingField.isVisible();
   }
   async isOnlineVisible(): Promise<boolean> {
     return this.clubOnline.isVisible();

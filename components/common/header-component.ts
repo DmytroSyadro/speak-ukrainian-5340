@@ -1,5 +1,7 @@
-import type { Locator } from '@playwright/test';
+import { expect, type Locator } from '@playwright/test';
 import { BaseComponent } from '@/components/base-component';
+import { DropdownComponent } from '@/components/common/dropdown-component';
+import { CitiesUser } from '@/data';
 
 export class HeaderComponent extends BaseComponent {
   private readonly logo: Locator;
@@ -13,6 +15,9 @@ export class HeaderComponent extends BaseComponent {
   private readonly searchInput: Locator;
   private readonly searchButton: Locator;
   private readonly advancedSearchButton: Locator;
+  private readonly dropdownLocator: Locator;
+
+  private dropdown: DropdownComponent;
 
   constructor(root: Locator) {
     super(root);
@@ -28,6 +33,8 @@ export class HeaderComponent extends BaseComponent {
     this.searchInput = this.root.locator('.ant-select-selection-search-input, .search-input');
     this.searchButton = this.root.locator('svg[data-icon="search"]');
     this.advancedSearchButton = this.root.locator('svg[data-icon="control"]');
+    this.dropdownLocator = this.root.page().locator('ul.ant-dropdown-menu');
+    this.dropdown = new DropdownComponent(this.dropdownLocator);
   }
 
   async clickClubs(): Promise<void> {
@@ -50,8 +57,13 @@ export class HeaderComponent extends BaseComponent {
     await this.servicesLink.click();
   }
 
-  async selectCity(): Promise<void> {
+  async selectCity(city: CitiesUser): Promise<void> {
     await this.citySelector.click();
+    await this.dropdown.selectMenuOption(city);
+  }
+
+  async hasCitySelected(city: CitiesUser): Promise<void> {
+    await expect(this.citySelector).toHaveText(city);
   }
 
   async openUserMenu(): Promise<void> {
