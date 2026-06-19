@@ -21,17 +21,17 @@ test.describe('Challenge page Tasks Carousel', () => {
     await expect(activeCards.first()).toBeVisible();
     await expect(activeCards).toHaveCount(4);
 
-    const firstActiveCardName = await activeCardName.textContent();
+    const firstActiveCardName = (await activeCardName.textContent()) as string;
     await carousel.clickNextArrow();
-    await expect(activeCardName).not.toHaveText(firstActiveCardName!);
+    await expect(activeCardName).not.toHaveText(firstActiveCardName);
 
-    await expect(activeCardName).not.toHaveText(firstActiveCardName!);
+    await expect(activeCardName).not.toHaveText(firstActiveCardName);
 
     await carousel.clickPrevArrow();
-    await expect(activeCardName).toHaveText(firstActiveCardName!);
+    await expect(activeCardName).toHaveText(firstActiveCardName);
 
     await carousel.clickCarouselDot(2);
-    await expect(activeCardName).not.toHaveText(firstActiveCardName!);
+    await expect(activeCardName).not.toHaveText(firstActiveCardName);
 
     await expect(activeCards.first()).toBeVisible();
     await expect(activeCards).toHaveCount(4);
