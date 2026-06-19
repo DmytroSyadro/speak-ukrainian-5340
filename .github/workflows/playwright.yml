@@ -39,7 +39,7 @@ jobs:
         run: npm run lint
 
   test-and-report:
-    needs: lint-and-format 
+    needs: lint-and-format
     runs-on: ubuntu-latest
     timeout-minutes: 30
     strategy:
@@ -132,7 +132,7 @@ jobs:
           publish_branch: gh-pages
           publish_dir: allure-history
           force_orphan: false # Змінено на false, щоб звіти не затирали один одного при паралельному пуші
-      
+
       - name: Comment PR with report link
         if: ${{ success() && github.event_name == 'pull_request' }}
         uses: thollander/actions-comment-pull-request@v2
