@@ -26,6 +26,7 @@ export class ClubInfoPopupComponent extends BaseComponent {
     return await this.clubName.innerText();
   }
   async getAddressText(): Promise<string> {
+    await this.addressText.waitFor({ state: 'visible' });
     return await this.addressText.innerText();
   }
   async clickMoreAboutButton(): Promise<void> {

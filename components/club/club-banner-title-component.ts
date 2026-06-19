@@ -8,8 +8,8 @@ export class ClubBannerTitleComponent extends BaseComponent {
 
   constructor(rootLocator: Locator) {
     super(rootLocator);
-    this.title = this.root.locator('.//*[@class="city-name"]');
-    this.mapButton = this.root.locator('.//*[contains(@class, "show-map-button")]');
+    this.title = this.root.locator('xpath=.//*[@class="city-name"]');
+    this.mapButton = this.root.locator('xpath=.//*[contains(@class, "show-map-button")]');
   }
 
   async getTitle(): Promise<string> {
