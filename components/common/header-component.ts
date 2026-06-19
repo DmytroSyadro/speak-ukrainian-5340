@@ -31,7 +31,9 @@ export class HeaderComponent extends BaseComponent {
     this.servicesLink = this.root.locator('.nav-menu a').filter({ hasText: 'Послуги українською' });
     this.citySelector = this.root.locator('.ant-dropdown-trigger.city');
     this.userMenuButton = this.root.locator('.ant-dropdown-trigger:has(.anticon-user)');
-    this.userMenuItems = this.page.locator('ul.ant-dropdown-menu[role="menu"]').getByRole('menuitem');
+    this.userMenuItems = this.page
+      .locator('ul.ant-dropdown-menu[role="menu"]')
+      .getByRole('menuitem');
     this.searchInput = this.root.locator('.ant-select-selection-search-input, .search-input');
     this.searchButton = this.root.locator('svg[data-icon="search"]');
     this.advancedSearchButton = this.root.locator('svg[data-icon="control"]');
