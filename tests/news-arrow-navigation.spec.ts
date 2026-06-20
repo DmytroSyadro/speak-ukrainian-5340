@@ -7,42 +7,60 @@ test.describe('News page arrow navigation', () => {
     page,
   }) => {
     const visibleCardsCount = 3;
+    let firstVisibleCards: string[] = [];
 
     const newsPage = new NewsPage(page);
-    await newsPage.navigateTo('/news');
-    await newsPage.waitForPageLoad();
-
-    const newsList = newsPage.getNewsList();
-    const newsCount = await newsList.getNewsCount();
-    expect(newsCount).toBeGreaterThan(0);
-    const lastNewsCard = newsList.getNewsByIndex(newsCount - 1);
-    await lastNewsCard.clickDetailsButton();
-
     const newsDetailsPage = new NewsDetailsPage(page);
-    await newsDetailsPage.waitForPageLoad();
-    const otherNews = newsDetailsPage.otherNews;
-    await otherNews.waitForVisible();
-    const firstVisibleCards = await otherNews.getVisibleCardsTitles();
-    expect(firstVisibleCards).toHaveLength(visibleCardsCount);
 
-    await otherNews.clickRightArrow();
-    let secondVisibleCards: string[] = [];
+    await test.step('Navigate to the News page', async () => {
+      await newsPage.navigateTo('/news');
+      await newsPage.waitForPageLoad();
+    });
 
-    await expect(async () => {
-      secondVisibleCards = await otherNews.getVisibleCardsTitles();
-      expect(secondVisibleCards).not.toEqual(firstVisibleCards);
-    }).toPass({ timeout: 3000 });
+    await test.step('Open the the last news article', async () => {
+      const newsList = newsPage.getNewsList();
+      const newsCount = await newsList.getNewsCount();
+      expect(newsCount).toBeGreaterThan(0);
 
-    expect(secondVisibleCards).toHaveLength(visibleCardsCount);
+      const lastNewsCard = newsList.getNewsByIndex(newsCount - 1);
+      await lastNewsCard.clickDetailsButton();
+    });
 
-    await otherNews.clickLeftArrow();
-    let thirdVisibleCards: string[] = [];
+    await test.step('Store initial visible "Other News" cards', async () => {
+      await newsDetailsPage.waitForPageLoad();
+      const otherNews = newsDetailsPage.otherNews;
+      await otherNews.waitForVisible();
 
-    await expect(async () => {
-      thirdVisibleCards = await otherNews.getVisibleCardsTitles();
-      expect(thirdVisibleCards).toEqual(firstVisibleCards);
-    }).toPass({ timeout: 3000 });
+      firstVisibleCards = await otherNews.getVisibleCardsTitles();
+      expect(firstVisibleCards).toHaveLength(visibleCardsCount);
+    });
 
-    expect(thirdVisibleCards).toHaveLength(visibleCardsCount);
+    await test.step('Click right arrow and verify new cards are displayed', async () => {
+      const otherNews = newsDetailsPage.otherNews;
+      await otherNews.clickRightArrow();
+
+      let secondVisibleCards: string[] = [];
+
+      await expect(async () => {
+        secondVisibleCards = await otherNews.getVisibleCardsTitles();
+        expect(secondVisibleCards).not.toEqual(firstVisibleCards);
+      }).toPass({ timeout: 3000 });
+
+      expect(secondVisibleCards).toHaveLength(visibleCardsCount);
+    });
+
+    await test.step('Click left arrow and verify the original cards are restored', async () => {
+      const otherNews = newsDetailsPage.otherNews;
+      await otherNews.clickLeftArrow();
+
+      let thirdVisibleCards: string[] = [];
+
+      await expect(async () => {
+        thirdVisibleCards = await otherNews.getVisibleCardsTitles();
+        expect(thirdVisibleCards).toEqual(firstVisibleCards);
+      }).toPass({ timeout: 3000 });
+
+      expect(thirdVisibleCards).toHaveLength(visibleCardsCount);
+    });
   });
 });
