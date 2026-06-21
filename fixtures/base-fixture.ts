@@ -6,7 +6,7 @@ type BaseFixture = {
 };
 
 export const test = base.extend<BaseFixture>({
-  baseUrl: async ({}, use): Promise<void> => {
+  baseUrl: async (_fixture, use): Promise<void> => {
     await use(env.BASE_URL);
   },
 });
