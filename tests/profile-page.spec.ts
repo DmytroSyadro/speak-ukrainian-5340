@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 import * as allure from 'allure-js-commons';
 import { login } from '@/utils/login';
 import { ProfilePage } from '@/pages/profile-page';
+import { HomePage } from '@/pages';
 
 test.describe('Profile Page Tests', () => {
   let profilePage: ProfilePage;
@@ -11,8 +12,17 @@ test.describe('Profile Page Tests', () => {
       await login(page);
 
       profilePage = new ProfilePage(page);
-      const userId = await profilePage.getUserIdFromUrl();
 
+      const homePage = new HomePage(page);
+      await homePage.header.openUserMenu();
+
+      const profileLink = page
+        .locator('.ant-dropdown-menu-item')
+        .filter({ hasText: 'Особистий кабінет' });
+      await profileLink.click();
+      await page.waitForLoadState('networkidle');
+
+      const userId = await profilePage.getUserIdFromUrl();
       await profilePage.navigateToProfile(userId);
       await profilePage.waitForPageLoad();
     });
@@ -49,7 +59,7 @@ test.describe('Profile Page Tests', () => {
 
     await allure.step('Step 6: Verify that phone number section is displayed', async () => {
       const phone = await profilePage.getPhone();
-      expect(phone).toBeDefined();
+      expect(phone.trim().length).toBeGreaterThan(0);
     });
 
     await allure.step('Step 7: Verify that Edit Profile button is visible', async () => {

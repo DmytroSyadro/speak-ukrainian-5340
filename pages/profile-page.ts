@@ -106,7 +106,11 @@ export class ProfilePage extends BasePage {
   async getUserIdFromUrl(): Promise<number> {
     const url = this.page.url();
     const userIdMatch = url.match(/\/user\/(\d+)/);
-    return userIdMatch ? parseInt(userIdMatch[1]) : 1;
+    if (!userIdMatch) {
+      console.warn(`No user ID found in URL: ${url}, using default ID 1`);
+      return 1;
+    }
+    return Number(userIdMatch[1]);
   }
 
   async waitForSection(sectionName: string): Promise<void> {
@@ -154,6 +158,6 @@ export class ProfilePage extends BasePage {
   }
 
   async isCreationFormVisible(): Promise<boolean> {
-    return await this.addClubModal.isVisible().catch(() => false);
+    return await this.addClubModal.isVisible();
   }
 }
