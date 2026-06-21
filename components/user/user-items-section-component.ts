@@ -5,6 +5,9 @@ export class UserItemsSectionComponent extends BaseComponent {
   private readonly itemTypeDropdown: Locator;
   private readonly addButton: Locator;
   private readonly userClubContent: Locator;
+  private readonly clubItems: Locator;
+  private readonly addClubText: Locator;
+  private readonly selectDropdown: (type: string) => Locator;
 
   constructor(rootLocator: Locator) {
     super(rootLocator);
@@ -12,20 +15,29 @@ export class UserItemsSectionComponent extends BaseComponent {
     this.itemTypeDropdown = this.root.locator('.club-center-select');
     this.addButton = this.root.getByRole('button', { name: /додати/i });
     this.userClubContent = this.root.locator('.user-club-content');
+    this.clubItems = this.userClubContent.locator('.ant-layout, .center-profile');
+    this.addClubText = this.addButton.getByText('Додати гурток', { exact: true });
+    this.selectDropdown = (type: string) =>
+      this.root.locator('.ant-select-dropdown').getByText(type, { exact: true });
   }
 
   async selectItemType(type: string): Promise<void> {
     await this.itemTypeDropdown.click();
-
-    await this.root.locator('.ant-select-dropdown').getByText(type, { exact: true }).click();
+    await this.selectDropdown(type).click();
   }
 
   async clickAdd(): Promise<void> {
     await this.addButton.click();
   }
 
+  async clickAddClub(): Promise<void> {
+    await this.addButton.click();
+    await this.waitForLocatorVisible(this.addClubText);
+    await this.addClubText.click();
+  }
+
   async getItemsCount(): Promise<number> {
-    return await this.userClubContent.locator('.ant-layout, .center-profile').count();
+    return await this.clubItems.count();
   }
 
   async getSelectedCategory(): Promise<string> {
@@ -33,7 +45,7 @@ export class UserItemsSectionComponent extends BaseComponent {
   }
 
   async openItemByIndex(index: number): Promise<void> {
-    await this.userClubContent.locator('.ant-layout, .center-profile').nth(index).click();
+    await this.clubItems.nth(index).click();
   }
 
   async isUserItemsSectionDisplayed(): Promise<boolean> {

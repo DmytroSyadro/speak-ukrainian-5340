@@ -14,7 +14,7 @@ export class SideBarComponent extends BaseComponent {
     this.profileTab = this.root.getByText('Профіль', { exact: true });
     this.messagesTab = this.root.getByText('Повідомлення', { exact: true });
     this.complaintsTab = this.root.getByText('Скарги', { exact: true });
-    this.applicationsTab = this.root.getByText('Заявки', { exact: true });
+    this.applicationsTab = this.root.getByText('Реєстрації', { exact: true });
     this.certificatesTab = this.root.getByText('Сертифікати', { exact: true });
   }
 
@@ -56,5 +56,14 @@ export class SideBarComponent extends BaseComponent {
 
   async isCertificatesTabVisible(): Promise<boolean> {
     return await this.certificatesTab.isVisible();
+  }
+
+  async getActiveTabContent(): Promise<Locator> {
+    return this.page.locator('.ant-tabs-tabpane-active');
+  }
+
+  async isTabContentVisible(): Promise<boolean> {
+    const activeTab = this.page.locator('.ant-tabs-tabpane-active');
+    return await activeTab.isVisible();
   }
 }
