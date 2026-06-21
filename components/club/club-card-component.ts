@@ -15,6 +15,7 @@ export class ClubCardComponent extends BaseComponent {
   private readonly clubOnline: Locator;
   private readonly ratingField: Locator;
   private readonly clubTagsLocator: Locator;
+
   private clubTags: TagsComponent;
 
   constructor(rootLocator: Locator) {
@@ -78,5 +79,17 @@ export class ClubCardComponent extends BaseComponent {
   }
   async getMoreButtonHref(): Promise<string | null> {
     return this.moreDetailsButton.getAttribute('href');
+  }
+  async isDescriptionVisible(): Promise<boolean> {
+    return this.clubDescription.isVisible();
+  }
+  async isMoreDetailsButtonVisible(): Promise<boolean> {
+    return this.moreDetailsButton.isVisible();
+  }
+  async isMoreDetailsButtonEnabled(): Promise<boolean> {
+    return this.moreDetailsButton.isEnabled();
+  }
+  async getClubTags(): Promise<TagsComponent> {
+    return this.clubTags;
   }
 }
