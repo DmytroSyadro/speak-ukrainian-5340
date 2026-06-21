@@ -2,7 +2,6 @@ import type { Locator, Page } from '@playwright/test';
 import { SocialInfoComponent } from '@/components/social-info-component';
 import { ChallengeTasksCarouselComponent } from '@/components/challenge/challenge-tasks-carousel-component';
 import { BasePage } from '@/pages/base-page';
-import { PaymentPage } from '@/pages/payment-page';
 import { Challenges } from '@/data/challenges';
 
 export class ChallengePage extends BasePage {
