@@ -2,6 +2,8 @@ import type { Locator, Page } from '@playwright/test';
 import { SocialInfoComponent } from '@/components/social-info-component';
 import { ChallengeTasksCarouselComponent } from '@/components/challenge/challenge-tasks-carousel-component';
 import { BasePage } from '@/pages/base-page';
+import { PaymentPage } from '@/pages/payment-page';
+import { Challenges } from '@/data/challenges';
 
 export class ChallengePage extends BasePage {
   private readonly initiativeNameText: Locator;
@@ -74,6 +76,10 @@ export class ChallengePage extends BasePage {
   async clickRegisterButton(): Promise<void> {
     await this.registerButton.click();
   }
+  async selectChallenge(challenge: Challenges): Promise<ChallengePage> {
+    await this.header.selectChallenge(challenge);
+    return this;
+  }
 
   async isApplyButtonDisabled(): Promise<boolean> {
     return await this.applyButton.isDisabled();
@@ -82,7 +88,9 @@ export class ChallengePage extends BasePage {
   async isRegisterButtonVisible(): Promise<boolean> {
     return await this.registerButton.isVisible();
   }
-  async clickHelpButton(): Promise<void> {
+  async clickHelpButton(): Promise<PaymentPage> {
+    await this.helpButton.waitFor({ state: 'visible' });
     await this.helpButton.click();
+    return new PaymentPage(this.page);
   }
 }

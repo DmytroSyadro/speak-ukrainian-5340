@@ -14,6 +14,11 @@ export class PaymentFormComponent extends BaseComponent {
   private readonly numberField: Locator;
   private readonly emailField: Locator;
   private readonly payButton: Locator;
+  private readonly sumErrorMessage: Locator;
+  private readonly cardErrorMessage: Locator;
+  private readonly expirationErrorMessage: Locator;
+  private readonly emailErrorMessage: Locator;
+  private readonly numberErrorMessage: Locator;
 
   constructor(rootLocator: Locator) {
     super(rootLocator);
@@ -29,6 +34,15 @@ export class PaymentFormComponent extends BaseComponent {
     this.numberField = this.root.locator("xpath=.//*[@id='cardpay-clientphone']");
     this.emailField = this.root.locator("xpath=.//*[@id='cardpay-clientemail']");
     this.payButton = this.root.locator("xpath=.//*[@id='cardpay-submit']");
+    this.sumErrorMessage = this.root
+      .locator('.help-block')
+      .getByText('Сума не повинна перевищувати 150000 UAH');
+    this.cardErrorMessage = this.root.locator('.help-block').getByText('Невiрна картка');
+    this.expirationErrorMessage = this.root.locator('.help-block').getByText('Невірний термін дії');
+    this.emailErrorMessage = this.root.locator('.help-block').getByText('Невірний email');
+    this.numberErrorMessage = this.root
+      .locator('.help-block')
+      .getByText('Номер телефону надто короткий');
   }
   async isVisible(): Promise<boolean> {
     return await this.root.isVisible();
@@ -128,5 +142,25 @@ export class PaymentFormComponent extends BaseComponent {
   }
   async isApplePayButtonVisible(): Promise<boolean> {
     return await this.applePayButton.isVisible();
+  }
+  async isSumErrorMessageVisible(): Promise<boolean> {
+    await this.sumErrorMessage.waitFor({ state: 'visible' });
+    return await this.sumErrorMessage.isVisible();
+  }
+  async isCardErrorMessageVisible(): Promise<boolean> {
+    await this.cardErrorMessage.waitFor({ state: 'visible' });
+    return await this.cardErrorMessage.isVisible();
+  }
+  async isExpirationErrorMessageVisible(): Promise<boolean> {
+    await this.expirationErrorMessage.waitFor({ state: 'visible' });
+    return await this.expirationErrorMessage.isVisible();
+  }
+  async isEmailErrorMessageVisible(): Promise<boolean> {
+    await this.emailErrorMessage.waitFor({ state: 'visible' });
+    return await this.emailErrorMessage.isVisible();
+  }
+  async isNumberErrorMessageVisible(): Promise<boolean> {
+    await this.numberErrorMessage.waitFor({ state: 'visible' });
+    return await this.numberErrorMessage.isVisible();
   }
 }
