@@ -4,6 +4,7 @@ import { ClubModal } from '@/modals/club-modal';
 import { BaseComponent } from '@/components/base-component';
 import { ClubCardComponent } from '@/components/club/club-card-component';
 import { TagsComponent } from '@/components/common/tags-component';
+import * as allure from 'allure-js-commons';
 
 export class ListClubCardComponent extends BaseComponent {
   private readonly cardItems: Locator;
@@ -46,17 +47,26 @@ export class ListClubCardComponent extends BaseComponent {
   async getClubCardCount(): Promise<number> {
     return this.cardItems.count();
   }
+
   async clickClubCardByTitle(title: string): Promise<ClubModal> {
-    const clubCard: ClubCardComponent | undefined = await this.getClubCardByTitle(title);
-    if (!clubCard) throw new Error(`Club with title "${title}" not found`);
-    await clubCard.click();
-    return new ClubModal(this.page);
+    return await allure.step(`Click club card "${title}"`, async (): Promise<ClubModal> => {
+      const clubCard: ClubCardComponent | undefined = await this.getClubCardByTitle(title);
+      if (!clubCard) throw new Error(`Club with title "${title}" not found`);
+      return await clubCard.clickTitleButton();
+    });
   }
+
   async clickButtonDetailByName(title: string): Promise<void> {
-    const clubCard: ClubCardComponent | undefined = await this.getClubCardByTitle(title);
-    if (!clubCard) throw new Error(`Club with title "${title}" not found`);
-    await clubCard.clickMoreDetailsButton();
+    await allure.step(
+      `Click "More details" button for club "${title}"`,
+      async (): Promise<void> => {
+        const clubCard: ClubCardComponent | undefined = await this.getClubCardByTitle(title);
+        if (!clubCard) throw new Error(`Club with title "${title}" not found`);
+        await clubCard.clickMoreDetailsButton();
+      }
+    );
   }
+
   async getClubTags(): Promise<TagsComponent> {
     return this.clubTags;
   }
