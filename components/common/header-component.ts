@@ -66,7 +66,7 @@ export class HeaderComponent extends BaseComponent {
 
   async clickChallenge(): Promise<void> {
     await allure.step('Click on "Челендж" link', async (): Promise<void> => {
-      await this.challengeLink.click({ force: true });
+      await this.challengeLink.click();
     });
   }
   async selectChallenge(challenge: Challenges): Promise<void> {

@@ -88,9 +88,8 @@ export class ChallengePage extends BasePage {
   async isRegisterButtonVisible(): Promise<boolean> {
     return await this.registerButton.isVisible();
   }
-  async clickHelpButton(): Promise<PaymentPage> {
+  async clickHelpButton(): Promise<void> {
     await this.helpButton.waitFor({ state: 'visible' });
     await this.helpButton.click();
-    return new PaymentPage(this.page);
   }
 }
