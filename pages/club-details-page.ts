@@ -1,4 +1,4 @@
-import type { Page } from '@playwright/test';
+import type { Page, Locator } from '@playwright/test';
 
 import { BasePage } from './base-page';
 import { ClubHeroComponent } from '@/components/club/club-hero-component';
@@ -10,6 +10,8 @@ import { SimilarClubsComponent } from '@/components/club/similar-clubs-component
 export class ClubDetailsPage extends BasePage {
   private readonly clubPage: ReturnType<Page['locator']>;
   private readonly formErrors: ReturnType<Page['locator']>;
+  private readonly notification: Locator;
+  private readonly notificationText: Locator;
 
   public readonly hero: ClubHeroComponent;
   public readonly description: ClubDescriptionComponent;
@@ -22,6 +24,8 @@ export class ClubDetailsPage extends BasePage {
 
     this.clubPage = this.page.locator('.club-page');
     this.formErrors = this.page.locator('.ant-form-item-explain-error');
+    this.notification = this.page.locator('.ant-message');
+    this.notificationText = this.page.getByText('Увійдіть або зареєструйтеся').first();
 
     this.hero = new ClubHeroComponent(this.page.locator('header.page-header'));
     this.description = new ClubDescriptionComponent(this.page.locator('main.page-content'));
@@ -32,7 +36,7 @@ export class ClubDetailsPage extends BasePage {
     this.similarClubs = new SimilarClubsComponent(this.page.locator('.similar-clubs'));
   }
 
-  async navigateToClub(id: number): Promise<void> {
+  async navigateToClub(id: number = 26): Promise<void> {
     await this.navigateTo(`/club/${id}`);
   }
 
@@ -78,5 +82,21 @@ export class ClubDetailsPage extends BasePage {
 
   async getFormErrorCount(): Promise<number> {
     return this.formErrors.count();
+  }
+
+  async waitForClubPageVisible(): Promise<void> {
+    await this.waitForVisible(this.clubPage);
+  }
+
+  async isNotificationVisible(): Promise<boolean> {
+    return await this.notification.isVisible();
+  }
+
+  async getNotificationText(): Promise<string> {
+    return (await this.notificationText.textContent()) || '';
+  }
+
+  async waitForNotification(): Promise<void> {
+    await this.waitForVisible(this.notificationText);
   }
 }

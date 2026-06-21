@@ -4,13 +4,14 @@ import { CommentComponent } from '@/components/comment/comment-component';
 
 export class CommentsSectionComponent extends BaseComponent {
   private readonly leaveCommentButton: Locator;
+  private readonly commentsContainer: Locator;
   private readonly comments: Locator;
 
   constructor(rootLocator: Locator) {
     super(rootLocator);
 
     this.leaveCommentButton = this.root.locator('button.comment-button');
-
+    this.commentsContainer = this.root.locator('.comments-container');
     this.comments = this.root.locator('.ant-comment.root-comment');
   }
 
@@ -19,7 +20,8 @@ export class CommentsSectionComponent extends BaseComponent {
   }
 
   async getCommentsCount(): Promise<number> {
-    await this.root.locator('.comments-container').waitFor({ state: 'visible' });
+    await this.waitForLocatorVisible(this.commentsContainer);
+    await this.waitForLocatorVisible(this.comments.first());
     return await this.comments.count();
   }
 
@@ -32,7 +34,12 @@ export class CommentsSectionComponent extends BaseComponent {
   }
 
   async isCommentsSectionDisplayed(): Promise<boolean> {
-    return await this.root.isVisible();
+    try {
+      await this.waitForLocatorVisible(this.commentsContainer);
+      return true;
+    } catch {
+      return false;
+    }
   }
 
   async scrollIntoView(): Promise<void> {
