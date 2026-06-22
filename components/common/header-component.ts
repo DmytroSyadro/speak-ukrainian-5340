@@ -100,6 +100,21 @@ export class HeaderComponent extends BaseComponent {
     await menuItem.click();
   }
 
+  async isUserMenuButtonVisible(): Promise<boolean> {
+    return this.userMenuButton.isVisible();
+  }
+
+  async expectUserIsLoggedIn(): Promise<void> {
+    await expect(this.userMenuButton).toBeVisible();
+    await this.openUserMenu();
+    await expect(this.userMenuItems.filter({ hasText: /вийти/i })).toBeVisible();
+  }
+
+  async expectAuthButtonsHidden(): Promise<void> {
+    await expect(this.userMenuItems.filter({ hasText: /увійти/i })).toHaveCount(0);
+    await expect(this.userMenuItems.filter({ hasText: /зареєструват/i })).toHaveCount(0);
+  }
+
   async getSelectedCity(): Promise<string> {
     return (await this.citySelector.textContent()) || '';
   }
