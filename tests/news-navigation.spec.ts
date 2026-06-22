@@ -28,6 +28,7 @@ test.describe('news-navigation', (): void => {
       async () => {
         const pagination = newsPage.getPagination();
         await pagination.scrollToPagination();
+        // eslint-disable-next-line playwright/prefer-web-first-assertions
         expect(await pagination.isVisible()).toBeTruthy();
       }
     );
@@ -82,6 +83,7 @@ test.describe('news-navigation', (): void => {
     const sidebar = newsPage.getClubsSidebar();
 
     await allure.step('Step 1: Locate the sidebar on the right side of the page', async () => {
+      // eslint-disable-next-line playwright/prefer-web-first-assertions  
       expect(await sidebar.isVisible()).toBeTruthy();
     });
 

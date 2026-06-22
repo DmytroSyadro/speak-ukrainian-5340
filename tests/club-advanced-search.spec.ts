@@ -46,7 +46,7 @@ test.describe('club-advanced-search', (): void => {
     });
 
     await allure.step('Step 2: Verify that all advanced search elements are present', async () => {
-      await expect(clubPage.waitForPageLoad()).toBeTruthy();
+      await clubPage.waitForPageLoad();
 
       expect(await clubPage.isCityDropdownVisible()).toBeTruthy();
       expect(await clubPage.isDistrictDropdownVisible()).toBeTruthy();
