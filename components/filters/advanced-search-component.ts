@@ -84,7 +84,7 @@ export class AdvancedSearchComponent extends BaseComponent {
     return await this.ageLabel.isVisible();
   }
   async selectCity(city: CitiesUser): Promise<AdvancedSearchComponent> {
-    await this.cityDropdown.click({ force: true });
+    await this.cityDropdown.click();
     await this.dropdown.select(city);
     return this;
   }
