@@ -83,7 +83,7 @@ test.describe('news-navigation', (): void => {
     const sidebar = newsPage.getClubsSidebar();
 
     await allure.step('Step 1: Locate the sidebar on the right side of the page', async () => {
-      // eslint-disable-next-line playwright/prefer-web-first-assertions  
+      // eslint-disable-next-line playwright/prefer-web-first-assertions
       expect(await sidebar.isVisible()).toBeTruthy();
     });
 
