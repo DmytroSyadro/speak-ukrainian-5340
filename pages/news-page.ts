@@ -45,12 +45,12 @@ export class NewsPage extends BasePage {
   async getNewsTitles(): Promise<string[]> {
     const titles: string[] = [];
     const count = await this.newsList.locator('.ant-card').count();
-    
+
     for (let i = 0; i < count; i++) {
       const card = await this.newsListComponent.getNewsByIndex(i);
       titles.push(await card.getTitle());
     }
-    
+
     return titles;
   }
 
