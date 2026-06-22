@@ -22,8 +22,8 @@ export class AdvancedSearchComponent extends BaseComponent {
 
   constructor(rootLocator: Locator) {
     super(rootLocator);
-    this.clubRadioButton = this.root.locator('.ant-radio', { hasText: 'Гурток' });
-    this.centerRadioButton = this.root.locator('.ant-radio', { hasText: 'Центр' });
+    this.clubRadioButton = this.root.locator('.ant-radio-wrapper', { hasText: 'Гурток' });
+    this.centerRadioButton = this.root.locator('.ant-radio-wrapper', { hasText: 'Центр' });
     this.ageField = this.root.locator("xpath=.//input[@class='ant-input-number-input']");
     this.categoryButton = this.root.locator(
       "xpath=.//div[@id='basic_categoriesName']//input[@class='ant-checkbox-input']"
@@ -84,7 +84,7 @@ export class AdvancedSearchComponent extends BaseComponent {
     return await this.ageLabel.isVisible();
   }
   async selectCity(city: CitiesUser): Promise<AdvancedSearchComponent> {
-    await this.cityDropdown.click();
+    await this.cityDropdown.click({ force: true });
     await this.dropdown.select(city);
     return this;
   }
