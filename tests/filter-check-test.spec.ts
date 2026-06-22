@@ -10,7 +10,7 @@ test.describe('Check filtering functionality through the Home page', () => {
     const homePage = new HomePage(page);
     const CATEGORY_NAME = 'Спортивні секції';
 
-    await homePage.navigateTo('https://speak-ukrainian.org.ua/');
+    await homePage.navigateTo('/');
     await homePage.waitForPageLoad();
     await homePage.clickCategory(CATEGORY_NAME);
 
