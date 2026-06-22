@@ -245,4 +245,12 @@ export class ClubPage extends BasePage {
 
     return tags;
   }
+
+  async selectCategory(category: ClubCategory): Promise<ClubPage> {
+    await this.advancedSearch.clickCategoryButton(category);
+    return this;
+  }
+  async isCaregoryButtonChecked(category: ClubCategory): Promise<boolean> {
+    return await this.advancedSearch.isCategoryButtonChecked(category);
+  }
 }

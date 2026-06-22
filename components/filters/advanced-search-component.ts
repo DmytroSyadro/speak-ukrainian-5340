@@ -7,7 +7,6 @@ export class AdvancedSearchComponent extends BaseComponent {
   private readonly clubRadioButton: Locator;
   private readonly centerRadioButton: Locator;
   private readonly ageField: Locator;
-  private readonly categoryButton: Locator;
   private readonly remoteButton: Locator;
   private readonly cityDropdown: Locator;
   private readonly districtDropdown: Locator;
@@ -20,14 +19,17 @@ export class AdvancedSearchComponent extends BaseComponent {
 
   private dropdown: DropdownComponent;
 
+  private categoryButton(category: ClubCategory): Locator {
+  return this.root.locator(
+    `input.ant-checkbox-input[value="${category}"]`
+  );
+}
+
   constructor(rootLocator: Locator) {
     super(rootLocator);
     this.clubRadioButton = this.root.locator('.ant-radio', { hasText: 'Гурток' });
     this.centerRadioButton = this.root.locator('.ant-radio', { hasText: 'Центр' });
     this.ageField = this.root.locator("xpath=.//input[@class='ant-input-number-input']");
-    this.categoryButton = this.root.locator(
-      "xpath=.//div[@id='basic_categoriesName']//input[@class='ant-checkbox-input']"
-    );
     this.remoteButton = this.root.locator(
       "xpath=.//div[@id='basic_isOnline']//input[@class='ant-checkbox-input']"
     );
@@ -65,8 +67,8 @@ export class AdvancedSearchComponent extends BaseComponent {
     return await this.categoryLabel.isVisible();
   }
   async clickCategoryButton(category: ClubCategory): Promise<AdvancedSearchComponent> {
-    await this.categoryButton.filter({ hasText: category }).click();
-    return this;
+  await this.categoryButton(category).check();
+  return this;
   }
   async isRemoteButtonChecked(): Promise<boolean> {
     return await this.remoteButton.isChecked();
@@ -114,5 +116,9 @@ export class AdvancedSearchComponent extends BaseComponent {
     await this.ageField.clear();
     await this.ageField.pressSequentially(age, { delay: 100 });
     return this;
+  }
+
+  async isCategoryButtonChecked(category: ClubCategory): Promise<boolean> {
+  return this.categoryButton(category).isChecked();
   }
 }
