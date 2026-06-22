@@ -20,10 +20,8 @@ export class AdvancedSearchComponent extends BaseComponent {
   private dropdown: DropdownComponent;
 
   private categoryButton(category: ClubCategory): Locator {
-  return this.root.locator(
-    `input.ant-checkbox-input[value="${category}"]`
-  );
-}
+    return this.root.locator(`input.ant-checkbox-input[value="${category}"]`);
+  }
 
   constructor(rootLocator: Locator) {
     super(rootLocator);
@@ -67,8 +65,8 @@ export class AdvancedSearchComponent extends BaseComponent {
     return await this.categoryLabel.isVisible();
   }
   async clickCategoryButton(category: ClubCategory): Promise<AdvancedSearchComponent> {
-  await this.categoryButton(category).check();
-  return this;
+    await this.categoryButton(category).check();
+    return this;
   }
   async isRemoteButtonChecked(): Promise<boolean> {
     return await this.remoteButton.isChecked();
@@ -119,6 +117,6 @@ export class AdvancedSearchComponent extends BaseComponent {
   }
 
   async isCategoryButtonChecked(category: ClubCategory): Promise<boolean> {
-  return this.categoryButton(category).isChecked();
+    return this.categoryButton(category).isChecked();
   }
 }
