@@ -32,6 +32,22 @@ export class SignInModal extends BaseModal {
     await this.passwordInput.fill(password);
   }
 
+  async fillEmail(email: string): Promise<void> {
+    await this.emailInput.fill(email);
+  }
+
+  async fillPassword(password: string): Promise<void> {
+    await this.passwordInput.fill(password);
+  }
+
+  async getEmail(): Promise<string> {
+    return this.emailInput.inputValue();
+  }
+
+  async getPassword(): Promise<string> {
+    return this.passwordInput.inputValue();
+  }
+
   async submit() {
     await this.submitButton.click();
   }

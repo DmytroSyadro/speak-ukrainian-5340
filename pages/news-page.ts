@@ -5,6 +5,8 @@ import { PaginationComponent } from '@/components/common/pagination-component';
 import { ClubsSidebarComponent } from '@/components/club/clubs-sidebar-component';
 import { NewsCardComponent } from '@/components/news/news-card-component';
 import { BasePage } from '@/pages/base-page';
+import { ListClubCardComponent } from '@/components/club/list-club-card-component';
+import { ClubCardComponent } from '@/components/club/club-card-component';
 
 export class NewsPage extends BasePage {
   private readonly newsList: Locator;
@@ -12,9 +14,14 @@ export class NewsPage extends BasePage {
   private readonly clubsSidebar: Locator;
   private readonly clubsSidebarComponent: ClubsSidebarComponent;
   private readonly CARDS_PER_PAGE = 4;
+  private readonly listCardLocator: Locator;
+
+  private readonly clubList: ListClubCardComponent;
 
   constructor(page: Page) {
     super(page);
+    this.listCardLocator = this.page.locator('.club-sider');
+    this.clubList = new ListClubCardComponent(this.listCardLocator);
     this.newsList = page.locator('.global-padding.news-content');
     this.newsListComponent = new NewsCardListComponent(this.newsList);
     this.clubsSidebar = page.locator('.club-sider');
@@ -28,6 +35,14 @@ export class NewsPage extends BasePage {
   getNewsList(): NewsCardListComponent {
     return this.newsListComponent;
   }
+
+  async getClubList(): Promise<ClubCardComponent[]> {
+    return await this.clubList.getClubs();
+  }
+  async getFirstClubCard(): Promise<ClubCardComponent> {
+    return await this.clubList.getClubCardByIndex(0);
+  }
+
 
   getClubsSidebar(): ClubsSidebarComponent {
     return this.clubsSidebarComponent;

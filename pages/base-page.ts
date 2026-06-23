@@ -54,7 +54,7 @@ export abstract class BasePage {
     return this.context.pages();
   }
   async switchToTabByIndex(index: number): Promise<Page> {
-    const pages = this.context.pages();
+    const pages: Page[] = this.context.pages();
     await pages[index].bringToFront();
     return pages[index];
   }
