@@ -1,4 +1,4 @@
-import { expect, test } from '../fixtures';
+import { expect, test } from '@/fixtures';
 import * as allure from 'allure-js-commons';
 
 test.describe('Help the Project button', () => {

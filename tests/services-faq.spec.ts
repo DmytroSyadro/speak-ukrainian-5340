@@ -1,8 +1,8 @@
 import { expect, test } from '@/fixtures';
 import * as allure from 'allure-js-commons';
 
-import { FaqComponent } from '@/components/faq/faq-component';
-import { FaqItemComponent } from '@/components/faq/faq-item-component';
+import type { FaqComponent } from '@/components/faq/faq-component';
+import type { FaqItemComponent } from '@/components/faq/faq-item-component';
 
 test.describe('TC-030 Сhecking the functionality of the "Services in Ukrainian" page', () => {
   let faqComponent: FaqComponent;
