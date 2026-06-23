@@ -162,12 +162,12 @@ jobs:
 
           echo "✅ All tests passed across all browsers"
 
-      - name: Clean heavy assets from history
-        if: ${{ always() }}
-        run: |
-          echo "🧹 Cleaning up: removing all files larger than 1 MB from allure-history..."
-          find allure-history -type f -size +1M -exec rm -fv {} +
-          echo "✅ Heavy assets removed successfully."
+      # - name: Clean heavy assets from history
+      #   if: ${{ always() }}
+      #   run: |
+      #     echo "🧹 Cleaning up: removing all files larger than 1 MB from allure-history..."
+      #     find allure-history -type f -size +1M -exec rm -fv {} +
+      #     echo "✅ Heavy assets removed successfully."
 
       - name: Deploy Allure Report
         if: ${{ success() }}
