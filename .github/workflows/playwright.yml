@@ -166,7 +166,7 @@ jobs:
         if: ${{ always() }}
         run: |
           echo "🧹 Cleaning up: removing all files larger than 1 MB from allure-history..."
-          find allure-history -type f -size +1M -exec rm -f {} +
+          find allure-history -type f -size +1M -exec rm -fv {} +
           echo "✅ Heavy assets removed successfully."
 
       - name: Deploy Allure Report
