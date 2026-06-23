@@ -1,12 +1,13 @@
-import env from '@/config/env';
 import { test as base, expect as baseExpect } from '@playwright/test';
+import env from '@/config/env';
 
 type BaseFixture = {
   baseUrl: string;
 };
 
 export const test = base.extend<BaseFixture>({
-  baseUrl: async (_fixture, use): Promise<void> => {
+  // eslint-disable-next-line no-empty-pattern
+  baseUrl: async ({}, use): Promise<void> => {
     await use(env.BASE_URL);
   },
 });
