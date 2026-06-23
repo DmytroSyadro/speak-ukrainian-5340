@@ -1,6 +1,7 @@
 import type { Locator, Page } from '@playwright/test';
 import { ClubCategoryCardComponent } from '@/components/club/club-category-card-component';
 import { BasePage } from '@/pages/base-page';
+import * as allure from 'allure-js-commons';
 
 export class HomePage extends BasePage {
   private readonly initiativeText: Locator;
@@ -50,8 +51,10 @@ export class HomePage extends BasePage {
   }
 
   async clickCategory(categoryName: string): Promise<void> {
+    return await allure.step(`Click on the category card with name "${categoryName}"`, async (): Promise<void> => {
     await this.categoryCards.filter({ hasText: categoryName }).click();
   }
+)}
 
   getCategoryCardComponentByName(categoryName: string): ClubCategoryCardComponent {
     const categoryCardLocator = this.categoryCards.filter({ hasText: categoryName });

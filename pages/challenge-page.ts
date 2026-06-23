@@ -3,6 +3,7 @@ import { SocialInfoComponent } from '@/components/social-info-component';
 import { ChallengeTasksCarouselComponent } from '@/components/challenge/challenge-tasks-carousel-component';
 import { BasePage } from '@/pages/base-page';
 import { Challenges } from '@/data/challenges';
+import * as allure from 'allure-js-commons';
 
 export class ChallengePage extends BasePage {
   private readonly initiativeNameText: Locator;
@@ -26,7 +27,9 @@ export class ChallengePage extends BasePage {
   }
 
   async goto(id: number): Promise<void> {
-    await this.navigateTo(`/challenges/${id}`);
+    return await allure.step(`Navigate to challenge page with ID ${id}`, async (): Promise<void> => {
+      await this.navigateTo(`/challenges/${id}`);
+    });
   }
 
   getSocialInfoComponent(): SocialInfoComponent {
@@ -73,8 +76,12 @@ export class ChallengePage extends BasePage {
   }
 
   async clickRegisterButton(): Promise<void> {
-    await this.registerButton.click();
-  }
+    return await allure.step('Click the "Зареєструватись" button', async (): Promise<void> => {
+      await this.registerButton.waitFor({ state: 'visible' });
+      await this.registerButton.click();
+    });
+     }
+
   async selectChallenge(challenge: Challenges): Promise<ChallengePage> {
     await this.header.selectChallenge(challenge);
     return this;
@@ -85,13 +92,19 @@ export class ChallengePage extends BasePage {
   }
 
   async isRegisterButtonVisible(): Promise<boolean> {
-    return await this.registerButton.isVisible();
+    return await allure.step('Check if the "Зареєструватись" button is visible', async (): Promise<boolean> => {
+      return await this.registerButton.isVisible();
+    });
   }
   async clickHelpButton(): Promise<void> {
+    return await allure.step('Click the "Допомогти проєкту" button', async (): Promise<void> => { 
     await this.helpButton.waitFor({ state: 'visible' });
     await this.helpButton.click();
+  });
   }
   async getCurrentUrl(): Promise<string> {
-    return this.page.url();
+    return await allure.step('Get the current URL ', async (): Promise<string> => {
+      return this.page.url();
+    });
   }
 }
