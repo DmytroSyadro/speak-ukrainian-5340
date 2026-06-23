@@ -1,4 +1,4 @@
-import { test, expect } from '@/fixtures/component-fixture';
+import { test, expect } from '@/fixtures/modal-fixture';
 import * as allure from 'allure-js-commons';
 import { ClubCategory } from '@/data';
 import { ClubCardComponent } from '@/components/club/club-card-component';
