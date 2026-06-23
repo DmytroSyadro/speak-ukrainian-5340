@@ -34,6 +34,5 @@ export * from './news/news-card-component';
 export * from './news/news-card-list-component';
 export * from './news/other-news-component';
 export * from './payment/payment-form-component';
-export * from './payment/payment-form-component';
 export * from './user/user-items-section-component';
 export * from './user/user-profile-card-component';
