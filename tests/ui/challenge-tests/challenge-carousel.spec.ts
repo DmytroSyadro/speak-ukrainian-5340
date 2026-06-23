@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-import { ChallengePage } from '../../pages/challenge-page';
+import { ChallengePage } from '../../../pages/challenge-page';
 
 test.use({ viewport: { width: 1920, height: 1080 } });
 
