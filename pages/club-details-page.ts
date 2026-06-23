@@ -6,6 +6,7 @@ import { ClubDescriptionComponent } from '@/components/club/club-description-com
 import { ClubContactInfoComponent } from '@/components/club/club-contact-info-component';
 import { CommentsSectionComponent } from '@/components/comment/comments-section-component';
 import { SimilarClubsComponent } from '@/components/club/similar-clubs-component';
+import { NewsPage } from '@/pages/news-page';
 
 export class ClubDetailsPage extends BasePage {
   private readonly clubPage: ReturnType<Page['locator']>;
@@ -78,5 +79,9 @@ export class ClubDetailsPage extends BasePage {
 
   async getFormErrorCount(): Promise<number> {
     return this.formErrors.count();
+  }
+  async clickNews(): Promise<NewsPage> {
+    await this.header.clickNews();
+    return new NewsPage(this.page);
   }
 }

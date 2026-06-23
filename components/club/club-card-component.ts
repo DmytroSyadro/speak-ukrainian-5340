@@ -98,4 +98,16 @@ export class ClubCardComponent extends BaseComponent {
   async getMoreButtonHref(): Promise<string | null> {
     return this.moreDetailsButton.getAttribute('href');
   }
+  async isDescriptionVisible(): Promise<boolean> {
+    return this.clubDescription.isVisible();
+  }
+  async isMoreDetailsButtonVisible(): Promise<boolean> {
+    return this.moreDetailsButton.isVisible();
+  }
+  async isMoreDetailsButtonEnabled(): Promise<boolean> {
+    return this.moreDetailsButton.isEnabled();
+  }
+  async getClubTags(): Promise<TagsComponent> {
+    return this.clubTags;
+  }
 }
