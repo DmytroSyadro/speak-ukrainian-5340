@@ -31,7 +31,7 @@ export default defineConfig({
     baseURL: env.BASE_URL,
     headless: env.HEADLESS,
     actionTimeout: env.TEST_TIMEOUTS.action,
-    trace: 'retain-on-failure',
+    trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'off',
     ignoreHTTPSErrors: true,

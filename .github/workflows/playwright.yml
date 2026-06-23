@@ -104,7 +104,7 @@ jobs:
           path: gh-pages
 
       - name: Create Combined Results Directory
-        run: mkdir combined-results
+        run: rm -rf combined-results && mkdir combined-results
 
       - name: Download Chromium Results
         uses: actions/download-artifact@v4
@@ -162,12 +162,13 @@ jobs:
 
           echo "✅ All tests passed across all browsers"
 
-      - name: Clean archive assets from history
+      - name: Clean heavy attachments from history
         if: ${{ always() }}
         run: |
-          echo "🧹 Cleaning up: removing all archives from allure-history..."
-          find allure-history -type f \( -name "*.zip" -o -name "*.tar.gz" -o -name "*.tgz" -o -name "*.rar" -o -name "*.7z" \) -exec rm -fv {} +
-          echo "✅ Archive assets removed successfully."
+          echo "🧹 Cleaning up heavy attachments from allure-history..."
+          find allure-history -type f -name "*attachments*" -size +1M -exec rm -fv {} +
+          find allure-history -type f \( -name "*.zip" -o -name "*.tar.gz" -o -name "*.mp4" \) -exec rm -fv {} +
+          echo "✅ Heavy assets removed successfully."
 
       - name: Deploy Allure Report
         if: ${{ success() }}
@@ -188,4 +189,4 @@ jobs:
           message: |
             📊 **Allure Report for PR-${{ github.event.number }} (All Browsers)**
 
-            🔗 "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/pr-${{ github.event.number }}/"
+            🔗 https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/pr-${{ github.event.number }}/
