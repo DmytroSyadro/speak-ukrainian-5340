@@ -33,6 +33,10 @@ export class HomePage extends BasePage {
     this.loginMenuItem = page.locator('.ant-dropdown-menu-item').filter({ hasText: 'Увійти' });
   }
 
+  async goto(): Promise<void> {
+    await this.navigateTo('/');
+  }
+
   async getInitiativeText(): Promise<string | null> {
     return await this.initiativeText.textContent();
   }
