@@ -9,6 +9,7 @@ import { ClubCardComponent } from '@/components/club/club-card-component';
 import { BasePage } from '@/pages/base-page';
 import { DropdownComponent } from '@/components/common/dropdown-component';
 import { TagsComponent } from '@/components/common/tags-component';
+import * as allure from 'allure-js-commons';
 
 export class ClubPage extends BasePage {
   private readonly filterClubListLocator: Locator;
@@ -36,8 +37,11 @@ export class ClubPage extends BasePage {
     this.cardLocator = this.page.locator('div.ant-card');
     this.filterClubList = new FilterClubListComponent(this.filterClubListLocator);
   }
+
   async navigate(): Promise<void> {
-    await this.page.goto('/clubs');
+    await allure.step('Navigate to clubs page', async (): Promise<void> => {
+      await this.page.goto('/clubs');
+    });
   }
 
   async waitForPageLoad(): Promise<void> {
@@ -46,40 +50,62 @@ export class ClubPage extends BasePage {
   }
 
   async openFirstClubPage(): Promise<void> {
-    await this.firstClubLink.waitFor({ state: 'visible' });
-    await this.firstClubLink.click();
+    await allure.step('Open first club page', async (): Promise<void> => {
+      await this.firstClubLink.waitFor({ state: 'visible' });
+      await this.firstClubLink.click();
+    });
   }
+
   async searchByText(text: string): Promise<ClubPage> {
-    await this.searchBar.fillSearchInput(text);
-    await this.searchBar.clickSearchButton();
-    await this.waitUntilCardLoads();
-    return this;
+    return await allure.step(`Search clubs by text "${text}"`, async (): Promise<ClubPage> => {
+      await this.searchBar.fillSearchInput(text);
+      await this.searchBar.clickSearchButton();
+      await this.waitUntilCardLoads();
+      return this;
+    });
   }
+
   async filterByCity(city: CitiesUser): Promise<ClubPage> {
-    await this.advancedSearch.selectCity(city);
-    return this;
+    return await allure.step(`Filter clubs by city "${city}"`, async (): Promise<ClubPage> => {
+      await this.advancedSearch.selectCity(city);
+      return this;
+    });
   }
+
   async getFirstCategory(): Promise<string> {
     const searchInput: DropdownComponent = await this.searchBar.clickSearchInput();
     return await searchInput.getFirstOptionText();
   }
+
   async getClubList(): Promise<ClubCardComponent[]> {
     return await this.clubList.getClubs();
   }
 
   async filterByDistrict(district: string): Promise<ClubPage> {
-    await this.advancedSearch.selectDistrict(district);
-    return this;
+    return await allure.step(
+      `Filter clubs by district "${district}"`,
+      async (): Promise<ClubPage> => {
+        await this.advancedSearch.selectDistrict(district);
+        return this;
+      }
+    );
   }
 
   async filterByStation(station: string): Promise<ClubPage> {
-    await this.advancedSearch.selectClosestStation(station);
-    return this;
+    return await allure.step(
+      `Filter clubs by closest station "${station}"`,
+      async (): Promise<ClubPage> => {
+        await this.advancedSearch.selectClosestStation(station);
+        return this;
+      }
+    );
   }
+
   async getClubCount(): Promise<number> {
     await this.cardLocator.first().waitFor({ state: 'visible' });
     return await this.clubList.getClubCardCount();
   }
+
   async waitForClubsResponse(): Promise<void> {
     await this.page.waitForResponse(
       (response) =>
@@ -88,28 +114,41 @@ export class ClubPage extends BasePage {
   }
 
   async filterByAge(age: string): Promise<ClubPage> {
-    await this.advancedSearch.fillAgeField(age);
-    return this;
+    return await allure.step(`Filter clubs by age "${age}"`, async (): Promise<ClubPage> => {
+      await this.advancedSearch.fillAgeField(age);
+      return this;
+    });
   }
 
   async filterByCategory(category: ClubCategory): Promise<ClubPage> {
-    await this.advancedSearch.clickCategoryButton(category);
-    return this;
+    return await allure.step(
+      `Filter clubs by category "${category}"`,
+      async (): Promise<ClubPage> => {
+        await this.advancedSearch.clickCategoryButton(category);
+        return this;
+      }
+    );
   }
 
   async enableRemoteFilter(): Promise<ClubPage> {
-    await this.advancedSearch.clickRemoteButton();
-    return this;
+    return await allure.step('Enable remote filter', async (): Promise<ClubPage> => {
+      await this.advancedSearch.clickRemoteButton();
+      return this;
+    });
   }
 
   async switchToClubMode(): Promise<ClubPage> {
-    await this.advancedSearch.clickClubRadioButton();
-    return this;
+    return await allure.step('Switch to club mode', async (): Promise<ClubPage> => {
+      await this.advancedSearch.clickClubRadioButton();
+      return this;
+    });
   }
 
   async switchToCentreMode(): Promise<ClubPage> {
-    await this.advancedSearch.clickCentreRadioButton();
-    return this;
+    return await allure.step('Switch to centre mode', async (): Promise<ClubPage> => {
+      await this.advancedSearch.clickCentreRadioButton();
+      return this;
+    });
   }
 
   async isClubModeSelected(): Promise<boolean> {
@@ -132,13 +171,16 @@ export class ClubPage extends BasePage {
   async isRemoteFilterChecked(): Promise<boolean> {
     return await this.advancedSearch.isRemoteButtonChecked();
   }
+
   async getClubTags(): Promise<TagsComponent> {
     return await this.clubList.getClubTags();
   }
+
   async isTagEmpty(): Promise<boolean> {
     const tags: TagsComponent = await this.getClubTags();
     return await tags.isTagEmpty();
   }
+
   async isAgeFieldVisible(): Promise<boolean> {
     return await this.advancedSearch.isAgeFieldVisible();
   }
@@ -160,15 +202,21 @@ export class ClubPage extends BasePage {
   }
 
   async selectSearchBarHint(text: string): Promise<void> {
-    const searchInput: DropdownComponent = await this.searchBar.clickSearchInput();
-    await searchInput.select(text);
-    await this.waitUntilCardLoads();
+    await allure.step(`Select search bar hint "${text}"`, async (): Promise<void> => {
+      const searchInput: DropdownComponent = await this.searchBar.clickSearchInput();
+      await searchInput.select(text);
+      await this.waitUntilCardLoads();
+    });
   }
+
   async selectFirstCategory(): Promise<void> {
-    const searchInput: DropdownComponent = await this.searchBar.clickSearchInput();
-    await searchInput.clickFirstOption();
-    await this.waitUntilCardLoads();
+    await allure.step('Select first category from search bar', async (): Promise<void> => {
+      const searchInput: DropdownComponent = await this.searchBar.clickSearchInput();
+      await searchInput.clickFirstOption();
+      await this.waitUntilCardLoads();
+    });
   }
+
   async waitUntilCardLoads(): Promise<void> {
     await this.cardLocator.first().waitFor({ state: 'visible' });
   }
@@ -184,6 +232,7 @@ export class ClubPage extends BasePage {
   async isCategoryLabelVisible(): Promise<boolean> {
     return await this.advancedSearch.isCategoryLabelVisible();
   }
+
   async getFirstClubCard(): Promise<ClubCardComponent> {
     return await this.clubList.getClubCardByIndex(0);
   }
@@ -193,16 +242,22 @@ export class ClubPage extends BasePage {
     if (!card) throw new Error(`Club "${title}" not found`);
     return card;
   }
+
   async getSearchInput(): Promise<string> {
     return await this.searchBar.getSearchInputText();
   }
+
   async selectCity(city: CitiesUser): Promise<ClubPage> {
-    await this.header.selectCity(city);
-    return this;
+    return await allure.step(`Select city "${city}" in header`, async (): Promise<ClubPage> => {
+      await this.header.selectCity(city);
+      return this;
+    });
   }
+
   async getBanner(): Promise<ClubBannerTitleComponent> {
     return this.clubBannerTitle;
   }
+
   async hasCitySelected(city: CitiesUser): Promise<void> {
     await this.header.hasCitySelected(city);
   }
