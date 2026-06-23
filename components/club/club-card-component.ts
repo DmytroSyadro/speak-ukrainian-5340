@@ -4,6 +4,7 @@ import { ClubModal } from '@/modals/club-modal';
 import { BaseComponent } from '@/components/base-component';
 import { ClubDetailsPage } from '@/pages';
 import { TagsComponent } from '@/components/common/tags-component';
+import * as allure from 'allure-js-commons';
 
 export class ClubCardComponent extends BaseComponent {
   private readonly moreDetailsButton: Locator;
@@ -15,6 +16,7 @@ export class ClubCardComponent extends BaseComponent {
   private readonly clubOnline: Locator;
   private readonly ratingField: Locator;
   private readonly clubTagsLocator: Locator;
+
   private clubTags: TagsComponent;
 
   constructor(rootLocator: Locator) {
@@ -31,17 +33,25 @@ export class ClubCardComponent extends BaseComponent {
     this.clubTagsLocator = this.root.locator('[class*="club-tags"]:not([class*="box"])');
     this.clubTags = new TagsComponent(this.clubTagsLocator);
   }
+
   async clickMoreDetailsButton(): Promise<ClubDetailsPage> {
-    await this.moreDetailsButton.click();
-    return new ClubDetailsPage(this.page);
+    return await allure.step('Click "More details" button', async (): Promise<ClubDetailsPage> => {
+      await this.moreDetailsButton.click();
+      return new ClubDetailsPage(this.page);
+    });
   }
+
   async clickTitleButton(): Promise<ClubModal> {
-    await this.clubTitle.click();
-    return new ClubModal(this.page);
+    return await allure.step('Click club title', async (): Promise<ClubModal> => {
+      await this.clubTitle.click();
+      return new ClubModal(this.page);
+    });
   }
+
   async isClubAddressVisible(): Promise<boolean> {
     return this.clubAddress.isVisible();
   }
+
   async getClubTitle(): Promise<string> {
     return this.clubTitle.innerText();
   }
@@ -49,6 +59,7 @@ export class ClubCardComponent extends BaseComponent {
   async getClubDescription(): Promise<string> {
     return this.clubDescription.innerText();
   }
+
   async getClubRating(): Promise<number> {
     const fullStars = await this.clubFullStars.count();
     const halfStars = await this.clubHalfStars.count();
@@ -57,25 +68,46 @@ export class ClubCardComponent extends BaseComponent {
 
     return fullStars + halfStars * 0.5;
   }
+
   async getClubAddress(): Promise<string> {
     return this.clubAddress.innerText();
   }
+
   async isRatingVisible(): Promise<boolean> {
     return this.ratingField.isVisible();
   }
+
   async isOnlineVisible(): Promise<boolean> {
     return this.clubOnline.isVisible();
   }
+
   async clickAddressButton(): Promise<void> {
-    await this.clubAddress.click();
+    await allure.step('Click club address', async (): Promise<void> => {
+      await this.clubAddress.click();
+    });
   }
+
   async hasRating(): Promise<boolean> {
     return (await this.getClubRating()) > 0;
   }
+
   async isTitleVisible(): Promise<boolean> {
     return this.clubTitle.isVisible();
   }
+
   async getMoreButtonHref(): Promise<string | null> {
     return this.moreDetailsButton.getAttribute('href');
+  }
+  async isDescriptionVisible(): Promise<boolean> {
+    return this.clubDescription.isVisible();
+  }
+  async isMoreDetailsButtonVisible(): Promise<boolean> {
+    return this.moreDetailsButton.isVisible();
+  }
+  async isMoreDetailsButtonEnabled(): Promise<boolean> {
+    return this.moreDetailsButton.isEnabled();
+  }
+  async getClubTags(): Promise<TagsComponent> {
+    return this.clubTags;
   }
 }

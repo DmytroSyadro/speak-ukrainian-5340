@@ -2,6 +2,7 @@ import type { Locator } from '@playwright/test';
 import { ClubItemComponent } from './club-item-component';
 import { ClubInfoPopupComponent } from './club-info-popup-component';
 import { BaseComponent } from '@/components/base-component';
+import * as allure from 'allure-js-commons';
 
 export class ClubItemListComponent extends BaseComponent {
   private readonly clubItems: Locator;
@@ -21,23 +22,33 @@ export class ClubItemListComponent extends BaseComponent {
     }
     return clubItemTexts;
   }
+
   async getClubByTitle(title: string): Promise<ClubItemComponent> {
     const item = this.clubItems.filter({ hasText: title });
     return new ClubItemComponent(item.first());
   }
+
   async getClubItemByIndex(index: number): Promise<ClubItemComponent> {
     return new ClubItemComponent(this.clubItems.nth(index));
   }
+
   async getClubItemCount(): Promise<number> {
     return this.clubItems.count();
   }
+
   async isClubItemVisible(): Promise<boolean> {
     return this.clubItems.isVisible();
   }
+
   async clickClubItem(title: string): Promise<ClubInfoPopupComponent> {
-    const item: ClubItemComponent = await this.getClubByTitle(title);
-    if (!item) throw new Error(`Club with title "${title}" not found`);
-    await item.click();
-    return new ClubInfoPopupComponent(this.clubInfoPopupLocator);
+    return await allure.step(
+      `Click club item "${title}"`,
+      async (): Promise<ClubInfoPopupComponent> => {
+        const item: ClubItemComponent = await this.getClubByTitle(title);
+        if (!item) throw new Error(`Club with title "${title}" not found`);
+        await item.click();
+        return new ClubInfoPopupComponent(this.clubInfoPopupLocator);
+      }
+    );
   }
 }
