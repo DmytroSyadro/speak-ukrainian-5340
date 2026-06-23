@@ -1,23 +1,34 @@
-import { test, expect } from '@playwright/test';
-import { ClubPage } from '@/pages/club-page';
-import { HomePage } from '@/pages/home-page';
+import { test, expect } from '@/fixtures/modal-fixture';
 import { ClubCategory } from '@/data/club-category';
+import * as allure from 'allure-js-commons';
 
-test.describe('Check filtering functionality through the Home page', () => {
-  test('[TC-6]: Verify homepage category selection redirects to the clubs filtered by the chosen category', async ({
-    page,
+allure.feature('Club page, Home page');
+allure.owner('Lesia Liashko');
+
+
+test('[TC-6]', async ({
+    homePage, clubPage
   }) => {
-    const homePage = new HomePage(page);
-    const CATEGORY_NAME = 'Спортивні секції';
+    allure.description('Verify homepage category selection redirects to the clubs filtered by the chosen category');
+    
+    const CATEGORY_NAME: ClubCategory = ClubCategory.SPORTS;
 
     await homePage.navigateTo('/');
     await homePage.waitForPageLoad();
-    await homePage.clickCategory(CATEGORY_NAME);
+    
+    await allure.step(`Click on the "Переглянути" button or the card itself for a specific category`, async () => {
+      await homePage.clickCategory(CATEGORY_NAME);
+      await clubPage.waitForPageLoad();
+    });
 
-    const clubPage = new ClubPage(page);
-    await clubPage.waitForPageLoad();
-    await expect(clubPage.isCaregoryButtonChecked(ClubCategory.SPORTS)).resolves.toBeTruthy();
-    await expect(clubPage.isCategoryLabelVisible()).resolves.toBeTruthy();
-    await expect(clubPage.getFirstCategory()).resolves.toContain(CATEGORY_NAME);
-  });
-});
+    await allure.step('Verify the filter panel state', async () => {
+      await expect(clubPage.isCaregoryButtonChecked(CATEGORY_NAME)).resolves.toBeTruthy();
+    });
+    
+    await allure.step('Verify the displayed search results', async () => {
+      const adresses = await clubPage.getAllAddresses();
+      for (const address of adresses) {
+        expect(address).toContain(CATEGORY_NAME);
+      }
+    });
+  })

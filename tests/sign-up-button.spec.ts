@@ -1,15 +1,27 @@
 import { test, expect } from '@/fixtures/modal-fixture';
-//import * as allure from 'allure-js-commons';
+import * as allure from 'allure-js-commons';
 
-test ('Verify the "Зареєструватись" button visibility and routing', async ({ challengePage,  }) => {
+allure.feature('Challenge Page');
+allure.owner('Lesia Liashko');
+
+test ('[TC-044]', async ({ challengePage }) => {
     
-    await challengePage.goto(4);
-    await challengePage.waitForPageLoad();
-    await expect(challengePage.isRegisterButtonVisible()).resolves.toBeTruthy();
+    allure.description('Verify the "Зареєструватись" button visibility and routing');
 
-    await challengePage.clickRegisterButton();
-    await expect(challengePage.getCurrentUrl()).resolves.toContain('https://speak-ukrainian.org.ua/challenges/registration/4');
-
-
-}) 
+    await allure.step('Navigate to the challenge page and ', async () => {
+        await challengePage.goto(4);
+    });
     
+    await allure.step('Scroll down to the action buttons section', async () => {
+        await expect(challengePage.isRegisterButtonVisible()).resolves.toBeTruthy();
+        await challengePage.waitForPageLoad();
+    });
+
+    await allure.step('Click the "Зареєструватись" button', async () => {
+        await challengePage.clickRegisterButton();
+    });
+
+    await allure.step('Verify the redirection', async () => {
+        await expect(challengePage.getCurrentUrl()).resolves.toContain('https://speak-ukrainian.org.ua/challenges/registration/4');
+    });
+})
