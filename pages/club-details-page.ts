@@ -11,6 +11,8 @@ import { NewsPage } from '@/pages/news-page';
 export class ClubDetailsPage extends BasePage {
   private readonly clubPage: ReturnType<Page['locator']>;
   private readonly formErrors: ReturnType<Page['locator']>;
+  private readonly authModal: ReturnType<Page['locator']>;
+  private readonly authModalMessage: ReturnType<Page['locator']>;
 
   public readonly hero: ClubHeroComponent;
   public readonly description: ClubDescriptionComponent;
@@ -23,6 +25,8 @@ export class ClubDetailsPage extends BasePage {
 
     this.clubPage = this.page.locator('.club-page');
     this.formErrors = this.page.locator('.ant-form-item-explain-error');
+    this.authModal = this.page.locator('.ant-modal-content');
+    this.authModalMessage = this.authModal.locator('.ant-modal-body');
 
     this.hero = new ClubHeroComponent(this.page.locator('header.page-header'));
     this.description = new ClubDescriptionComponent(this.page.locator('main.page-content'));
@@ -83,5 +87,13 @@ export class ClubDetailsPage extends BasePage {
   async clickNews(): Promise<NewsPage> {
     await this.header.clickNews();
     return new NewsPage(this.page);
+  }
+
+  getAuthModalLocator(): ReturnType<Page['locator']> {
+    return this.authModal;
+  }
+
+  getAuthModalMessageLocator(): ReturnType<Page['locator']> {
+    return this.authModalMessage;
   }
 }

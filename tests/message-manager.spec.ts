@@ -1,12 +1,11 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '@/fixtures';
 import * as allure from 'allure-js-commons';
-
-import { ClubDetailsPage } from '@/pages/club-details-page';
-import { ClubPage } from '@/pages/club-page';
-import { HomePage } from '@/pages/home-page';
 
 test('TC-094 — Verify that clicking "Написати менеджеру" button shows the authentication modal for unauthorized users', async ({
   page,
+  homePage,
+  clubPage,
+  clubDetailsPage,
 }) => {
   await allure.epic('Speak Ukrainian');
   await allure.feature('Club details page');
@@ -16,12 +15,6 @@ test('TC-094 — Verify that clicking "Написати менеджеру" butt
   await allure.description(
     'Verifies that an unauthorized user who navigates to a club details page and clicks the "Написати менеджеру" button sees the authentication modal with the message "Увійдіть або зареєструйтеся!!!".'
   );
-
-  const homePage = new HomePage(page);
-  const clubPage = new ClubPage(page);
-  const clubDetailsPage = new ClubDetailsPage(page);
-  const authModal = page.locator('.ant-modal-content');
-  const authModalMessage = authModal.locator('.ant-modal-body');
 
   await allure.step(
     'Step 1: Navigate to the home page and click "Гуртки" in the header',
@@ -47,8 +40,10 @@ test('TC-094 — Verify that clicking "Написати менеджеру" butt
   await allure.step(
     'Step 4: Verify the authentication modal appears with correct message',
     async () => {
-      await expect(authModal).toBeVisible();
-      await expect(authModalMessage).toHaveText('Увійдіть або зареєструйтеся!!!');
+      await expect(clubDetailsPage.getAuthModalLocator()).toBeVisible();
+      await expect(clubDetailsPage.getAuthModalMessageLocator()).toHaveText(
+        'Увійдіть або зареєструйтеся!!!'
+      );
     }
   );
 });

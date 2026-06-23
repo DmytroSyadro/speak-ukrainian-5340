@@ -1,20 +1,17 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '@/fixtures';
 import * as allure from 'allure-js-commons';
 
 import { FaqComponent } from '@/components/faq/faq-component';
 import { FaqItemComponent } from '@/components/faq/faq-item-component';
-import { ServicesPage } from '@/pages/services-page';
 
 test.describe('TC-030 Сhecking the functionality of the "Services in Ukrainian" page', () => {
-  let servicesPage: ServicesPage;
   let faqComponent: FaqComponent;
   let firstItem: FaqItemComponent;
   let secondItem: FaqItemComponent;
   let thirdItem: FaqItemComponent;
   let lastItem: FaqItemComponent;
 
-  test.beforeEach(async ({ page }) => {
-    servicesPage = new ServicesPage(page);
+  test.beforeEach(async ({ page, servicesPage }) => {
     await page.goto('/service');
     await page.locator('.faq').waitFor({ state: 'visible' });
 
@@ -25,26 +22,25 @@ test.describe('TC-030 Сhecking the functionality of the "Services in Ukrainian"
     lastItem = await faqComponent.getItemByIndex((await faqComponent.getItemsCount()) - 1);
   });
 
-  test('Step 1 – Service page loads correctly and FAQ items are visible and collapsed', async () => {
+  test('Step 1 – Service page loads correctly and FAQ items are visible and collapsed', async ({
+    servicesPage,
+  }) => {
     await allure.epic('Speak Ukrainian');
     await allure.feature('Services page');
     await allure.story('FAQ accordion');
     await allure.tags('UI', 'Services', 'FAQ');
 
-    await allure.step('Step 1: Verify the page and FAQ section are visible', async () => {
+    await allure.step('Verify the page and FAQ section are visible', async () => {
       expect(await servicesPage.isHeroBannerVisible()).toBe(true);
       expect(await servicesPage.isFaqSectionVisible()).toBe(true);
     });
 
-    await allure.step(
-      'Step 2: Verify three accordion items are visible and collapsed',
-      async () => {
-        expect(await faqComponent.getItemsCount()).toBe(3);
-        expect(await firstItem.isExpanded()).toBe(false);
-        expect(await secondItem.isExpanded()).toBe(false);
-        expect(await thirdItem.isExpanded()).toBe(false);
-      }
-    );
+    await allure.step('Verify three accordion items are visible and collapsed', async () => {
+      expect(await faqComponent.getItemsCount()).toBe(3);
+      expect(await firstItem.isExpanded()).toBe(false);
+      expect(await secondItem.isExpanded()).toBe(false);
+      expect(await thirdItem.isExpanded()).toBe(false);
+    });
   });
 
   test('Step 2 – First FAQ item expands and reveals the answer text and arrow rotates', async () => {
@@ -53,7 +49,7 @@ test.describe('TC-030 Сhecking the functionality of the "Services in Ukrainian"
     await allure.story('FAQ accordion');
     await allure.tags('UI', 'Services', 'FAQ');
 
-    await allure.step('Step 1: Verify the first item title and initial state', async () => {
+    await allure.step('Verify the first item title and initial state', async () => {
       expect(await firstItem.getTitle()).toContain(
         'Як діяти, якщо вам відмовляють в інформації чи послугах українською мовою'
       );
@@ -61,7 +57,7 @@ test.describe('TC-030 Сhecking the functionality of the "Services in Ukrainian"
       expect(await firstItem.isExpanded()).toBe(false);
     });
 
-    await allure.step('Step 2: Click the first item and verify it expands', async () => {
+    await allure.step('Click the first item and verify it expands', async () => {
       await firstItem.expand();
       expect(await firstItem.isExpanded()).toBe(true);
       expect((await firstItem.getContent()).trim().length).toBeGreaterThan(0);
@@ -75,12 +71,12 @@ test.describe('TC-030 Сhecking the functionality of the "Services in Ukrainian"
     await allure.story('FAQ accordion');
     await allure.tags('UI', 'Services', 'FAQ');
 
-    await allure.step('Step 1: Verify the second item title and initial state', async () => {
+    await allure.step('Verify the second item title and initial state', async () => {
       expect(await secondItem.getTitle()).toContain('Куди можна подавати скаргу');
       expect(await secondItem.isExpanded()).toBe(false);
     });
 
-    await allure.step('Step 2: Click the second item and verify it expands', async () => {
+    await allure.step('Click the second item and verify it expands', async () => {
       await secondItem.expand();
       expect(await secondItem.isExpanded()).toBe(true);
       expect((await secondItem.getContent()).trim().length).toBeGreaterThan(0);
@@ -93,12 +89,12 @@ test.describe('TC-030 Сhecking the functionality of the "Services in Ukrainian"
     await allure.story('FAQ accordion');
     await allure.tags('UI', 'Services', 'FAQ');
 
-    await allure.step('Step 1: Verify the third item title and initial state', async () => {
+    await allure.step('Verify the third item title and initial state', async () => {
       expect(await thirdItem.getTitle()).toContain('Що має містити скарга');
       expect(await thirdItem.isExpanded()).toBe(false);
     });
 
-    await allure.step('Step 2: Click the third item and verify it expands', async () => {
+    await allure.step('Click the third item and verify it expands', async () => {
       await thirdItem.expand();
       expect(await thirdItem.isExpanded()).toBe(true);
       expect((await thirdItem.getContent()).trim().length).toBeGreaterThan(0);
@@ -111,19 +107,19 @@ test.describe('TC-030 Сhecking the functionality of the "Services in Ukrainian"
     await allure.story('FAQ accordion');
     await allure.tags('UI', 'Services', 'FAQ');
 
-    await allure.step('Step 1: Expand the first item and verify only it is open', async () => {
+    await allure.step('Expand the first item and verify only it is open', async () => {
       await firstItem.expand();
       expect(await firstItem.isExpanded()).toBe(true);
       expect(await secondItem.isExpanded()).toBe(false);
     });
 
-    await allure.step('Step 2: Expand the second item and verify both are open', async () => {
+    await allure.step('Expand the second item and verify both are open', async () => {
       await secondItem.expand();
       expect(await firstItem.isExpanded()).toBe(true);
       expect(await secondItem.isExpanded()).toBe(true);
     });
 
-    await allure.step('Step 3: Expand the third item and verify all three are open', async () => {
+    await allure.step('Expand the third item and verify all three are open', async () => {
       await thirdItem.expand();
       expect(await firstItem.isExpanded()).toBe(true);
       expect(await secondItem.isExpanded()).toBe(true);
@@ -137,13 +133,13 @@ test.describe('TC-030 Сhecking the functionality of the "Services in Ukrainian"
     await allure.story('FAQ accordion');
     await allure.tags('UI', 'Services', 'FAQ');
 
-    await allure.step('Step 1: Expand the last item and verify it is open', async () => {
+    await allure.step('Expand the last item and verify it is open', async () => {
       await lastItem.expand();
       expect(await lastItem.isExpanded()).toBe(true);
       expect(await lastItem.isArrowVisible()).toBe(true);
     });
 
-    await allure.step('Step 2: Collapse the last item and verify it is closed', async () => {
+    await allure.step('Collapse the last item and verify it is closed', async () => {
       await lastItem.collapse();
       expect(await lastItem.isExpanded()).toBe(false);
       expect(await lastItem.isArrowVisible()).toBe(true);

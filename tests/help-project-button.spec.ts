@@ -1,11 +1,11 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../fixtures';
 import * as allure from 'allure-js-commons';
-
-import { NewsDetailsPage } from '@/pages/newsdetails-page';
 
 test.describe('Help the Project button', () => {
   test('TC-07 Verify the functionality of the "Help the Project" button on a news article page', async ({
     page,
+    newsPage,
+    newsDetailsPage,
   }) => {
     await allure.epic('Speak Ukrainian');
     await allure.feature('News page');
@@ -16,12 +16,11 @@ test.describe('Help the Project button', () => {
       'Verifies that the "Help the Project" button on a news article page is visible, enabled, and redirects the user to the correct donation URL.'
     );
 
-    const newsDetailsPage = new NewsDetailsPage(page);
-    const newsCards = page.locator('#newsContainer');
-    const donateButton = page.locator('button.donate-button');
-
     await allure.step('Step 1: Open the last news article from the News page', async () => {
       await page.goto('/news');
+
+      const newsCards = newsPage.getNewsCardsContainerLocator();
+
       await expect(newsCards.last()).toBeVisible();
       const count = await newsCards.count();
       expect(count).toBeGreaterThan(0);
@@ -31,6 +30,8 @@ test.describe('Help the Project button', () => {
     });
 
     await allure.step('Step 2: Locate the "Help the Project" button', async () => {
+      const donateButton = newsDetailsPage.getHelpButtonLocator();
+
       await expect(donateButton).toBeVisible();
       await expect(donateButton).toBeEnabled();
     });

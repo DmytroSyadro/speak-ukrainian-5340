@@ -1,4 +1,12 @@
-import { ChallengePage, ClubDetailsPage, ClubPage, HomePage } from '@/pages';
+import {
+  ChallengePage,
+  ClubDetailsPage,
+  ClubPage,
+  HomePage,
+  NewsPage,
+  NewsDetailsPage,
+  ServicesPage,
+} from '@/pages';
 import { test as baseTest, expect as baseExpect } from './base-fixture';
 import { PaymentPage } from '@/pages/payment-page';
 
@@ -8,6 +16,9 @@ type PageFixture = {
   clubPage: ClubPage;
   homePage: HomePage;
   clubDetailsPage: ClubDetailsPage;
+  newsPage: NewsPage;
+  newsDetailsPage: NewsDetailsPage;
+  servicesPage: ServicesPage;
 };
 
 export const test = baseTest.extend<PageFixture>({
@@ -30,6 +41,18 @@ export const test = baseTest.extend<PageFixture>({
   clubDetailsPage: async ({ page }, use): Promise<void> => {
     const clubDetailsPage = new ClubDetailsPage(page);
     await use(clubDetailsPage);
+  },
+  newsPage: async ({ page }, use): Promise<void> => {
+    const newsPage = new NewsPage(page);
+    await use(newsPage);
+  },
+  newsDetailsPage: async ({ page }, use): Promise<void> => {
+    const newsDetailsPage = new NewsDetailsPage(page);
+    await use(newsDetailsPage);
+  },
+  servicesPage: async ({ page }, use): Promise<void> => {
+    const servicesPage = new ServicesPage(page);
+    await use(servicesPage);
   },
 });
 export { baseExpect as expect };
