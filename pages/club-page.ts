@@ -160,14 +160,17 @@ export class ClubPage extends BasePage {
   }
 
   async waitUntilCityLoads(city: CitiesUser): Promise<void> {
-    return await allure.step(`Wait until clubs for city "${city}" are loaded`, async (): Promise<void> => {
-    await this.page.waitForResponse(
-      (response) =>
-        response.url().includes('/api/clubs/search') &&
-        response.url().includes(encodeURIComponent(city)) &&
-        response.status() === 200
+    return await allure.step(
+      `Wait until clubs for city "${city}" are loaded`,
+      async (): Promise<void> => {
+        await this.page.waitForResponse(
+          (response) =>
+            response.url().includes('/api/clubs/search') &&
+            response.url().includes(encodeURIComponent(city)) &&
+            response.status() === 200
+        );
+      }
     );
-  });
   }
 
   async isRemoteFilterChecked(): Promise<boolean> {
@@ -257,37 +260,46 @@ export class ClubPage extends BasePage {
   }
 
   async getBanner(): Promise<ClubBannerTitleComponent> {
-    return await allure.step('Get club banner title component', async (): Promise<ClubBannerTitleComponent> => {  
-    return this.clubBannerTitle;
-    });
+    return await allure.step(
+      'Get club banner title component',
+      async (): Promise<ClubBannerTitleComponent> => {
+        return this.clubBannerTitle;
+      }
+    );
   }
 
   async hasCitySelected(city: CitiesUser): Promise<void> {
-    return await allure.step(`Check if city "${city}" is selected in header`, async (): Promise<void> => {
-      await this.header.hasCitySelected(city);
-    });
+    return await allure.step(
+      `Check if city "${city}" is selected in header`,
+      async (): Promise<void> => {
+        await this.header.hasCitySelected(city);
+      }
+    );
   }
 
   async getAllAddresses(): Promise<string[]> {
-    return await allure.step('Get all club addresses from the list', async (): Promise<string[]> => {
-      const addresses: string[] = [];
-      const totalPages: number = await this.pagination.getTotalPages();
-      for (let i: number = 1; i <= totalPages; i++) {
-        await this.pagination.goToPage(i);
-        await this.waitUntilCardLoads();
+    return await allure.step(
+      'Get all club addresses from the list',
+      async (): Promise<string[]> => {
+        const addresses: string[] = [];
+        const totalPages: number = await this.pagination.getTotalPages();
+        for (let i: number = 1; i <= totalPages; i++) {
+          await this.pagination.goToPage(i);
+          await this.waitUntilCardLoads();
 
-        const clubs: ClubCardComponent[] = await this.getClubList();
-        for (const club of clubs) {
-          const address: string = await club.getClubAddress();
-          addresses.push(address);
+          const clubs: ClubCardComponent[] = await this.getClubList();
+          for (const club of clubs) {
+            const address: string = await club.getClubAddress();
+            addresses.push(address);
+          }
+          const isLastPage: boolean = await this.pagination.isNextDisabled();
+          if (isLastPage) {
+            break;
+          }
         }
-        const isLastPage: boolean = await this.pagination.isNextDisabled();
-        if (isLastPage) {
-          break;
-        }
+        return addresses;
       }
-      return addresses;
-    });
+    );
   }
 
   async getAllTags(): Promise<string[]> {
@@ -314,8 +326,11 @@ export class ClubPage extends BasePage {
     return this;
   }
   async isCaregoryButtonChecked(category: ClubCategory): Promise<boolean> {
-    return await allure.step(`Check if category button "${category}" is checked`, async (): Promise<boolean> => {
-      return await this.advancedSearch.isCategoryButtonChecked(category);
-    });
+    return await allure.step(
+      `Check if category button "${category}" is checked`,
+      async (): Promise<boolean> => {
+        return await this.advancedSearch.isCategoryButtonChecked(category);
+      }
+    );
   }
 }

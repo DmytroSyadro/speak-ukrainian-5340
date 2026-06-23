@@ -27,9 +27,12 @@ export class ChallengePage extends BasePage {
   }
 
   async goto(id: number): Promise<void> {
-    return await allure.step(`Navigate to challenge page with ID ${id}`, async (): Promise<void> => {
-      await this.navigateTo(`/challenges/${id}`);
-    });
+    return await allure.step(
+      `Navigate to challenge page with ID ${id}`,
+      async (): Promise<void> => {
+        await this.navigateTo(`/challenges/${id}`);
+      }
+    );
   }
 
   getSocialInfoComponent(): SocialInfoComponent {
@@ -80,7 +83,7 @@ export class ChallengePage extends BasePage {
       await this.registerButton.waitFor({ state: 'visible' });
       await this.registerButton.click();
     });
-     }
+  }
 
   async selectChallenge(challenge: Challenges): Promise<ChallengePage> {
     await this.header.selectChallenge(challenge);
@@ -92,15 +95,18 @@ export class ChallengePage extends BasePage {
   }
 
   async isRegisterButtonVisible(): Promise<boolean> {
-    return await allure.step('Check if the "Зареєструватись" button is visible', async (): Promise<boolean> => {
-      return await this.registerButton.isVisible();
-    });
+    return await allure.step(
+      'Check if the "Зареєструватись" button is visible',
+      async (): Promise<boolean> => {
+        return await this.registerButton.isVisible();
+      }
+    );
   }
   async clickHelpButton(): Promise<void> {
-    return await allure.step('Click the "Допомогти проєкту" button', async (): Promise<void> => { 
-    await this.helpButton.waitFor({ state: 'visible' });
-    await this.helpButton.click();
-  });
+    return await allure.step('Click the "Допомогти проєкту" button', async (): Promise<void> => {
+      await this.helpButton.waitFor({ state: 'visible' });
+      await this.helpButton.click();
+    });
   }
   async getCurrentUrl(): Promise<string> {
     return await allure.step('Get the current URL ', async (): Promise<string> => {

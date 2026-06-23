@@ -38,4 +38,4 @@ export class ClubBannerTitleComponent extends BaseComponent {
       return cityName.split(' ').pop() ?? '';
     });
   }
-  }
+}

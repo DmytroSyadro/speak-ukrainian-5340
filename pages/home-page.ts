@@ -51,10 +51,13 @@ export class HomePage extends BasePage {
   }
 
   async clickCategory(categoryName: string): Promise<void> {
-    return await allure.step(`Click on the category card with name "${categoryName}"`, async (): Promise<void> => {
-    await this.categoryCards.filter({ hasText: categoryName }).click();
+    return await allure.step(
+      `Click on the category card with name "${categoryName}"`,
+      async (): Promise<void> => {
+        await this.categoryCards.filter({ hasText: categoryName }).click();
+      }
+    );
   }
-)}
 
   getCategoryCardComponentByName(categoryName: string): ClubCategoryCardComponent {
     const categoryCardLocator = this.categoryCards.filter({ hasText: categoryName });
