@@ -1,5 +1,5 @@
 import { CitiesUser } from '@/data';
-import { ClubBannerTitleComponent } from '@/components/club/club-banner-title-component';
+import type { ClubBannerTitleComponent } from '@/components/club/club-banner-title-component';
 import { test, expect } from '@/fixtures/modal-fixture';
 import * as allure from 'allure-js-commons';
 

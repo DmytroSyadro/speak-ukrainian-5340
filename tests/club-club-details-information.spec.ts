@@ -1,6 +1,6 @@
-import { expect, test } from '@playwright/test';
-import { ClubCardComponent } from '@/components/club/club-card-component';
-import { ClubDetailsPage, ClubPage, NewsPage } from '@/pages';
+import { expect, test } from '@/fixtures';
+import type { ClubCardComponent } from '@/components/club/club-card-component';
+
 import * as allure from 'allure-js-commons';
 
 allure.epic('Speak Ukrainian');
@@ -14,9 +14,12 @@ test.describe('news club information', (): void => {
   );
   allure.issue('https://github.com/UA-5340-TAQC/speak-ukrainian-5340/issues/73');
 
-  test('should display club on the news page information', async ({ page }): Promise<void> => {
-    const clubPage = new ClubPage(page);
-
+  test('should display club on the news page information', async ({
+    page,
+    clubPage,
+    clubDetailsPage,
+    newsPage,
+  }): Promise<void> => {
     await allure.step('Navigate to club page and get first club card', async (): Promise<void> => {
       await clubPage.navigate();
     });
@@ -34,19 +37,15 @@ test.describe('news club information', (): void => {
       expect(await club.isMoreDetailsButtonEnabled()).toBeTruthy();
     });
 
-    const clubDetails = new ClubDetailsPage(page);
-
     await allure.step('Open club details page and verify title', async (): Promise<void> => {
       await club.clickMoreDetailsButton();
-      await clubDetails.waitForPageLoad();
-      expect(await clubDetails.getClubTitle()).toBe(clubTitle);
+      await clubDetailsPage.waitForPageLoad();
+      expect(await clubDetailsPage.getClubTitle()).toBe(clubTitle);
     });
 
-    const newsPage = new NewsPage(page);
-
     await allure.step('Navigate to News page from club details', async (): Promise<void> => {
-      await clubDetails.clickNews();
-      await clubDetails.waitForPageLoad();
+      await clubDetailsPage.clickNews();
+      await clubDetailsPage.waitForPageLoad();
       expect(page.url()).toContain('/news');
     });
 
