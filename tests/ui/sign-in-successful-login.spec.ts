@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import * as allure from 'allure-js-commons';
 import env from '@/config/env';
-import { SignInModal } from '@/modals/sign-in-modal';
+import { SignInModal } from '@/modals/authorization/sign-in-modal';
 import { HomePage } from '@/pages/home-page';
 
 test('Sign In - Successful Login', async ({ page }) => {
