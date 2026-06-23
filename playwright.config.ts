@@ -40,7 +40,7 @@ export default defineConfig({
     [
       'allure-playwright',
       {
-        detail: true,
+        detail: false,
         suiteTitle: true,
         outputFolder: 'allure-results',
         environmentInfo: {
