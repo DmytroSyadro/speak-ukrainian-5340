@@ -3,7 +3,6 @@ import * as allure from 'allure-js-commons';
 
 test.describe('Challenge page Tasks Carousel', () => {
   test('TC-045 Verify the Tasks Carousel navigation (Arrows and Dots)', async ({
-    page,
     challengePage,
   }) => {
     await allure.epic('Speak Ukrainian');
