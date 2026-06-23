@@ -5,7 +5,7 @@ import { FaqComponent } from '@/components/faq/faq-component';
 import { FaqItemComponent } from '@/components/faq/faq-item-component';
 import { ServicesPage } from '@/pages/services-page';
 
-test.describe('TC-030 Verify that FAQ accordion items expand correctly and the "Допомогти проєкту" button is functional', () => {
+test.describe('TC-030 Сhecking the functionality of the "Services in Ukrainian" page', () => {
   let servicesPage: ServicesPage;
   let faqComponent: FaqComponent;
   let firstItem: FaqItemComponent;
