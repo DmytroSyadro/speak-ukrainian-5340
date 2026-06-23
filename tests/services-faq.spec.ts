@@ -20,6 +20,14 @@ test.describe('TC-030 Сhecking the functionality of the "Services in Ukrainian"
     secondItem = await faqComponent.getItemByIndex(1);
     thirdItem = await faqComponent.getItemByIndex(2);
     lastItem = await faqComponent.getItemByIndex((await faqComponent.getItemsCount()) - 1);
+
+    const count = await faqComponent.getItemsCount();
+    for (let i = 0; i < count; i++) {
+      const item = await faqComponent.getItemByIndex(i);
+      if (await item.isExpanded()) {
+        await item.collapse();
+      }
+    }
   });
 
   test('Step 1 – Service page loads correctly and FAQ items are visible and collapsed', async ({
