@@ -3,6 +3,7 @@ import { BaseComponent } from '@/components/base-component';
 import { DropdownComponent } from '@/components/common/dropdown-component';
 import { CitiesUser } from '@/data';
 import * as allure from 'allure-js-commons';
+import { Challenges } from '@/data/challenges';
 
 export class HeaderComponent extends BaseComponent {
   private readonly logo: Locator;
@@ -20,7 +21,9 @@ export class HeaderComponent extends BaseComponent {
   private readonly challengeDropdownMenu: Locator;
   private readonly challengeDropdownItems: Locator;
   private readonly dropdownLocator: Locator;
+  private readonly challengeDropdownLocator: Locator;
 
+  private challengeDropdown: DropdownComponent;
   private dropdown: DropdownComponent;
 
   constructor(root: Locator) {
@@ -28,7 +31,7 @@ export class HeaderComponent extends BaseComponent {
 
     this.logo = this.root.locator('.logo');
     this.clubsLink = this.root.locator('.nav-menu a').filter({ hasText: 'Гуртки' });
-    this.challengeLink = this.root.locator('.nav-menu span').filter({ hasText: 'Челендж' });
+    this.challengeLink = this.root.getByText('Челендж');
     this.newsLink = this.root.locator('.nav-menu a').filter({ hasText: 'Новини' });
     this.aboutUsLink = this.root.locator('.nav-menu a').filter({ hasText: 'Про нас' });
     this.servicesLink = this.root.locator('.nav-menu a').filter({ hasText: 'Послуги українською' });
@@ -48,6 +51,11 @@ export class HeaderComponent extends BaseComponent {
     );
     this.dropdownLocator = this.root.page().locator('ul.ant-dropdown-menu');
     this.dropdown = new DropdownComponent(this.dropdownLocator);
+    this.challengeDropdownLocator = this.root
+      .page()
+      .locator('div.ant-menu-submenu-popup')
+      .filter({ visible: true });
+    this.challengeDropdown = new DropdownComponent(this.challengeDropdownLocator);
   }
 
   async clickClubs(): Promise<void> {
@@ -60,6 +68,11 @@ export class HeaderComponent extends BaseComponent {
     await allure.step('Click on "Челендж" link', async (): Promise<void> => {
       await this.challengeLink.click();
     });
+  }
+  async selectChallenge(challenge: Challenges): Promise<void> {
+    await this.clickChallenge();
+    await this.challengeDropdownLocator.waitFor({ state: 'visible' });
+    await this.challengeDropdown.selectChallengeOption(challenge);
   }
 
   async clickNews(): Promise<void> {
