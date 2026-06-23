@@ -1,8 +1,8 @@
-import { test, expect } from '@/fixtures/modal-fixture';
+import { test, expect } from '@/fixtures';
 import * as allure from 'allure-js-commons';
 import { ClubCategory } from '@/data';
-import { ClubCardComponent } from '@/components/club/club-card-component';
-import { TagsComponent } from '@/components/common/tags-component';
+import type { ClubCardComponent } from '@/components/club/club-card-component';
+import type { TagsComponent } from '@/components/common/tags-component';
 
 allure.epic('Speak Ukrainian');
 allure.owner('Dmytro Syadro');

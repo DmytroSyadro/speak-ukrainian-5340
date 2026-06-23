@@ -1,5 +1,5 @@
 import { ChallengePage, ClubDetailsPage, ClubPage, HomePage } from '@/pages';
-import { test as baseTest, expect as baseExpect } from '@playwright/test';
+import { test as baseTest, expect as baseExpect } from './base-fixture';
 import { PaymentPage } from '@/pages/payment-page';
 
 type PageFixture = {
