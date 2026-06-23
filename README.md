@@ -46,12 +46,12 @@ TEST_PASSWORD=your-test-password
 HEADLESS=false
 ```
 
-| Variable        | Required | Default                           | Description                          |
-| --------------- | -------- | --------------------------------- | ------------------------------------ |
-| `BASE_URL`      | No       | `https://speak-ukrainian.org.ua`  | Target site URL                      |
-| `TEST_EMAIL`    | No       | —                                 | Account email for authenticated tests |
-| `TEST_PASSWORD` | No       | —                                 | Account password for authenticated tests |
-| `HEADLESS`      | No       | `true`                            | Set to `false` for headed local runs |
+| Variable        | Required | Default                          | Description                              |
+| --------------- | -------- | -------------------------------- | ---------------------------------------- |
+| `BASE_URL`      | No       | `https://speak-ukrainian.org.ua` | Target site URL                          |
+| `TEST_EMAIL`    | No       | —                                | Account email for authenticated tests    |
+| `TEST_PASSWORD` | No       | —                                | Account password for authenticated tests |
+| `HEADLESS`      | No       | `true`                           | Set to `false` for headed local runs     |
 
 ## Run tests
 
@@ -109,6 +109,7 @@ The pipeline has three jobs:
 3. **generate-report** — merges results from all browsers, generates a combined Allure report with history, deploys it to GitHub Pages, and posts a link comment on pull requests.
 
 Allure reports are published to:
+
 - `main` branch runs: `https://UA-5340-TAQC.github.io/speak-ukrainian-5340/main/`
 - Pull request runs: `https://UA-5340-TAQC.github.io/speak-ukrainian-5340/pr-<number>/`
 
