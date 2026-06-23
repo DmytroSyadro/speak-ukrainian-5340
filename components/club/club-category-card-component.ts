@@ -23,7 +23,7 @@ export class ClubCategoryCardComponent extends BaseComponent {
   }
 
   async clickSeeMoreButton(): Promise<void> {
-    test.step('Click "See more" button on category card', async () => {
+    await test.step('Click "See more" button on category card', async () => {
       await this.seeMoreButton.click();
     });
   }
