@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { ClubPage } from '@/pages';
-import { SignInModal } from '../modals/sign-in-modal';
-import env from '../config/env';
+import { SignInModal } from '@/modals/sign-in-modal';
+import env from '@/config/env';
 import * as allure from 'allure-js-commons';
 import { CitiesUser } from '@/data/cities-user';
 
