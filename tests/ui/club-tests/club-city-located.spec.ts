@@ -3,21 +3,22 @@ import { ClubBannerTitleComponent } from '@/components/club/club-banner-title-co
 import { test, expect } from '@/fixtures/modal-fixture';
 import * as allure from 'allure-js-commons';
 
-allure.epic('Speak Ukrainian');
-allure.owner('Dmytro Syadro');
-allure.feature('Club page');
-
 test.describe('club-city-located', (): void => {
   const kharkiv: CitiesUser = CitiesUser.KHARKIV;
 
   test.beforeEach(async ({ clubPage }): Promise<void> => {
+    await allure.epic('Speak Ukrainian');
+    await allure.owner('Dmytro Syadro');
+    await allure.feature('Club page');
+    await allure.severity('critical');
+    await allure.description(
+      'Verify that the clubs are located in the city selected in the City dropdown'
+    );
+    await allure.issue('https://github.com/UA-5340-TAQC/speak-ukrainian-5340/issues/32');
+
     await clubPage.navigate();
     await clubPage.waitForPageLoad();
   });
-
-  allure.severity('critical');
-  allure.description('Verify that the clubs are located in the city selected in the City dropdown');
-  allure.issue('https://github.com/UA-5340-TAQC/speak-ukrainian-5340/issues/32');
 
   test('should display clubs in the particular city', async ({
     clubPage,
