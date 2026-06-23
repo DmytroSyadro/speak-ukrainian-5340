@@ -91,4 +91,7 @@ export class ChallengePage extends BasePage {
     await this.helpButton.waitFor({ state: 'visible' });
     await this.helpButton.click();
   }
+  async getCurrentUrl(): Promise<string> {
+    return this.page.url();
+  }
 }
