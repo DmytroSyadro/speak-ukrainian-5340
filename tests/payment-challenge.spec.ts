@@ -1,8 +1,8 @@
 import { DataBuilder } from '@/data/data-builder';
 import { Challenges } from '@/data/challenges';
-import { test, expect } from '@/fixtures/modal-fixture';
-import { Page } from '@playwright/test';
-import { PaymentFormComponent } from '@/components/payment/payment-form-component';
+import { test, expect } from '@/fixtures';
+import type { Page } from '@playwright/test';
+import type { PaymentFormComponent } from '@/components/payment/payment-form-component';
 import { PaymentPage } from '@/pages/payment-page';
 import * as allure from 'allure-js-commons';
 
