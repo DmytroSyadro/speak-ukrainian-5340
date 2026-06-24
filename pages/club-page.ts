@@ -222,6 +222,21 @@ export class ClubPage extends BasePage {
     });
   }
 
+  async getAllCategories(): Promise<string[]> {
+    return await allure.step(
+      'Select all categories from search bar',
+      async (): Promise<string[]> => {
+        const searchInput: DropdownComponent = await this.searchBar.clickSearchInput();
+        const categories: string[] = await searchInput.getOptionsText();
+        for (const category of categories) {
+          await searchInput.select(category);
+          await this.waitUntilCardLoads();
+        }
+        return categories;
+      }
+    );
+  }
+
   async waitUntilCardLoads(): Promise<void> {
     await this.cardLocator.first().waitFor({ state: 'visible' });
   }
