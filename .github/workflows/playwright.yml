@@ -48,7 +48,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        browser: [chromium, firefox, webkit]
+        browser: [api, chromium, firefox, webkit]
 
     steps:
       - name: Checkout repository
@@ -64,6 +64,7 @@ jobs:
         run: npm ci
 
       - name: Cache Playwright browsers
+        if: ${{ matrix.browser != 'api' }}
         id: playwright-cache
         uses: actions/cache@v4
         with:
@@ -73,6 +74,7 @@ jobs:
             ${{ runner.os }}-playwright-${{ matrix.browser }}-
 
       - name: Install Playwright browser & deps
+        if: ${{ matrix.browser != 'api' }}
         run: npx playwright install --with-deps ${{ matrix.browser }}
 
       - name: Run Playwright tests
@@ -107,6 +109,13 @@ jobs:
       - name: Create Combined Results Directory
         run: rm -rf combined-results && mkdir combined-results
 
+      - name: Download API Results
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: allure-results-api
+          path: combined-results
+
       - name: Download Chromium Results
         uses: actions/download-artifact@v4
         continue-on-error: true
@@ -140,29 +149,6 @@ jobs:
       - name: Fix permissions
         run: sudo chmod -R 777 allure-history
 
-      - name: Validate test results
-        if: ${{ github.event_name == 'pull_request' }}
-        run: |
-          SUMMARY_FILE="allure-history/pr-${{ github.event.number }}/widgets/summary.json"
-
-          if [ ! -f "$SUMMARY_FILE" ]; then
-            echo "⚠️ Summary file not found. Skipping."
-            exit 0
-          fi
-
-          FAILED=$(jq '.statistic.failed' "$SUMMARY_FILE")
-          BROKEN=$(jq '.statistic.broken' "$SUMMARY_FILE")
-
-          echo "Total Failed: $FAILED"
-          echo "Total Broken: $BROKEN"
-
-          if [ "$FAILED" -gt 0 ] || [ "$BROKEN" -gt 0 ]; then
-            echo "❌ Tests failed in one or more browsers"
-            exit 1
-          fi
-
-          echo "✅ All tests passed across all browsers"
-
       - name: Clean heavy attachments from history
         if: ${{ always() }}
         run: |
@@ -172,7 +158,7 @@ jobs:
           echo "✅ Heavy assets removed successfully."
 
       - name: Deploy Allure Report
-        if: ${{ success() }}
+        if: ${{ !cancelled() }}
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -183,11 +169,37 @@ jobs:
           user_email: 'github-actions[bot]@users.noreply.github.com'
 
       - name: Comment PR with report link
-        if: ${{ success() && github.event_name == 'pull_request' }}
+        if: ${{ !cancelled() && github.event_name == 'pull_request' }}
         uses: thollander/actions-comment-pull-request@v2
         with:
           comment_tag: allure-report-link
           message: |
-            📊 **Allure Report for PR-${{ github.event.number }} (All Browsers)**
+            📊 **Allure Report for PR-${{ github.event.number }} (All Tests & Browsers)**
 
-            🔗 https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/pr-${{ github.event.number }}/
+            🔗 https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.number) || 'main' }}/
+
+      - name: Validate test results
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            SUMMARY_FILE="allure-history/pr-${{ github.event.number }}/widgets/summary.json"
+          else
+            SUMMARY_FILE="allure-history/main/widgets/summary.json"
+          fi
+
+          if [ ! -f "$SUMMARY_FILE" ]; then
+            echo "⚠️ Summary file not found. Skipping validation."
+            exit 0
+          fi
+
+          FAILED=$(jq '.statistic.failed' "$SUMMARY_FILE")
+          BROKEN=$(jq '.statistic.broken' "$SUMMARY_FILE")
+
+          echo "Total Failed: $FAILED"
+          echo "Total Broken: $BROKEN"
+
+          if [ "$FAILED" -gt 0 ] || [ "$BROKEN" -gt 0 ]; then
+            echo "❌ Tests failed in one or more projects"
+            exit 1
+          fi
+
+          echo "✅ All tests passed across all environments!"
