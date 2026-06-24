@@ -26,6 +26,7 @@ UI test automation project for the [Speak Ukrainian](https://speak-ukrainian.org
 ### Installation
 
 1. **Install dependencies:**
+
    ```bash
    npm install
    ```
@@ -109,6 +110,7 @@ npm run report
 ```
 
 The report includes:
+
 - Test execution timeline
 - Pass/fail breakdown by browser
 - Screenshots and videos for failed tests
@@ -142,6 +144,7 @@ npm run pc             # Equivalent to format → lint:fix → lint → format:c
 ## 🔄 CI/CD Pipeline
 
 GitHub Actions workflow is configured in `.github/workflows/playwright.yml` and automatically runs on:
+
 - Push to `main` branch
 - Pull requests to `main` branch
 
