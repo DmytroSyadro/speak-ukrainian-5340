@@ -1,6 +1,8 @@
 import type { Locator } from '@playwright/test';
 import { BaseComponent } from '@/components/base-component';
 
+import * as allure from 'allure-js-commons';
+
 export class FooterComponent extends BaseComponent {
   private readonly socialLinks: Locator;
   private readonly donateButton: Locator;
@@ -14,26 +16,41 @@ export class FooterComponent extends BaseComponent {
   }
 
   async clickSocialLink(index: number): Promise<void> {
-    await this.socialLinks.nth(index).click();
+    await allure.step(`Click on social link at index ${index}`, async (): Promise<void> => {
+      await this.socialLinks.nth(index).click();
+    });
   }
 
   async clickDonateButton(): Promise<void> {
-    await this.donateButton.click();
+    await allure.step('Click on donate button', async (): Promise<void> => {
+      await this.donateButton.click();
+    });
   }
 
   async getSocialLinksCount(): Promise<number> {
-    return await this.socialLinks.count();
+    return await allure.step('Get social links count', async (): Promise<number> => {
+      return await this.socialLinks.count();
+    });
   }
 
   async getSocialLinkHref(index: number): Promise<string | null> {
-    return await this.socialLinks.nth(index).getAttribute('href');
+    return await allure.step(
+      `Get href of social link at index ${index}`,
+      async (): Promise<string | null> => {
+        return await this.socialLinks.nth(index).getAttribute('href');
+      }
+    );
   }
 
   async getPartnersCount(): Promise<number> {
-    return await this.partnerLogos.count();
+    return await allure.step('Get partners count', async (): Promise<number> => {
+      return await this.partnerLogos.count();
+    });
   }
 
   async isDonateButtonVisible(): Promise<boolean> {
-    return await this.donateButton.isVisible();
+    return await allure.step('Check if donate button is visible', async (): Promise<boolean> => {
+      return await this.donateButton.isVisible();
+    });
   }
 }

@@ -31,4 +31,8 @@ export class NewsDetailsPage extends BasePage {
   async clickHelpButton(): Promise<void> {
     await this.helpButton.click();
   }
+
+  getHelpButtonLocator(): Locator {
+    return this.helpButton;
+  }
 }
