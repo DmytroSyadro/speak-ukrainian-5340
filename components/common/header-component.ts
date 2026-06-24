@@ -21,6 +21,8 @@ export class HeaderComponent extends BaseComponent {
   private readonly challengeDropdownMenu: Locator;
   private readonly challengeDropdownItems: Locator;
   private readonly dropdownLocator: Locator;
+  private readonly addClubButton: Locator;
+  private readonly userMenuLoginItem: Locator;
   private readonly challengeDropdownLocator: Locator;
 
   private challengeDropdown: DropdownComponent;
@@ -51,6 +53,10 @@ export class HeaderComponent extends BaseComponent {
     );
     this.dropdownLocator = this.root.page().locator('ul.ant-dropdown-menu');
     this.dropdown = new DropdownComponent(this.dropdownLocator);
+    this.addClubButton = this.root.locator('button.add-club-button');
+    this.userMenuLoginItem = this.page
+      .locator('.ant-dropdown-menu-item')
+      .filter({ hasText: 'Увійти' });
     this.challengeDropdownLocator = this.root
       .page()
       .locator('div.ant-menu-submenu-popup')
@@ -72,7 +78,7 @@ export class HeaderComponent extends BaseComponent {
   async selectChallenge(challenge: Challenges): Promise<void> {
     await this.clickChallenge();
     await this.challengeDropdownLocator.waitFor({ state: 'visible' });
-    await this.challengeDropdown.selectChallengeOption(challenge);
+    await this.dropdown.selectMenuOption(challenge);
   }
 
   async clickNews(): Promise<void> {
@@ -191,5 +197,15 @@ export class HeaderComponent extends BaseComponent {
 
   async waitForChallengeDropdown(): Promise<void> {
     await this.challengeDropdownMenu.waitFor({ state: 'visible', timeout: 10000 });
+  }
+
+  async clickAddClubButton(): Promise<void> {
+    await this.root.locator('button.add-club-button').click();
+  }
+
+  async openUserMenuAndClickLogin(): Promise<void> {
+    await this.userMenuButton.click();
+    await this.userMenuLoginItem.waitFor({ state: 'visible' });
+    await this.userMenuLoginItem.click();
   }
 }
