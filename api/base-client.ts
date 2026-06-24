@@ -1,5 +1,5 @@
 import { APIRequestContext, APIResponse } from '@playwright/test';
-import * as allure from 'allure-js-commons'; // або 'allure-playwright', залежно від вашої версії
+import * as allure from 'allure-js-commons';
 
 export class BaseClient {
   private readonly request: APIRequestContext;

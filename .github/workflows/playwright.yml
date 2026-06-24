@@ -9,7 +9,7 @@ on:
       - main
 
 concurrency:
-  group: allure-gh-pages-${{ github.ref }}
+  group: allure-gh-pages
   cancel-in-progress: false
 
 env:

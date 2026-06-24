@@ -1,5 +1,5 @@
 import { APIRequestContext, APIResponse } from '@playwright/test';
-import * as allure from 'allure-js-commons'; // або 'allure-playwright'
+import * as allure from 'allure-js-commons';
 import { BaseClient } from './base-client';
 
 export class ClubClient extends BaseClient {
@@ -10,7 +10,7 @@ export class ClubClient extends BaseClient {
   async getClubs(): Promise<APIResponse> {
     return await allure.step('Get list of clubs via API', async () => {
       const response = await this.get('/dev/api/clubs');
-      await allure.description(`Response status: ${response.status()}`);
+      await allure.attachment('Response status', String(response.status()), { contentType: 'text/plain' });
       return response;
     });
   }
