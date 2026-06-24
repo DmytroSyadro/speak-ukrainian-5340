@@ -1,17 +1,10 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '@/fixtures';
 import env from '@/config/env';
 
-import { AboutUsPage } from '@/pages/about-us-page';
-import { SignInModal } from '@/modals/authorization/sign-in-modal';
-
 test.describe('AboutUs team verification', () => {
-  let aboutUsPage: AboutUsPage;
-
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({ aboutUsPage, signInModal }) => {
     const email = env.TEST_EMAIL;
     const password = env.TEST_PASSWORD;
-
-    aboutUsPage = new AboutUsPage(page);
 
     await test.step('Navigate to the About Us page', async () => {
       await aboutUsPage.navigateToAboutPage();
@@ -20,12 +13,13 @@ test.describe('AboutUs team verification', () => {
 
     await test.step('Log in with credentials', async () => {
       await aboutUsPage.header.clickUserMenuItem(/увійти/i);
-      const signInModal = new SignInModal(page);
       await signInModal.login(email!, password!);
     });
   });
 
-  test('Verify that team member names and roles are displayed correctly for all team members', async () => {
+  test('Verify that team member names and roles are displayed correctly for all team members', async ({
+    aboutUsPage,
+  }) => {
     let teamMembersCount = 0;
 
     await test.step('Verify that at least 2 team members are displayed', async () => {

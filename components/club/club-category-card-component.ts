@@ -1,4 +1,4 @@
-import type { Locator } from '@playwright/test';
+import { test, type Locator } from '@playwright/test';
 import { BaseComponent } from '@/components/base-component';
 
 export class ClubCategoryCardComponent extends BaseComponent {
@@ -23,6 +23,8 @@ export class ClubCategoryCardComponent extends BaseComponent {
   }
 
   async clickSeeMoreButton(): Promise<void> {
-    await this.seeMoreButton.click();
+    await test.step('Click "See more" button on category card', async () => {
+      await this.seeMoreButton.click();
+    });
   }
 }

@@ -17,6 +17,7 @@ export class NewsPage extends BasePage {
   private readonly clubsSidebarComponent: ClubsSidebarComponent;
   private readonly CARDS_PER_PAGE = 4;
   private readonly listCardLocator: Locator;
+  private readonly newsCardsContainer: Locator;
 
   private readonly clubList: ListClubCardComponent;
 
@@ -30,6 +31,7 @@ export class NewsPage extends BasePage {
     this.paginationComponent = new PaginationComponent(this.pagination);
     this.clubsSidebar = page.locator('.club-sider');
     this.clubsSidebarComponent = new ClubsSidebarComponent(this.clubsSidebar);
+    this.newsCardsContainer = page.locator('#newsContainer');
   }
 
   getNewsList(): NewsCardListComponent {
@@ -49,6 +51,10 @@ export class NewsPage extends BasePage {
 
   getClubsSidebar(): ClubsSidebarComponent {
     return this.clubsSidebarComponent;
+  }
+
+  getNewsCardsContainerLocator(): Locator {
+    return this.newsCardsContainer;
   }
 
   async getCardByGeneralIndex(generalIndex: number): Promise<NewsCardComponent> {
