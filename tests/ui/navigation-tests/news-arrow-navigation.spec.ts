@@ -1,16 +1,12 @@
-import { test, expect } from '@playwright/test';
-import { NewsPage } from '@/pages/news-page';
-import { NewsDetailsPage } from '@/pages/newsdetails-page';
+import { test, expect } from '@/fixtures';
 
 test.describe('News page arrow navigation', () => {
   test('Verify that the News component displays the same news articles after navigating right and then left', async ({
-    page,
+    newsPage,
+    newsDetailsPage,
   }) => {
     const visibleCardsCount = 3;
     let firstVisibleCards: string[] = [];
-
-    const newsPage = new NewsPage(page);
-    const newsDetailsPage = new NewsDetailsPage(page);
 
     await test.step('Navigate to the News page', async () => {
       await newsPage.navigateTo('/news');

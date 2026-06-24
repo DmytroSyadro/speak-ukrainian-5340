@@ -1,8 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { ChallengePage, ChallengeTaskPage } from '@/pages';
 
-test.use({ viewport: { width: 1920, height: 1080 } });
-
 test('Navigate from Challenge page to a specific Task and interact with video @Lazur @E2E', async ({
   page,
 }) => {

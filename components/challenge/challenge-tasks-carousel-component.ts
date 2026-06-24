@@ -8,6 +8,8 @@ export class ChallengeTasksCarouselComponent extends BaseComponent {
   private readonly nextArrow: Locator;
   private readonly carouselDots: Locator;
   private readonly taskCards: Locator;
+  private readonly activeTaskCards: Locator;
+  private readonly firstActiveCardName: Locator;
 
   constructor(rootLocator: Locator) {
     super(rootLocator);
@@ -16,6 +18,8 @@ export class ChallengeTasksCarouselComponent extends BaseComponent {
     this.nextArrow = this.root.locator('.arrows-next');
     this.carouselDots = this.root.locator('.slick-dots li button');
     this.taskCards = this.root.locator('.primitive-card');
+    this.activeTaskCards = this.root.locator('.slick-active .primitive-card');
+    this.firstActiveCardName = this.activeTaskCards.first().locator('.name');
   }
 
   async clickNextArrow(): Promise<void> {
@@ -74,5 +78,13 @@ export class ChallengeTasksCarouselComponent extends BaseComponent {
       attempts++;
     }
     return targetCard;
+  }
+
+  getActiveCardsLocator(): Locator {
+    return this.activeTaskCards;
+  }
+
+  getFirstActiveCardNameLocator(): Locator {
+    return this.firstActiveCardName;
   }
 }
