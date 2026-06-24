@@ -1,5 +1,6 @@
 import type { Locator } from '@playwright/test';
 import { BaseComponent } from '@/components/base-component';
+import * as allure from 'allure-js-commons';
 
 export class MapComponent extends BaseComponent {
   private readonly markers: Locator;
@@ -14,12 +15,15 @@ export class MapComponent extends BaseComponent {
     this.zoomInButton = this.root.locator("button[title='Zoom in']");
     this.zoomOutButton = this.root.locator("button[title='Zoom out']");
   }
+
   async getMarkersCount(): Promise<number> {
     return await this.markers.count();
   }
+
   async isMarkersVisible(): Promise<boolean> {
     return await this.markers.isVisible();
   }
+
   getMarkerByIndex(index: number): Locator {
     return this.markers.nth(index);
   }
@@ -29,12 +33,20 @@ export class MapComponent extends BaseComponent {
   }
 
   async clickZoomInButton(): Promise<void> {
-    await this.zoomInButton.click();
+    await allure.step('Click zoom in button', async (): Promise<void> => {
+      await this.zoomInButton.click();
+    });
   }
+
   async clickClusterMarker(): Promise<void> {
-    await this.markers.click();
+    await allure.step('Click cluster marker', async (): Promise<void> => {
+      await this.markers.click();
+    });
   }
+
   async clickZoomOutButton(): Promise<void> {
-    await this.zoomOutButton.click();
+    await allure.step('Click zoom out button', async (): Promise<void> => {
+      await this.zoomOutButton.click();
+    });
   }
 }

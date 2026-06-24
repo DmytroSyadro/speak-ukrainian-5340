@@ -1,20 +1,18 @@
-import { expect, test } from '@playwright/test';
-import { ClubPage } from '@/pages/club-page';
-import { ClubCategory } from '@/data/club-category';
-import { ClubCardComponent } from '@/components/club/club-card-component';
-import { TagsComponent } from '@/components/common/tags-component';
-import { ClubDetailsPage } from '@/pages';
+import { test, expect } from '@/fixtures';
 import * as allure from 'allure-js-commons';
-
-allure.epic('Speak Ukrainian');
-allure.owner('Dmytro Syadro');
-allure.feature('Club page');
+import { ClubCategory } from '@/data';
+import type { ClubCardComponent } from '@/components/club/club-card-component';
+import type { TagsComponent } from '@/components/common/tags-component';
 
 test.describe('search-bar', (): void => {
   const title = 'IT освіта: курси "ГРАНД"';
   const fixedCategory: ClubCategory = ClubCategory.PROGRAMMING;
 
   test.beforeEach(async ({ page }): Promise<void> => {
+    await allure.epic('Speak Ukrainian');
+    await allure.owner('Dmytro Syadro');
+    await allure.feature('Club page');
+
     await page.route('**/api/search**', async (route): Promise<void> => {
       await route.fulfill({
         status: 200,
@@ -36,15 +34,12 @@ test.describe('search-bar', (): void => {
     });
   });
 
-  allure.severity('critical');
-  allure.description('Verify that the search bar filters clubs by the exact club name');
-  allure.issue('https://github.com/UA-5340-TAQC/speak-ukrainian-5340/issues/33');
-
-  test('should search by exact hint name', async ({ page }): Promise<void> => {
-    const clubPage = new ClubPage(page);
+  test('should search by exact hint name', async ({ clubPage, clubDetailsPage }): Promise<void> => {
+    await allure.severity('critical');
+    await allure.description('Verify that the search bar filters clubs by the exact club name');
+    await allure.issue('https://github.com/UA-5340-TAQC/speak-ukrainian-5340/issues/33');
 
     await clubPage.navigate();
-
     await clubPage.waitForPageLoad();
 
     const inputText: string = await clubPage.getSearchInput();
@@ -67,20 +62,16 @@ test.describe('search-bar', (): void => {
 
     await club.clickMoreDetailsButton();
 
-    const clubDetailsPage = new ClubDetailsPage(page);
     await clubDetailsPage.waitForPageLoad();
     expect(await clubDetailsPage.getClubTitle()).toBe(title);
   });
 
-  allure.severity('critical');
-  allure.description('Verify that the search bar filters clubs by the exact club name ');
-  allure.issue('https://github.com/UA-5340-TAQC/speak-ukrainian-5340/issues/33');
-
-  test('should search by exact name', async ({ page }): Promise<void> => {
-    const clubPage = new ClubPage(page);
+  test('should search by exact name', async ({ clubPage, clubDetailsPage }): Promise<void> => {
+    await allure.severity('critical');
+    await allure.description('Verify that the search bar filters clubs by the exact club name ');
+    await allure.issue('https://github.com/UA-5340-TAQC/speak-ukrainian-5340/issues/33');
 
     await clubPage.navigate();
-
     await clubPage.waitForPageLoad();
 
     const inputText: string = await clubPage.getSearchInput();
@@ -103,20 +94,17 @@ test.describe('search-bar', (): void => {
     expect(allTags).toContain(ClubCategory.PROGRAMMING);
     await club.clickMoreDetailsButton();
 
-    const clubDetailsPage = new ClubDetailsPage(page);
     await clubDetailsPage.waitForPageLoad();
 
     expect(await clubDetailsPage.getClubTitle()).toBe(title);
   });
 
-  allure.severity('critical');
-  allure.description(
-    'Verify that the user can filter clubs with categories using hints in the search bar'
-  );
-  allure.issue('https://github.com/UA-5340-TAQC/speak-ukrainian-5340/issues/73');
-
-  test('should search by hint category', async ({ page }): Promise<void> => {
-    const clubPage = new ClubPage(page);
+  test('should search by hint category', async ({ clubPage }): Promise<void> => {
+    await allure.severity('critical');
+    await allure.description(
+      'Verify that the user can filter clubs with categories using hints in the search bar'
+    );
+    await allure.issue('https://github.com/UA-5340-TAQC/speak-ukrainian-5340/issues/73');
 
     await clubPage.navigate();
 
@@ -130,7 +118,6 @@ test.describe('search-bar', (): void => {
     ]);
 
     const isEmpty: boolean = await clubPage.isTagEmpty();
-
     expect(isEmpty).toBeFalsy();
 
     const tags: TagsComponent = await clubPage.getClubTags();
@@ -149,12 +136,12 @@ test.describe('search-bar', (): void => {
     expect(totalCount).toBe(cardCount);
   });
 
-  allure.severity('critical');
-  allure.description('Verify that the clubs are located in the city selected in the City dropdown');
-  allure.issue('https://github.com/UA-5340-TAQC/speak-ukrainian-5340/issues/73');
-
-  test('should search by hint category and exact name', async ({ page }): Promise<void> => {
-    const clubPage = new ClubPage(page);
+  test('should search by hint category and exact name', async ({ clubPage }): Promise<void> => {
+    await allure.severity('critical');
+    await allure.description(
+      'Verify that the clubs are located in the city selected in the City dropdown'
+    );
+    await allure.issue('https://github.com/UA-5340-TAQC/speak-ukrainian-5340/issues/73');
 
     await clubPage.navigate();
 
@@ -175,7 +162,6 @@ test.describe('search-bar', (): void => {
     }
 
     const totalCount: number = await clubPage.getClubCount();
-
     expect(totalCount).toBe(cards.length);
   });
 });

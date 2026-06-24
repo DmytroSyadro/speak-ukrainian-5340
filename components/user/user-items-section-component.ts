@@ -21,9 +21,9 @@ export class UserItemsSectionComponent extends BaseComponent {
     this.addButton = this.root.getByRole('button', { name: /додати/i });
     this.userClubContent = this.root.locator('.user-club-content');
     this.clubItems = this.userClubContent.locator('.ant-layout, .center-profile');
-    this.addClubText = this.addButton.getByText('Додати гурток', { exact: true });
+    this.addClubText = this.page.getByText('Додати гурток', { exact: true });
     this.selectDropdown = (type: string) =>
-      this.root.locator('.ant-select-dropdown').getByText(type, { exact: true });
+      this.page.locator('.ant-select-dropdown').getByText(type, { exact: true });
   }
 
   /**

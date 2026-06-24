@@ -107,8 +107,7 @@ export class ProfilePage extends BasePage {
     const url = this.page.url();
     const userIdMatch = url.match(/\/user\/(\d+)/);
     if (!userIdMatch) {
-      console.warn(`No user ID found in URL: ${url}, using default ID 1`);
-      return 1;
+      throw new Error(`Cannot extract user id from URL: ${url}`);
     }
     return Number(userIdMatch[1]);
   }

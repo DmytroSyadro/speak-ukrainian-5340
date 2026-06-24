@@ -3,6 +3,7 @@ import type { Locator } from '@playwright/test';
 import { ClubCategory } from '@/data';
 import { BaseComponent } from '@/components/base-component';
 import { DropdownComponent } from '@/components/common/dropdown-component';
+import * as allure from 'allure-js-commons';
 
 export class SearchBarComponent extends BaseComponent {
   private readonly searchInput: Locator;
@@ -30,37 +31,64 @@ export class SearchBarComponent extends BaseComponent {
   }
 
   async fillSearchInput(text: string): Promise<void> {
-    await this.searchInput.clear();
-    await this.searchInput.fill(text);
+    await allure.step(`Fill search input with "${text}"`, async (): Promise<void> => {
+      await this.searchInput.clear();
+      await this.searchInput.fill(text);
+    });
   }
+
   async pressEnter(): Promise<void> {
-    await this.searchInput.press('Enter');
+    await allure.step('Press Enter in search input', async (): Promise<void> => {
+      await this.searchInput.press('Enter');
+    });
   }
 
   async getSearchInputText(): Promise<string> {
     return ((await this.searchFieldText.textContent()) ?? '').trim();
   }
+
   async clickSearchButton(): Promise<void> {
-    await this.searchButton.click();
+    await allure.step('Click search button', async (): Promise<void> => {
+      await this.searchButton.click();
+    });
   }
+
   async clickAdvancedSearchButton(): Promise<void> {
-    await this.advancedSearchButton.click();
+    await allure.step('Click advanced search button', async (): Promise<void> => {
+      await this.advancedSearchButton.click();
+    });
   }
+
   async isSearchInputVisible(): Promise<boolean> {
     return await this.searchInput.isVisible();
   }
+
   async clickSearchInput(): Promise<DropdownComponent> {
-    await this.searchInput.click();
-    return new DropdownComponent(this.dropdownLocator);
+    return await allure.step('Click search input', async (): Promise<DropdownComponent> => {
+      await this.searchInput.click();
+      return new DropdownComponent(this.dropdownLocator);
+    });
   }
+
   async clickCategoryOption(category: ClubCategory): Promise<SearchBarComponent> {
-    await this.searchInput.click();
-    await this.dropdown.select(category);
-    return this;
+    return await allure.step(
+      `Select category option "${category}"`,
+      async (): Promise<SearchBarComponent> => {
+        await this.searchInput.click();
+        await this.dropdown.select(category);
+        return this;
+      }
+    );
   }
+
   async clickClubOption(clubName: string): Promise<SearchBarComponent> {
-    await this.searchInput.click();
-    await this.dropdown.select(clubName);
-    return this;
+    return await allure.step(
+      `Select club option "${clubName}"`,
+      async (): Promise<SearchBarComponent> => {
+        await this.searchInput.click();
+        await this.dropdown.select(clubName);
+        return this;
+      }
+    );
   }
 }

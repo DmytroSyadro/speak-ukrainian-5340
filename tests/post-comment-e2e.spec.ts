@@ -1,7 +1,6 @@
 import { expect, test } from '@playwright/test';
 import * as allure from 'allure-js-commons';
 import env from '../config/env';
-import { TEST_TIMEOUTS } from '../config/test-timeouts';
 import { HomePage } from '../pages/home-page';
 import { ClubPage } from '../pages/club-page';
 import { ClubDetailsPage } from '../pages/club-details-page';
@@ -12,7 +11,7 @@ import { CommentComponent } from '../components/comment/comment-component';
 const COMMENT_TEXT = `Test Comment ${new Date().toLocaleTimeString('uk-UA')}`;
 
 test('E2E — Login → Clubs → Club Page → Post a Comment @E2E', async ({ page }) => {
-  test.setTimeout(TEST_TIMEOUTS.longE2E);
+  test.setTimeout(env.TEST_TIMEOUTS.longE2E);
 
   await allure.epic('Speak Ukrainian');
   await allure.feature('Club page');

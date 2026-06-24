@@ -20,9 +20,12 @@ export class CommentsSectionComponent extends BaseComponent {
   }
 
   async getCommentsCount(): Promise<number> {
-    await this.waitForLocatorVisible(this.commentsContainer);
-    await this.waitForLocatorVisible(this.comments.first());
-    return await this.comments.count();
+    try {
+      await this.waitForLocatorVisible(this.commentsContainer);
+      return await this.comments.count();
+    } catch {
+      return 0;
+    }
   }
 
   getCommentByIndex(index: number): CommentComponent {
