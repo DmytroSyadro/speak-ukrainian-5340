@@ -41,7 +41,7 @@ Create `.env` in the project root and add:
 
 ```env
 BASE_URL=https://speak-ukrainian.org.ua
-BASE_URL_API=localhost:3000
+BASE_URL_API=http://localhost:3000
 TEST_EMAIL=your-test-account@example.com
 TEST_PASSWORD=your-test-password
 HEADLESS=false
