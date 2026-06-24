@@ -1,4 +1,4 @@
-import { test, expect } from '@/fixtures/modal-fixture';
+import { test, expect } from '@/fixtures';
 import { CitiesUser } from '@/data';
 import * as allure from 'allure-js-commons';
 

@@ -1,4 +1,4 @@
-import { test, expect } from '@/fixtures/modal-fixture';
+import { test, expect } from '@/fixtures';
 import * as allure from 'allure-js-commons';
 
 test.describe('Challenge Page', () => {

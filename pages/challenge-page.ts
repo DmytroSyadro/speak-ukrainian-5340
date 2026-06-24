@@ -27,12 +27,9 @@ export class ChallengePage extends BasePage {
   }
 
   async goto(id: number): Promise<void> {
-    return await allure.step(
-      `Navigate to challenge page with ID ${id}`,
-      async (): Promise<void> => {
-        await this.navigateTo(`/challenges/${id}`);
-      }
-    );
+    await allure.step(`Navigate to challenge page with ID ${id}`, async (): Promise<void> => {
+      await this.navigateTo(`/challenges/${id}`);
+    });
   }
 
   getSocialInfoComponent(): SocialInfoComponent {
@@ -79,7 +76,7 @@ export class ChallengePage extends BasePage {
   }
 
   async clickRegisterButton(): Promise<void> {
-    return await allure.step('Click the "Зареєструватись" button', async (): Promise<void> => {
+    await allure.step('Click the "Зареєструватись" button', async (): Promise<void> => {
       await this.registerButton.waitFor({ state: 'visible' });
       await this.registerButton.click();
     });
@@ -103,7 +100,7 @@ export class ChallengePage extends BasePage {
     );
   }
   async clickHelpButton(): Promise<void> {
-    return await allure.step('Click the "Допомогти проєкту" button', async (): Promise<void> => {
+    await allure.step('Click the "Допомогти проєкту" button', async (): Promise<void> => {
       await this.helpButton.waitFor({ state: 'visible' });
       await this.helpButton.click();
     });

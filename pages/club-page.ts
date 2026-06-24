@@ -160,17 +160,14 @@ export class ClubPage extends BasePage {
   }
 
   async waitUntilCityLoads(city: CitiesUser): Promise<void> {
-    return await allure.step(
-      `Wait until clubs for city "${city}" are loaded`,
-      async (): Promise<void> => {
-        await this.page.waitForResponse(
-          (response) =>
-            response.url().includes('/api/clubs/search') &&
-            response.url().includes(encodeURIComponent(city)) &&
-            response.status() === 200
-        );
-      }
-    );
+    await allure.step(`Wait until clubs for city "${city}" are loaded`, async (): Promise<void> => {
+      await this.page.waitForResponse(
+        (response) =>
+          response.url().includes('/api/clubs/search') &&
+          response.url().includes(encodeURIComponent(city)) &&
+          response.status() === 200
+      );
+    });
   }
 
   async isRemoteFilterChecked(): Promise<boolean> {
@@ -284,12 +281,9 @@ export class ClubPage extends BasePage {
   }
 
   async hasCitySelected(city: CitiesUser): Promise<void> {
-    return await allure.step(
-      `Check if city "${city}" is selected in header`,
-      async (): Promise<void> => {
-        await this.header.hasCitySelected(city);
-      }
-    );
+    await allure.step(`Check if city "${city}" is selected in header`, async (): Promise<void> => {
+      await this.header.hasCitySelected(city);
+    });
   }
 
   async getAllAddresses(): Promise<string[]> {
