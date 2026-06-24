@@ -12,8 +12,8 @@ test.describe('Challenge Page', () => {
     });
 
     await allure.step('Scroll down to the action buttons section', async () => {
-      await expect(challengePage.isRegisterButtonVisible()).resolves.toBeTruthy();
       await challengePage.waitForPageLoad();
+      await expect(challengePage.isRegisterButtonVisible()).resolves.toBeTruthy();
     });
 
     await allure.step('Click the "Зареєструватись" button', async () => {
