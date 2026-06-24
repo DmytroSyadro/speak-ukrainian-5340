@@ -9,7 +9,7 @@ import {
   AboutUsPage,
   ServicesPage,
 } from '@/pages';
-import { test as baseTest, expect as baseExpect } from './base-fixture';
+import { test as baseTest, expect as baseExpect } from './api-fixture';
 import { PaymentPage } from '@/pages/payment-page';
 
 type PageFixture = {
