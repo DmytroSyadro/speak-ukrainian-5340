@@ -1,4 +1,4 @@
-import { Locator } from '@playwright/test';
+import { test, type Locator } from '@playwright/test';
 import { BaseComponent } from '@/components/base-component';
 
 export class HomePageHeroComponent extends BaseComponent {
@@ -29,18 +29,26 @@ export class HomePageHeroComponent extends BaseComponent {
   }
 
   async clickHeroLearnMoreButton(): Promise<void> {
-    await this.heroLearnMoreButton.click();
+    await test.step('Click "Learn More" button on hero section', async () => {
+      await this.heroLearnMoreButton.click();
+    });
   }
 
   async clickHeroCarouselNextArrow(): Promise<void> {
-    await this.heroCarouselNextArrow.click();
+    await test.step('Click next arrow in hero carousel', async () => {
+      await this.heroCarouselNextArrow.click();
+    });
   }
 
   async clickHeroCarouselPrevArrow(): Promise<void> {
-    await this.heroCarouselPrevArrow.click();
+    await test.step('Click previous arrow in hero carousel', async () => {
+      await this.heroCarouselPrevArrow.click();
+    });
   }
 
   async clickHeroCarouselDot(index: number): Promise<void> {
-    await this.heroCarouselDots.getByRole('button', { name: `${index}` }).click();
+    await test.step(`Click on hero carousel dot at index: ${index}`, async () => {
+      await this.heroCarouselDots.getByRole('button', { name: `${index}` }).click();
+    });
   }
 }
