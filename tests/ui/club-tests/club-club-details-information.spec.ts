@@ -5,7 +5,6 @@ import * as allure from 'allure-js-commons';
 
 test.describe('news club information', (): void => {
   test.beforeEach(async (): Promise<void> => {
-    // Переносимо всі метадані Allure у beforeEach
     await allure.epic('Speak Ukrainian');
     await allure.owner('Dmytro Syadro');
     await allure.feature('News page');
@@ -22,8 +21,11 @@ test.describe('news club information', (): void => {
     clubDetailsPage,
     newsPage,
   }): Promise<void> => {
+    let club!: ClubCardComponent;
+    let clubTitle!: string;
     await allure.step('Navigate to club page and get first club card', async (): Promise<void> => {
       await clubPage.navigate();
+
       club = await clubPage.getFirstClubCard();
       clubTitle = await club.getClubTitle();
     });
@@ -47,7 +49,7 @@ test.describe('news club information', (): void => {
     await allure.step('Navigate to News page from club details', async (): Promise<void> => {
       await clubDetailsPage.clickNews();
       await clubDetailsPage.waitForPageLoad();
-      expect(page.url()).toContain('/news');
+      await expect(page).toHaveURL(/\/news/);
     });
 
     await allure.step(

@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 import env from '@/config/env';
 
 import { AboutUsPage } from '@/pages/about-us-page';
-import { SignInModal } from '@/modals/sign-in-modal';
+import { SignInModal } from '@/modals/authorization/sign-in-modal';
 
 test.describe('AboutUs team verification', () => {
   let aboutUsPage: AboutUsPage;
