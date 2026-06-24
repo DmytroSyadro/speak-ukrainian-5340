@@ -10,6 +10,7 @@ on:
 
 env:
   BASE_URL: ${{ secrets.BASE_URL }}
+  BASE_URL_API: ${{ secrets.BASE_URL_API }}
   TEST_EMAIL: ${{ secrets.TEST_EMAIL }}
   TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
   HEADLESS: true

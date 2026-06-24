@@ -41,6 +41,7 @@ Create `.env` in the project root and add:
 
 ```env
 BASE_URL=https://speak-ukrainian.org.ua
+BASE_URL_API=localhost:3000
 TEST_EMAIL=your-test-account@example.com
 TEST_PASSWORD=your-test-password
 HEADLESS=false
@@ -49,6 +50,7 @@ HEADLESS=false
 | Variable        | Required | Default                          | Description                              |
 | --------------- | -------- | -------------------------------- | ---------------------------------------- |
 | `BASE_URL`      | No       | `https://speak-ukrainian.org.ua` | Target site URL                          |
+| `BASE_URL_API`  | No       | `http://localhost:3000`          | API base URL                             |
 | `TEST_EMAIL`    | No       | —                                | Account email for authenticated tests    |
 | `TEST_PASSWORD` | No       | —                                | Account password for authenticated tests |
 | `HEADLESS`      | No       | `true`                           | Set to `false` for headed local runs     |
