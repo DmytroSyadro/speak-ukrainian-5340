@@ -20,7 +20,7 @@ test.describe('Profile Page Tests', () => {
         .locator('.ant-dropdown-menu-item')
         .filter({ hasText: 'Особистий кабінет' });
       await profileLink.click();
-      await page.waitForLoadState('networkidle');
+      await expect(profilePage.profileCardLocator).toBeVisible();
 
       const userId = await profilePage.getUserIdFromUrl();
       await profilePage.navigateToProfile(userId);

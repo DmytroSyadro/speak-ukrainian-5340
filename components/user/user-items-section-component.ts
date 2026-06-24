@@ -26,15 +26,6 @@ export class UserItemsSectionComponent extends BaseComponent {
       this.page.locator('.ant-select-dropdown').getByText(type, { exact: true });
   }
 
-  /**
-   * Select an item type from the dropdown
-   * @param type - The type to select (e.g., 'Гуртки')
-   */
-  async selectItemType(type: string): Promise<void> {
-    await this.itemTypeDropdown.click();
-    await this.selectDropdown(type).click();
-  }
-
   /** Click the Add button to open dropdown */
   async clickAdd(): Promise<void> {
     await this.addButton.click();
