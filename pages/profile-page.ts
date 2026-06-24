@@ -31,7 +31,7 @@ export class ProfilePage extends BasePage {
     this.profileCard = new UserProfileCardComponent(this.profileCardLocator);
     this.userItemsLocator = this.page.locator('main.user-content');
     this.userItems = new UserItemsSectionComponent(this.userItemsLocator);
-    this.addClubModal = this.page.locator('.modal-add-club, .ant-modal:visible');
+    this.addClubModal = this.page.locator('.modal-add-club');
     this.addClubOption = this.page.getByText('Додати гурток');
     this.messagesTitle = this.page.locator('.messagesContent .contentTitle');
     this.complaintsTitle = this.page.locator('.messagesContent .contentTitle');

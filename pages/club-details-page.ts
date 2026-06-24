@@ -101,6 +101,12 @@ export class ClubDetailsPage extends BasePage {
     await this.waitForVisible(this.notificationText);
   }
 
+  async clearNotification(): Promise<void> {
+    if (await this.notification.isVisible().catch(() => false)) {
+      await this.notification.waitFor({ state: 'hidden', timeout: 5000 });
+    }
+  }
+
   async clickNews(): Promise<NewsPage> {
     await this.header.clickNews();
     return new NewsPage(this.page);

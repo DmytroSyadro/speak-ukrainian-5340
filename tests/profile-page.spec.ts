@@ -35,8 +35,7 @@ test.describe('Profile Page Tests', () => {
     });
 
     await allure.step('Step 2: Verify that the profile card is displayed', async () => {
-      const isVisible = await profilePage.profileCard.isVisible();
-      expect(isVisible).toBe(true);
+      await expect(profilePage.profileCardLocator).toBeVisible();
     });
 
     await allure.step('Step 3: Verify that user name is displayed correctly', async () => {

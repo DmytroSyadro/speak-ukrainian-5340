@@ -69,6 +69,8 @@ test.describe('Club details page', () => {
     await allure.step(
       'Step 3: Click "Відповісти" on first comment and verify notification appears',
       async () => {
+        await clubDetailsPage.clearNotification();
+
         const commentsCount = await clubDetailsPage.comments.getCommentsCount();
         expect(commentsCount).toBeGreaterThan(0);
 
@@ -89,6 +91,8 @@ test.describe('Club details page', () => {
     await allure.step(
       'Step 4: Click "Відповісти" on second comment and verify notification appears',
       async () => {
+        await clubDetailsPage.clearNotification();
+
         const commentsCount = await clubDetailsPage.comments.getCommentsCount();
         expect(commentsCount).toBeGreaterThan(1);
 
