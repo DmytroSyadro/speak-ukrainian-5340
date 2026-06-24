@@ -1,21 +1,13 @@
-import { expect, test } from '@playwright/test';
-import { ClubPage } from '@/pages';
-import { SignInModal } from '@/modals/sign-in-modal';
+import { test, expect } from '@/fixtures/modal-fixture';
 import env from '@/config/env';
 import * as allure from 'allure-js-commons';
 import { CitiesUser } from '@/data/cities-user';
 
 test.describe('club-advanced-search', (): void => {
-  let clubPage: ClubPage;
-  let signInModal: SignInModal;
-
   const email = env.TEST_EMAIL!;
   const password = env.TEST_PASSWORD!;
 
-  test.beforeEach(async ({ page }): Promise<void> => {
-    clubPage = new ClubPage(page);
-    signInModal = new SignInModal(page);
-
+  test.beforeEach(async ({ clubPage, signInModal }): Promise<void> => {
     await clubPage.navigate();
     await clubPage.waitForPageLoad();
 
@@ -27,7 +19,7 @@ test.describe('club-advanced-search', (): void => {
     await expect(signInRoot).toBeHidden();
   });
 
-  test('should display centres in the particular city', async (): Promise<void> => {
+  test('should display centres in the particular city', async ({ clubPage }): Promise<void> => {
     test.fail(true, 'Known bug #31');
 
     await allure.epic('Speak Ukrainian');
@@ -102,6 +94,7 @@ test.describe('club-advanced-search', (): void => {
 
     await allure.step('Step 10: Refresh the page', async () => {
       await clubPage.reloadPage();
+      // eslint-disable-next-line playwright/prefer-web-first-assertions
       expect(await clubPage.isClubModeSelected()).toBeTruthy();
     });
   });

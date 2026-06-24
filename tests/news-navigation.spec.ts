@@ -1,19 +1,15 @@
-import { expect, test } from '@playwright/test';
-import { NewsPage } from '@/pages';
+import { test, expect } from '@/fixtures/modal-fixture';
 import * as allure from 'allure-js-commons';
 import { CitiesUser } from '@/data/cities-user';
 import { OtherNewsComponent } from '@/components/news/other-news-component';
 
 test.describe('news-navigation', (): void => {
-  let newsPage: NewsPage;
-
-  test.beforeEach(async ({ page }): Promise<void> => {
-    newsPage = new NewsPage(page);
+  test.beforeEach(async ({ newsPage }): Promise<void> => {
     await newsPage.navigate();
     await newsPage.waitForPageLoad();
   });
 
-  test('tc-56: Verify pagination on the News page', async (): Promise<void> => {
+  test('tc-56: Verify pagination on the News page', async ({ newsPage }): Promise<void> => {
     await allure.epic('Speak Ukrainian');
     await allure.owner('Petro Derlytsia');
     await allure.feature('News page');
@@ -69,6 +65,7 @@ test.describe('news-navigation', (): void => {
 
   test('tc-58: Verify that changing the global city redirects to clubs, and returning to news displays the updated sidebar', async ({
     page,
+    newsPage,
   }): Promise<void> => {
     await newsPage.header.selectCity(CitiesUser.KYIV);
     await newsPage.navigate();
@@ -152,6 +149,7 @@ test.describe('news-navigation', (): void => {
 
   test('tc-59: Verify the full user journey of browsing, reading, and navigating between multiple news articles', async ({
     page,
+    newsPage,
   }): Promise<void> => {
     await allure.epic('Speak Ukrainian');
     await allure.owner('Petro Derlytsia');
