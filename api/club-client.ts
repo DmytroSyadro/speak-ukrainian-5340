@@ -10,7 +10,9 @@ export class ClubClient extends BaseClient {
   async getClubs(): Promise<APIResponse> {
     return await allure.step('Get list of clubs via API', async () => {
       const response = await this.get('/dev/api/clubs');
-      await allure.attachment('Response status', String(response.status()), { contentType: 'text/plain' });
+      await allure.attachment('Response status', String(response.status()), {
+        contentType: 'text/plain',
+      });
       return response;
     });
   }
