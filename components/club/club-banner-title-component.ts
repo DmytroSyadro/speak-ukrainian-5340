@@ -33,7 +33,9 @@ export class ClubBannerTitleComponent extends BaseComponent {
   }
 
   async getCityName(): Promise<string> {
-    const cityName = await this.title.innerText();
-    return cityName.split(' ').pop() ?? '';
+    return await allure.step('Get city name from banner title', async (): Promise<string> => {
+      const cityName = await this.title.innerText();
+      return cityName.split(' ').pop() ?? '';
+    });
   }
 }
