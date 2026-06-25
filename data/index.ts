@@ -3,3 +3,4 @@ export * from './club-category';
 export * from './constants';
 export * from './challenges';
 export * from './data-builder';
+export * from './data-builder-api';
