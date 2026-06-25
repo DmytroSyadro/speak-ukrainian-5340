@@ -1,11 +1,7 @@
 import { expect, test } from '@/fixtures';
 import * as allure from 'allure-js-commons';
 
-test('Sign In - Successful Login', async ({
-  homePageOnMain,
-  signInModal,
-  testCredentials,
-}) => {
+test('Sign In - Successful Login', async ({ homePageOnMain, signInModal, testCredentials }) => {
   const { email, password } = testCredentials;
 
   await allure.epic('Speak Ukrainian');
