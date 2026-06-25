@@ -1,6 +1,7 @@
 import type { Locator, Page } from '@playwright/test';
 import { ClubCategoryCardComponent } from '@/components/club/club-category-card-component';
 import { BasePage } from '@/pages/base-page';
+import { ClubCategory } from '@/data/club-category';
 
 export class HomePage extends BasePage {
   private readonly initiativeText: Locator;
@@ -49,8 +50,10 @@ export class HomePage extends BasePage {
     return await this.categoryCards.count();
   }
 
-  async clickCategory(categoryName: string): Promise<void> {
-    await this.categoryCards.filter({ hasText: categoryName }).click();
+  async clickCategory(categoryName: ClubCategory): Promise<void> {
+    await test.step(`Click on category: "${categoryName}"`, async () => {
+      await this.categoryCards.filter({ hasText: categoryName }).click();
+    });
   }
 
   getCategoryCardComponentByName(categoryName: string): ClubCategoryCardComponent {

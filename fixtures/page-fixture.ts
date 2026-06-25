@@ -1,5 +1,16 @@
-import { ChallengePage, ClubDetailsPage, ClubPage, HomePage, NewsPage, ProfilePage } from '@/pages';
-import { test as baseTest, expect as baseExpect } from './base-fixture';
+import {
+  ChallengePage,
+  ClubDetailsPage,
+  ClubPage,
+  HomePage,
+  NewsPage,
+  NewsDetailsPage,
+  ChallengeTaskPage,
+  AboutUsPage,
+  ServicesPage,
+  ProfilePage,
+} from '@/pages';
+import { test as baseTest, expect as baseExpect } from './api-fixture';
 import { PaymentPage } from '@/pages/payment-page';
 
 type PageFixture = {
