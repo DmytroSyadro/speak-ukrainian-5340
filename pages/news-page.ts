@@ -45,7 +45,6 @@ export class NewsPage extends BasePage {
     return await this.clubList.getClubCardByIndex(0);
   }
 
-
   getClubsSidebar(): ClubsSidebarComponent {
     return this.clubsSidebarComponent;
   }
@@ -66,7 +65,7 @@ export class NewsPage extends BasePage {
     for (const card of cards) {
       titles.push(await card.getTitle());
     }
-    
+
     return titles;
   }
 
