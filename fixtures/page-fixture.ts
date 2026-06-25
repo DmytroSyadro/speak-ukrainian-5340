@@ -4,10 +4,6 @@ import {
   ClubPage,
   HomePage,
   NewsPage,
-  NewsDetailsPage,
-  ChallengeTaskPage,
-  AboutUsPage,
-  ServicesPage,
   ProfilePage,
 } from '@/pages';
 import { test as baseTest, expect as baseExpect } from './api-fixture';
