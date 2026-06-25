@@ -10,14 +10,38 @@ export class BaseClient {
     this.apiToken = apiToken || null;
   }
 
+  // Helper для формування та логування заголовків
+  private async buildAndLogHeaders(
+    customHeaders?: Record<string, string>,
+    contentType?: string
+  ): Promise<Record<string, string>> {
+    const headers: Record<string, string> = {
+      Accept: 'application/json',
+      ...(contentType && { 'Content-Type': contentType }),
+      ...(this.apiToken && { Authorization: `Bearer ${this.apiToken}` }),
+      ...customHeaders,
+    };
+
+    // Маскуємо токен для безпеки в Allure звітах
+    const headersForReport = { ...headers };
+    if (headersForReport['Authorization']) {
+      headersForReport['Authorization'] = 'Bearer **********';
+    }
+
+    // Додаємо заголовки як атачмент в Allure
+    await allure.attachment('Request Headers', JSON.stringify(headersForReport, null, 2), {
+      contentType: 'application/json',
+    });
+
+    return headers;
+  }
+
   protected async get(url: string, headers?: Record<string, string>): Promise<APIResponse> {
     return await allure.step(`GET: ${url}`, async () => {
+      const computedHeaders = await this.buildAndLogHeaders(headers);
+
       return await this.request.get(url, {
-        headers: {
-          Accept: 'application/json',
-          ...(this.apiToken && { Authorization: `Bearer ${this.apiToken}` }),
-          ...headers,
-        },
+        headers: computedHeaders,
       });
     });
   }
@@ -28,6 +52,8 @@ export class BaseClient {
     headers?: Record<string, string>
   ): Promise<APIResponse> {
     return await allure.step(`POST: ${url}`, async () => {
+      const computedHeaders = await this.buildAndLogHeaders(headers, 'application/json');
+
       if (data) {
         await allure.attachment('Request Payload', JSON.stringify(data, null, 2), {
           contentType: 'application/json',
@@ -35,25 +61,18 @@ export class BaseClient {
       }
 
       return await this.request.post(url, {
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          ...(this.apiToken && { Authorization: `Bearer ${this.apiToken}` }),
-          ...headers,
-        },
+        headers: computedHeaders,
         data: data,
       });
     });
   }
 
   protected async delete(url: string, headers?: Record<string, string>): Promise<APIResponse> {
-    return await allure.step(`Delete ${url}`, async () => {
+    return await allure.step(`DELETE: ${url}`, async () => {
+      const computedHeaders = await this.buildAndLogHeaders(headers);
+
       return await this.request.delete(url, {
-        headers: {
-          Accept: 'application/json',
-          ...(this.apiToken && { Authorization: `Bearer ${this.apiToken}` }),
-          ...headers,
-        },
+        headers: computedHeaders,
       });
     });
   }
@@ -64,6 +83,8 @@ export class BaseClient {
     headers?: Record<string, string>
   ): Promise<APIResponse> {
     return await allure.step(`PUT: ${url}`, async () => {
+      const computedHeaders = await this.buildAndLogHeaders(headers, 'application/json');
+
       if (data) {
         await allure.attachment('Request Payload', JSON.stringify(data, null, 2), {
           contentType: 'application/json',
@@ -71,12 +92,7 @@ export class BaseClient {
       }
 
       return await this.request.put(url, {
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          ...(this.apiToken && { Authorization: `Bearer ${this.apiToken}` }),
-          ...headers,
-        },
+        headers: computedHeaders,
         data: data,
       });
     });
@@ -88,18 +104,16 @@ export class BaseClient {
     headers?: Record<string, string>
   ): Promise<APIResponse> {
     return await allure.step(`PATCH: ${url}`, async () => {
+      const computedHeaders = await this.buildAndLogHeaders(headers, 'application/json');
+
       if (data) {
         await allure.attachment('Request Payload', JSON.stringify(data, null, 2), {
           contentType: 'application/json',
         });
       }
+
       return await this.request.patch(url, {
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          ...(this.apiToken && { Authorization: `Bearer ${this.apiToken}` }),
-          ...headers,
-        },
+        headers: computedHeaders,
         data: data,
       });
     });
