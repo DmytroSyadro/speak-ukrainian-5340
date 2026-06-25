@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 import * as allure from 'allure-js-commons';
-import { ClubDetailsPage } from '@/pages';
+import { ClubDetailsPage } from '@/pages/club-details-page';
 import { TEST_CLUB_ID } from '@/data/';
 
 test.describe('Club details page', () => {
