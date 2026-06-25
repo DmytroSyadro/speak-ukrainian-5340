@@ -1,12 +1,12 @@
 import { expect, test } from '@playwright/test';
 import * as allure from 'allure-js-commons';
-import env from '../config/env';
-import { HomePage } from '../pages/home-page';
-import { ClubPage } from '../pages/club-page';
-import { ClubDetailsPage } from '../pages/club-details-page';
-import { SignInModal } from '../modals/sign-in-modal';
-import { CommentModal } from '../modals/comment-modal';
-import { CommentComponent } from '../components/comment/comment-component';
+import env from '../../config/env';
+import { HomePage } from '../../pages/home-page';
+import { ClubPage } from '../../pages/club-page';
+import { ClubDetailsPage } from '../../pages/club-details-page';
+import { SignInModal } from '../../modals/authorization/sign-in-modal';
+import { CommentModal } from '../../modals/comment-modal';
+import { CommentComponent } from '../../components/comment/comment-component';
 
 const COMMENT_TEXT = `Test Comment ${new Date().toLocaleTimeString('uk-UA')}`;
 

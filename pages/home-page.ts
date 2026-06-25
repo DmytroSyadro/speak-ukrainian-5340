@@ -1,6 +1,7 @@
-import type { Locator, Page } from '@playwright/test';
+import { test, type Locator, type Page } from '@playwright/test';
 import { ClubCategoryCardComponent } from '@/components/club/club-category-card-component';
 import { BasePage } from '@/pages/base-page';
+import { ClubCategory } from '@/data/club-category';
 
 export class HomePage extends BasePage {
   private readonly initiativeText: Locator;
@@ -34,7 +35,9 @@ export class HomePage extends BasePage {
   }
 
   async goto(): Promise<void> {
-    await this.navigateTo('/');
+    await test.step('Navigate to Home page', async () => {
+      await this.navigateTo('/');
+    });
   }
 
   async getInitiativeText(): Promise<string | null> {
@@ -42,15 +45,19 @@ export class HomePage extends BasePage {
   }
 
   async clickAllClubsButton(): Promise<void> {
-    await this.allClubsButton.click();
+    await test.step('Click "All Clubs" button', async () => {
+      await this.allClubsButton.click();
+    });
   }
 
   async getCategoryCardsCount(): Promise<number> {
     return await this.categoryCards.count();
   }
 
-  async clickCategory(categoryName: string): Promise<void> {
-    await this.categoryCards.filter({ hasText: categoryName }).click();
+  async clickCategory(categoryName: ClubCategory): Promise<void> {
+    await test.step(`Click on category: "${categoryName}"`, async () => {
+      await this.categoryCards.filter({ hasText: categoryName }).click();
+    });
   }
 
   getCategoryCardComponentByName(categoryName: string): ClubCategoryCardComponent {
@@ -59,36 +66,50 @@ export class HomePage extends BasePage {
   }
 
   async clickCategoriesNextArrow(): Promise<void> {
-    await this.categoriesNextArrow.click();
+    await test.step('Click next arrow in categories carousel', async () => {
+      await this.categoriesNextArrow.click();
+    });
   }
 
   async clickCategoriesPrevArrow(): Promise<void> {
-    await this.categoriesPrevArrow.click();
+    await test.step('Click previous arrow in categories carousel', async () => {
+      await this.categoriesPrevArrow.click();
+    });
   }
 
   async clickCategoryDot(index: number): Promise<void> {
-    await this.categoriesDots.getByRole('button', { name: `${index}` }).click();
+    await test.step(`Click on category dot at index: ${index}`, async () => {
+      await this.categoriesDots.getByRole('button', { name: `${index}` }).click();
+    });
   }
 
   async clickChallengeLearnMoreButton(): Promise<void> {
-    await this.challengeLearnMoreButton.click();
+    await test.step('Click "Learn More" button for challenge', async () => {
+      await this.challengeLearnMoreButton.click();
+    });
   }
 
   async isPromoBannerVisible(): Promise<boolean> {
-    return await this.promoBanner.isVisible();
+    return await test.step('Check if promo banner is visible', async () => {
+      return await this.promoBanner.isVisible();
+    });
   }
 
   async clickPromoBanner(): Promise<void> {
-    await this.promoBanner.click();
+    await test.step('Click on promo banner', async () => {
+      await this.promoBanner.click();
+    });
   }
 
   async clickSignInButton(): Promise<void> {
-    await this.userProfileDropdown.click();
+    await test.step('Click sign-in button from user profile dropdown', async () => {
+      await this.userProfileDropdown.click();
 
-    await this.loginMenuItem.waitFor({
-      state: 'visible',
+      await this.loginMenuItem.waitFor({
+        state: 'visible',
+      });
+
+      await this.loginMenuItem.click();
     });
-
-    await this.loginMenuItem.click();
   }
 }

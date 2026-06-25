@@ -1,5 +1,15 @@
-import { ChallengePage, ClubDetailsPage, ClubPage, HomePage, NewsPage } from '@/pages';
-import { test as baseTest, expect as baseExpect } from './base-fixture';
+import {
+  ChallengePage,
+  ClubDetailsPage,
+  ClubPage,
+  HomePage,
+  NewsPage,
+  NewsDetailsPage,
+  ChallengeTaskPage,
+  AboutUsPage,
+  ServicesPage,
+} from '@/pages';
+import { test as baseTest, expect as baseExpect } from './api-fixture';
 import { PaymentPage } from '@/pages/payment-page';
 
 type PageFixture = {
@@ -9,6 +19,10 @@ type PageFixture = {
   homePage: HomePage;
   clubDetailsPage: ClubDetailsPage;
   newsPage: NewsPage;
+  newsDetailsPage: NewsDetailsPage;
+  challengeTaskPage: ChallengeTaskPage;
+  aboutUsPage: AboutUsPage;
+  servicesPage: ServicesPage;
 };
 
 export const test = baseTest.extend<PageFixture>({
@@ -35,6 +49,23 @@ export const test = baseTest.extend<PageFixture>({
   newsPage: async ({ page }, use): Promise<void> => {
     const newsPage = new NewsPage(page);
     await use(newsPage);
+  },
+
+  newsDetailsPage: async ({ page }, use): Promise<void> => {
+    const newsDetailsPage = new NewsDetailsPage(page);
+    await use(newsDetailsPage);
+  },
+  challengeTaskPage: async ({ page }, use): Promise<void> => {
+    const challengeTaskPage = new ChallengeTaskPage(page);
+    await use(challengeTaskPage);
+  },
+  aboutUsPage: async ({ page }, use): Promise<void> => {
+    const aboutUsPage = new AboutUsPage(page);
+    await use(aboutUsPage);
+  },
+  servicesPage: async ({ page }, use): Promise<void> => {
+    const servicesPage = new ServicesPage(page);
+    await use(servicesPage);
   },
 });
 export { baseExpect as expect };
