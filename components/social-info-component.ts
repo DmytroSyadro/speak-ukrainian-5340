@@ -1,5 +1,6 @@
 import type { Locator } from '@playwright/test';
 import { BaseComponent } from '@/components/base-component';
+import * as allure from 'allure-js-commons';
 
 export type SocialPlatform = 'facebook' | 'youtube' | 'instagram' | 'mail';
 export class SocialInfoComponent extends BaseComponent {
@@ -39,17 +40,19 @@ export class SocialInfoComponent extends BaseComponent {
   }
 
   async getSocialLinkHref(platform: SocialPlatform): Promise<string | null> {
-    switch (platform) {
-      case 'facebook':
-        return await this.facebookLink.getAttribute('href');
-      case 'youtube':
-        return await this.youtubeLink.getAttribute('href');
-      case 'instagram':
-        return await this.instagramLink.getAttribute('href');
-      case 'mail':
-        return await this.mailLink.getAttribute('href');
-      default:
-        throw new Error(`Unsupported platform: ${platform}`);
-    }
+    return await allure.step(`Get href for ${platform} link`, async (): Promise<string | null> => {
+      switch (platform) {
+        case 'facebook':
+          return await this.facebookLink.getAttribute('href');
+        case 'youtube':
+          return await this.youtubeLink.getAttribute('href');
+        case 'instagram':
+          return await this.instagramLink.getAttribute('href');
+        case 'mail':
+          return await this.mailLink.getAttribute('href');
+        default:
+          throw new Error(`Unsupported platform: ${platform}`);
+      }
+    });
   }
 }
