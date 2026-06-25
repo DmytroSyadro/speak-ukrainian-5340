@@ -16,8 +16,8 @@ export const test = base.extend<ApiFixture>({
     const loginResponse: APIResponse = await apiContext.post('/dev/api/signin', {
       headers: { 'Content-Type': 'application/json' },
       data: {
-        email: config.EMAIL_API,
-        password: config.TEST_PASSWORD,
+        email: config.TEST_EMAIL_API,
+        password: config.TEST_PASSWORD_API,
       },
     });
 
