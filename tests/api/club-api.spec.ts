@@ -39,7 +39,6 @@ test.describe('Club API', (): void => {
     );
 
     const response: APIResponse = await clubClient.createClub(payload);
-
     expect(response.ok()).toBeTruthy();
 
     const body = await response.json();
