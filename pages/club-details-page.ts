@@ -1,4 +1,4 @@
-import type { Page } from '@playwright/test';
+import type { Page, Locator } from '@playwright/test';
 
 import { BasePage } from './base-page';
 import { ClubHeroComponent } from '@/components/club/club-hero-component';
@@ -11,6 +11,8 @@ import { NewsPage } from '@/pages/news-page';
 export class ClubDetailsPage extends BasePage {
   private readonly clubPage: ReturnType<Page['locator']>;
   private readonly formErrors: ReturnType<Page['locator']>;
+  private readonly notification: Locator;
+  private readonly notificationText: Locator;
   private readonly authModal: ReturnType<Page['locator']>;
   private readonly authModalMessage: ReturnType<Page['locator']>;
 
@@ -25,6 +27,8 @@ export class ClubDetailsPage extends BasePage {
 
     this.clubPage = this.page.locator('.club-page');
     this.formErrors = this.page.locator('.ant-form-item-explain-error');
+    this.notification = this.page.locator('.ant-message');
+    this.notificationText = this.page.getByText('Увійдіть або зареєструйтеся').first();
     this.authModal = this.page.locator('.ant-modal-content');
     this.authModalMessage = this.authModal.locator('.ant-modal-body');
 
@@ -84,6 +88,29 @@ export class ClubDetailsPage extends BasePage {
   async getFormErrorCount(): Promise<number> {
     return this.formErrors.count();
   }
+
+  async waitForClubPageVisible(): Promise<void> {
+    await this.waitForVisible(this.clubPage);
+  }
+
+  async isNotificationVisible(): Promise<boolean> {
+    return await this.notification.isVisible();
+  }
+
+  async getNotificationText(): Promise<string> {
+    return (await this.notificationText.textContent()) || '';
+  }
+
+  async waitForNotification(): Promise<void> {
+    await this.waitForVisible(this.notificationText);
+  }
+
+  async clearNotification(): Promise<void> {
+    if (await this.notification.isVisible().catch(() => false)) {
+      await this.notification.waitFor({ state: 'hidden', timeout: 5000 });
+    }
+  }
+
   async clickNews(): Promise<NewsPage> {
     await this.header.clickNews();
     return new NewsPage(this.page);

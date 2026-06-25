@@ -25,8 +25,8 @@ export class AdvancedSearchComponent extends BaseComponent {
 
   constructor(rootLocator: Locator) {
     super(rootLocator);
-    this.clubRadioButton = this.root.locator('.ant-radio', { hasText: 'Гурток' });
-    this.centerRadioButton = this.root.locator('.ant-radio', { hasText: 'Центр' });
+    this.clubRadioButton = this.root.locator('.ant-radio-wrapper', { hasText: 'Гурток' });
+    this.centerRadioButton = this.root.locator('.ant-radio-wrapper', { hasText: 'Центр' });
     this.ageField = this.root.locator("xpath=.//input[@class='ant-input-number-input']");
     this.remoteButton = this.root.locator(
       "xpath=.//div[@id='basic_isOnline']//input[@class='ant-checkbox-input']"
