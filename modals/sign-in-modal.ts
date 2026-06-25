@@ -1,4 +1,4 @@
-import type { Locator, Page } from '@playwright/test';
+import type { Page } from '@playwright/test';
 import { BaseModal } from '@/modals/base-modal';
 import { SignInFormComponent } from '@/components/common/sign-in-form-component';
 

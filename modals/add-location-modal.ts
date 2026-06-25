@@ -1,4 +1,4 @@
-import type { Locator, Page } from '@playwright/test';
+import type { Page } from '@playwright/test';
 import { BaseModal } from '@/modals/base-modal';
 import { AddLocationFormComponent } from '@/components/club/add-location-form-component';
 
