@@ -4,11 +4,12 @@ import config from '@/config/env';
 import type { APIRequestContext, APIResponse } from '@playwright/test';
 
 type ApiFixture = {
+  apiAccessToken: string;
   clubClient: ClubClient;
 };
 
 export const test = base.extend<ApiFixture>({
-  clubClient: async ({ playwright }, use): Promise<void> => {
+  apiAccessToken: async ({ playwright }, use): Promise<void> => {
     const apiContext: APIRequestContext = await playwright.request.newContext({
       baseURL: config.BASE_URL_API,
     });
@@ -23,7 +24,17 @@ export const test = base.extend<ApiFixture>({
 
     const { accessToken } = await loginResponse.json();
 
-    const clubClient = new ClubClient(apiContext, accessToken);
+    await use(accessToken);
+
+    await apiContext.dispose();
+  },
+
+  clubClient: async ({ playwright, apiAccessToken }, use): Promise<void> => {
+    const apiContext: APIRequestContext = await playwright.request.newContext({
+      baseURL: config.BASE_URL_API,
+    });
+
+    const clubClient = new ClubClient(apiContext, apiAccessToken);
 
     await use(clubClient);
 
