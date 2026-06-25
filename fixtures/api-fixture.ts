@@ -1,17 +1,29 @@
 import { test as base, expect as baseExpect } from './base-fixture';
-import { ClubClient } from '@/api/club-client';
+import { ClubClient } from '@/api/clients/club-client';
 import config from '@/config/env';
+import type { APIRequestContext, APIResponse } from '@playwright/test';
 
 type ApiFixture = {
-  ClubClient: ClubClient;
+  clubClient: ClubClient;
 };
 
 export const test = base.extend<ApiFixture>({
-  ClubClient: async ({ playwright }, use): Promise<void> => {
-    const apiContext = await playwright.request.newContext({
+  clubClient: async ({ playwright }, use): Promise<void> => {
+    const apiContext: APIRequestContext = await playwright.request.newContext({
       baseURL: config.BASE_URL_API,
     });
-    const clubClient = new ClubClient(apiContext);
+
+    const loginResponse: APIResponse = await apiContext.post('/dev/api/signin', {
+      headers: { 'Content-Type': 'application/json' },
+      data: {
+        email: config.EMAIL_API,
+        password: config.TEST_PASSWORD,
+      },
+    });
+
+    const { accessToken } = await loginResponse.json();
+
+    const clubClient = new ClubClient(apiContext, accessToken);
 
     await use(clubClient);
 

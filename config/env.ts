@@ -12,6 +12,7 @@ const BASE_URL_API: string = process.env.BASE_URL_API?.trim() || 'http://localho
 const HEADLESS: boolean = process.env.HEADLESS !== 'false';
 const TEST_EMAIL: string | undefined = process.env.TEST_EMAIL;
 const TEST_PASSWORD: string | undefined = process.env.TEST_PASSWORD;
+const EMAIL_API: string | undefined = process.env.EMAIL_API;
 
 const TEST_TIMEOUTS = {
   defaultE2E: 60_000,
@@ -27,4 +28,5 @@ export default {
   TEST_EMAIL,
   TEST_PASSWORD,
   TEST_TIMEOUTS,
+  EMAIL_API,
 };
