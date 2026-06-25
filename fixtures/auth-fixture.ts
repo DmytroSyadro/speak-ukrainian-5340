@@ -25,6 +25,7 @@ async function login(
 }
 
 export const test = modalTest.extend<AuthFixture>({
+  // eslint-disable-next-line no-empty-pattern -- fixture without Playwright dependencies
   testCredentials: async ({}, use): Promise<void> => {
     const { TEST_EMAIL, TEST_PASSWORD } = env;
 
