@@ -2,7 +2,7 @@ import { Page } from '@playwright/test';
 import * as allure from 'allure-js-commons';
 import env from '@/config/env';
 import { HomePage } from '@/pages/home-page';
-import { SignInModal } from '@/modals/sign-in-modal';
+import { SignInModal } from '@/modals';
 
 const { TEST_EMAIL, TEST_PASSWORD } = env;
 
