@@ -1,25 +1,13 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@/fixtures';
 import * as allure from 'allure-js-commons';
 import { login } from '@/utils/login';
-import { ProfilePage } from '@/pages/profile-page';
-import { HomePage } from '@/pages';
 
 test.describe('Profile Page Tests', () => {
-  let profilePage: ProfilePage;
-
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async ({ page, profilePage, homePage }) => {
     await allure.step('Setup: Login and navigate to Profile page', async () => {
       await login(page);
 
-      profilePage = new ProfilePage(page);
-
-      const homePage = new HomePage(page);
-      await homePage.header.openUserMenu();
-
-      const profileLink = page
-        .locator('.ant-dropdown-menu-item')
-        .filter({ hasText: 'Особистий кабінет' });
-      await profileLink.click();
+      await homePage.header.clickUserMenuItem(/Особистий кабінет/);
       await expect(profilePage.profileCardLocator).toBeVisible();
 
       const userId = await profilePage.getUserIdFromUrl();
@@ -28,7 +16,9 @@ test.describe('Profile Page Tests', () => {
     });
   });
 
-  test('TC-90: Verify that user profile information is displayed correctly', async () => {
+  test('TC-90: Verify that user profile information is displayed correctly', async ({
+    profilePage,
+  }) => {
     await allure.step('Step 1: Verify that profile page is opened successfully', async () => {
       const isDisplayed = await profilePage.isProfilePageDisplayed();
       expect(isDisplayed).toBe(true);
@@ -67,7 +57,9 @@ test.describe('Profile Page Tests', () => {
     });
   });
 
-  test('TC-91: Verify that Edit Profile button is displayed and clickable', async () => {
+  test('TC-91: Verify that Edit Profile button is displayed and clickable', async ({
+    profilePage,
+  }) => {
     await allure.step('Step 1: Verify that profile page is opened successfully', async () => {
       const isDisplayed = await profilePage.isProfilePageDisplayed();
       expect(isDisplayed).toBe(true);
@@ -88,7 +80,7 @@ test.describe('Profile Page Tests', () => {
     });
   });
 
-  test('TC-92: Verify navigation through sidebar tabs', async () => {
+  test('TC-92: Verify navigation through sidebar tabs', async ({ profilePage }) => {
     await allure.step('Step 1: Verify that profile page is opened successfully', async () => {
       expect(await profilePage.isProfilePageDisplayed()).toBe(true);
     });
@@ -142,7 +134,9 @@ test.describe('Profile Page Tests', () => {
     });
   });
 
-  test('TC-93: Verify that Add button is displayed in My Clubs section', async () => {
+  test('TC-93: Verify that Add button is displayed in My Clubs section', async ({
+    profilePage,
+  }) => {
     await allure.step('Step 1: Verify that profile page is opened successfully', async () => {
       expect(await profilePage.isProfilePageDisplayed()).toBe(true);
     });

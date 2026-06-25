@@ -41,7 +41,7 @@ export class ClubDetailsPage extends BasePage {
     this.similarClubs = new SimilarClubsComponent(this.page.locator('.similar-clubs'));
   }
 
-  async navigateToClub(id: number = 26): Promise<void> {
+  async navigateToClub(id: number): Promise<void> {
     await this.navigateTo(`/club/${id}`);
   }
 
