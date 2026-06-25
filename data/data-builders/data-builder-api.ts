@@ -76,4 +76,24 @@ export class DataBuilderApi {
   static invalidAgeUpdatePayload(overrides?: Partial<ClubUpdateRequestDto>): ClubUpdateRequestDto {
     return { ...this.updateBasePayload(), ageFrom: 18, ageTo: 16, ...overrides };
   }
+
+  static validDistrictIds() {
+    return {
+      existingId: 1,
+    };
+  }
+
+  static validDistrictName() {
+    return {
+      existingName: 'Шевченківський',
+    };
+  }
+
+  static invalidDistrictIds() {
+    return [
+      { id: -1, description: 'negative ID' },
+      { id: 0, description: 'zero ID' },
+      { id: 1000, description: 'non-existing ID' },
+    ];
+  }
 }

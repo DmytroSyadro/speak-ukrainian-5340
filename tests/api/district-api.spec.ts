@@ -33,10 +33,12 @@ test.describe('District API', (): void => {
 
   for (const { id } of DataBuilderApi.invalidDistrictIds()) {
     test(`should not get district by id=${id}`, async ({ districtClient }): Promise<void> => {
-      await allure.description('Verify that 404 is returned when trying to get a district by an invalid id');
+      await allure.description(
+        'Verify that 404 is returned when trying to get a district by an invalid id'
+      );
 
       const response: APIResponse = await districtClient.getDistrictById(id);
-      
+
       await allure.step('Validate response status', async () => {
         expect(response.ok()).toBeFalsy();
         expect(response.status()).toBe(404);
@@ -46,7 +48,7 @@ test.describe('District API', (): void => {
 
   test('should get district by name', async ({ districtClient }): Promise<void> => {
     await allure.description('Verify that a specific district can be found by its name');
-    
+
     const { existingName } = DataBuilderApi.validDistrictName();
 
     const response: APIResponse = await districtClient.getDistrictByName(existingName);

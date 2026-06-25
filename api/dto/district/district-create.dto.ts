@@ -1,4 +1,4 @@
 export interface SuccessCreatedDistrictDto {
-    name: string;
-    cityName: string;
+  name: string;
+  cityName: string;
 }
