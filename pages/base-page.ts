@@ -69,4 +69,8 @@ export abstract class BasePage {
   async closeCurrentTab(): Promise<void> {
     await this.page.close();
   }
+  async reloadPage(): Promise<void> {
+    await this.page.reload();
+    await this.waitForPageLoad();
+  }
 }

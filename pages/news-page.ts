@@ -11,8 +11,6 @@ import { ClubCardComponent } from '@/components/club/club-card-component';
 export class NewsPage extends BasePage {
   private readonly newsList: Locator;
   private readonly newsListComponent: NewsCardListComponent;
-  private readonly pagination: Locator;
-  private readonly paginationComponent: PaginationComponent;
   private readonly clubsSidebar: Locator;
   private readonly clubsSidebarComponent: ClubsSidebarComponent;
   private readonly CARDS_PER_PAGE = 4;
@@ -27,11 +25,13 @@ export class NewsPage extends BasePage {
     this.clubList = new ListClubCardComponent(this.listCardLocator);
     this.newsList = page.locator('.global-padding.news-content');
     this.newsListComponent = new NewsCardListComponent(this.newsList);
-    this.pagination = page.locator('ul.ant-pagination');
-    this.paginationComponent = new PaginationComponent(this.pagination);
     this.clubsSidebar = page.locator('.club-sider');
     this.clubsSidebarComponent = new ClubsSidebarComponent(this.clubsSidebar);
     this.newsCardsContainer = page.locator('#newsContainer');
+  }
+
+  async navigate(): Promise<void> {
+    await this.page.goto('/news');
   }
 
   getNewsList(): NewsCardListComponent {
@@ -45,12 +45,29 @@ export class NewsPage extends BasePage {
     return await this.clubList.getClubCardByIndex(0);
   }
 
-  getPagination(): PaginationComponent {
-    return this.paginationComponent;
-  }
 
   getClubsSidebar(): ClubsSidebarComponent {
     return this.clubsSidebarComponent;
+  }
+
+  getPagination(): PaginationComponent {
+    return this.pagination;
+  }
+
+  async waitForPageLoad(): Promise<void> {
+    await this.page.waitForLoadState('networkidle');
+    await this.newsList.waitFor({ state: 'visible' });
+  }
+
+  async getNewsTitles(): Promise<string[]> {
+    // const titles = await this.newsListComponent.getAllCards().then(cards => Promise.all(cards.map(card => card.getTitle())));
+    const cards = await this.newsListComponent.getAllCards();
+    const titles: string[] = [];
+    for (const card of cards) {
+      titles.push(await card.getTitle());
+    }
+    
+    return titles;
   }
 
   getNewsCardsContainerLocator(): Locator {
@@ -61,11 +78,11 @@ export class NewsPage extends BasePage {
     const targetPage = Math.ceil(generalIndex / this.CARDS_PER_PAGE);
     const localIndex = (generalIndex - 1) % this.CARDS_PER_PAGE;
 
-    const currentPage = await this.paginationComponent.getActivePageNumber();
+    const currentPage = await this.pagination.getActivePageNumber();
 
     if (currentPage !== targetPage) {
-      await this.paginationComponent.goToPage(targetPage);
-      await this.page.waitForLoadState('networkidle');
+      await this.pagination.goToPage(targetPage);
+      await this.waitForPageLoad();
     }
 
     return this.newsListComponent.getNewsByIndex(localIndex);

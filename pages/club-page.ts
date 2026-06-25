@@ -28,7 +28,7 @@ export class ClubPage extends BasePage {
     super(page);
     this.clubBannerTitleLocator = page.locator("//div[@class='city-name-box']");
     this.advancedSearchLocator = page.locator("//div[@class='ant-layout-sider-children']");
-    this.listCardLocator = page.locator('main.club-list-content');
+    this.listCardLocator = page.locator('main.ant-layout-content').last();
     this.firstClubLink = this.listCardLocator.locator('a[href*="/club/"]').first();
     this.clubBannerTitle = new ClubBannerTitleComponent(this.clubBannerTitleLocator);
     this.advancedSearch = new AdvancedSearchComponent(this.advancedSearchLocator);
