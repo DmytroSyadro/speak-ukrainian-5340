@@ -94,7 +94,7 @@ test.describe('club-advanced-search', (): void => {
 
     await allure.step('Step 10: Refresh the page', async () => {
       await clubPage.reloadPage();
-      // eslint-disable-next-line playwright/prefer-web-first-assertions
+
       expect(await clubPage.isClubModeSelected()).toBeTruthy();
     });
   });
