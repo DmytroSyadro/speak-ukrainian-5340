@@ -31,4 +31,20 @@ export class CategoryClient extends BaseClient {
       return response;
     });
   }
+
+  async updateCategory(id: number, payload: CategoryRequestDto): Promise<APIResponse> {
+    return await test.step(`Update category by ID: ${id} via PUT`, async () => {
+      const response = await this.put(`/dev/api/category/${id}`, payload);
+
+      return response;
+    });
+  }
+
+  async deleteCategory(id: number): Promise<APIResponse> {
+    return await test.step(`Delete category by ID: ${id}`, async () => {
+      const response = await this.delete(`/dev/api/category/${id}`);
+
+      return response;
+    });
+  }
 }
