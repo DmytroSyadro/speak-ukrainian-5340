@@ -1,5 +1,5 @@
 import { test as base, expect as baseExpect } from './base-fixture';
-import {ClubClient, CategoryClient, DistrictClient} from '@/api/clients';
+import { ClubClient, CategoryClient, DistrictClient } from '@/api/clients';
 import config from '@/config/env';
 import type { APIRequestContext, APIResponse } from '@playwright/test';
 
