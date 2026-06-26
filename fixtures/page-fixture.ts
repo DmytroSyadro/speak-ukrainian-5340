@@ -4,6 +4,10 @@ import {
   ClubPage,
   HomePage,
   NewsPage,
+  NewsDetailsPage,
+  ChallengeTaskPage,
+  AboutUsPage,
+  ServicesPage,
   ProfilePage,
 } from '@/pages';
 import { test as baseTest, expect as baseExpect } from './api-fixture';
@@ -16,6 +20,10 @@ type PageFixture = {
   homePage: HomePage;
   clubDetailsPage: ClubDetailsPage;
   newsPage: NewsPage;
+  newsDetailsPage: NewsDetailsPage;
+  challengeTaskPage: ChallengeTaskPage;
+  aboutUsPage: AboutUsPage;
+  servicesPage: ServicesPage;
   profilePage: ProfilePage;
 };
 
@@ -37,6 +45,18 @@ export const test = baseTest.extend<PageFixture>({
   },
   newsPage: async ({ page }, use): Promise<void> => {
     await use(new NewsPage(page));
+  },
+  newsDetailsPage: async ({ page }, use): Promise<void> => {
+    await use(new NewsDetailsPage(page));
+  },
+  challengeTaskPage: async ({ page }, use): Promise<void> => {
+    await use(new ChallengeTaskPage(page));
+  },
+  aboutUsPage: async ({ page }, use): Promise<void> => {
+    await use(new AboutUsPage(page));
+  },
+  servicesPage: async ({ page }, use): Promise<void> => {
+    await use(new ServicesPage(page));
   },
   profilePage: async ({ page }, use): Promise<void> => {
     await use(new ProfilePage(page));

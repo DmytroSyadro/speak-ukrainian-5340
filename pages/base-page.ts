@@ -49,6 +49,14 @@ export abstract class BasePage {
     await this.page.waitForLoadState('networkidle');
   }
 
+  async waitForVisible(locator: Locator, timeout: number = 10000): Promise<void> {
+    await locator.waitFor({ state: 'visible', timeout });
+  }
+
+  async waitForHidden(locator: Locator, timeout: number = 10000): Promise<void> {
+    await locator.waitFor({ state: 'hidden', timeout });
+  }
+
   async switchToNewTab(): Promise<Page> {
     const [newPage] = await Promise.all([this.context.waitForEvent('page')]);
     await newPage.waitForLoadState();
@@ -67,5 +75,9 @@ export abstract class BasePage {
 
   async closeCurrentTab(): Promise<void> {
     await this.page.close();
+  }
+  async reloadPage(): Promise<void> {
+    await this.page.reload();
+    await this.waitForPageLoad();
   }
 }

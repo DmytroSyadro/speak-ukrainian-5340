@@ -18,6 +18,10 @@ export abstract class BaseComponent {
   async waitForVisible(): Promise<void> {
     await this.root.waitFor({ state: 'visible' });
   }
+
+  async waitForLocatorVisible(locator: Locator, timeout: number = 10000): Promise<void> {
+    await locator.waitFor({ state: 'visible', timeout });
+  }
   async waitForHidden(): Promise<void> {
     await this.root.waitFor({ state: 'hidden' });
   }

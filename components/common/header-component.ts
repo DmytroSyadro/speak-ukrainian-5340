@@ -44,7 +44,7 @@ export class HeaderComponent extends BaseComponent {
       .getByRole('menuitem');
     this.searchInput = this.root.locator('.ant-select-selection-search-input, .search-input');
     this.searchButton = this.root.locator('svg[data-icon="search"]');
-    this.advancedSearchButton = this.root.locator('svg[data-icon="control"]');
+    this.advancedSearchButton = this.root.page().getByTitle('розширений пошук');
     this.challengeDropdownMenu = this.page.locator(
       'ul.ant-menu-sub.ant-menu-vertical[id*="challenge"]'
     );

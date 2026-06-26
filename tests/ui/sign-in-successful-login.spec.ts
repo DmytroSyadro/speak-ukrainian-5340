@@ -1,10 +1,11 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '@/fixtures/modal-fixture';
 import * as allure from 'allure-js-commons';
 import env from '@/config/env';
-import { SignInModal } from '@/modals/authorization/sign-in-modal';
-import { HomePage } from '@/pages/home-page';
 
-test('Sign In - Successful Login', async ({ page }) => {
+test('Sign In - Successful Login', async ({ homePage, signInModal }) => {
+  const email = env.TEST_EMAIL!;
+  const password = env.TEST_PASSWORD!;
+
   await allure.epic('Speak Ukrainian');
   await allure.feature('Authentication');
   await allure.story(
@@ -17,14 +18,10 @@ test('Sign In - Successful Login', async ({ page }) => {
     'Verify that a registered user with confirmed email can sign in from the main page, the modal closes, and the header reflects the logged-in state.'
   );
 
-  const email = env.TEST_EMAIL;
-  const password = env.TEST_PASSWORD;
-
-  const homePage = new HomePage(page);
-  const signInModal = new SignInModal(page);
-
   await allure.step('Precondition: Open the main page', async () => {
     await homePage.navigateTo('/');
+    await homePage.waitForPageLoad();
+    expect(await homePage.isPromoBannerVisible()).toBeTruthy();
   });
 
   await allure.step('Step 1: Click Sign In in the dropdown', async () => {
