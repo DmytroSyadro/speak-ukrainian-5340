@@ -1,4 +1,4 @@
-import { ClubRequestDto } from '@/api/dto';
+import { ClubRequestDto, NewsRequestDto } from '@/api/dto';
 import { ClubCategory } from '@/data/club-category';
 
 export class DataBuilderApi {
@@ -26,6 +26,8 @@ export class DataBuilderApi {
       entityMap: {},
     });
 
+    
+
     return {
       name: 'Test Club',
       description: draftJsDescription,
@@ -40,4 +42,16 @@ export class DataBuilderApi {
       ...overrides,
     };
   }
+
+  static validNewsPayload(overrides?: Partial<NewsRequestDto>): NewsRequestDto {
+    return {
+      date: '2026-06-26', 
+      title: 'Валідна тестова новина від автотесту',
+      description: 'This is a test news description that is long enough to pass validation',
+      urlTitleLogo: '/upload/news/default-logo.png',
+      isActive: true,
+      ...overrides, 
+    };
+  }
 }
+
