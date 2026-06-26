@@ -4,14 +4,24 @@ export abstract class BaseModal {
   protected page: Page;
   protected root: Locator;
 
-  protected constructor(page: Page) {
+  protected constructor(page: Page, rootLocator: Locator) {
     this.page = page;
-    this.root = this.getRoot() as unknown as Locator;
+    this.root = rootLocator;
   }
 
-  abstract getRoot(): Promise<Locator>;
+  async getRoot(): Promise<Locator> {
+    return this.root;
+  }
 
   async isVisible(): Promise<boolean> {
     return this.root.isVisible();
-  } //
+  }
+
+  async waitForVisible(): Promise<void> {
+    await this.root.waitFor({ state: 'visible' });
+  }
+
+  async waitForHidden(): Promise<void> {
+    await this.root.waitFor({ state: 'hidden' });
+  }
 }
