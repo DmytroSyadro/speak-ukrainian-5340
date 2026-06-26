@@ -17,6 +17,8 @@ env:
   BASE_URL_API: ${{ secrets.BASE_URL_API }}
   TEST_EMAIL: ${{ secrets.TEST_EMAIL }}
   TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
+  TEST_EMAIL_API: ${{ secrets.TEST_EMAIL_API }}
+  TEST_PASSWORD_API: ${{ secrets.TEST_PASSWORD_API }}
   HEADLESS: true
 
 permissions:

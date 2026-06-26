@@ -6,24 +6,37 @@ import { BasePage } from '@/pages/base-page';
 
 export class ProfilePage extends BasePage {
   private readonly profilePage: Locator;
-
+  private readonly editForm: Locator;
   public readonly sideBarLocator: Locator;
   public readonly sideBar: SideBarComponent;
   public readonly profileCardLocator: Locator;
   public readonly profileCard: UserProfileCardComponent;
   public readonly userItemsLocator: Locator;
   public readonly userItems: UserItemsSectionComponent;
+  private readonly addClubModal: Locator;
+  private readonly addClubOption: Locator;
+  public readonly messagesTitle: Locator;
+  public readonly complaintsTitle: Locator;
+  public readonly applicationsTitle: Locator;
+  public readonly certificatesTitle: Locator;
 
   constructor(page: Page) {
     super(page);
 
     this.profilePage = this.page.locator('.user-page');
+    this.editForm = this.page.locator('.user-edit.ant-modal, .ant-modal.user-edit');
     this.sideBarLocator = this.page.locator('.sider-profile');
     this.sideBar = new SideBarComponent(this.sideBarLocator);
     this.profileCardLocator = this.page.locator('.user-information');
     this.profileCard = new UserProfileCardComponent(this.profileCardLocator);
     this.userItemsLocator = this.page.locator('main.user-content');
     this.userItems = new UserItemsSectionComponent(this.userItemsLocator);
+    this.addClubModal = this.page.locator('.modal-add-club');
+    this.addClubOption = this.page.getByText('Додати гурток');
+    this.messagesTitle = this.page.locator('.messagesContent .contentTitle');
+    this.complaintsTitle = this.page.locator('.messagesContent .contentTitle');
+    this.applicationsTitle = this.page.locator('.registrationsContent .contentTitle .titleText');
+    this.certificatesTitle = this.page.locator('.messagesContent .contentTitle');
   }
 
   async navigateToProfile(userId: number): Promise<void> {
@@ -58,6 +71,10 @@ export class ProfilePage extends BasePage {
     await this.profileCard.clickEditProfile();
   }
 
+  async isEditFormVisible(): Promise<boolean> {
+    return await this.editForm.isVisible();
+  }
+
   async clickProfileTab(): Promise<void> {
     await this.sideBar.clickProfile();
   }
@@ -84,5 +101,62 @@ export class ProfilePage extends BasePage {
 
   async isProfilePageDisplayed(): Promise<boolean> {
     return await this.profilePage.isVisible();
+  }
+
+  async getUserIdFromUrl(): Promise<number> {
+    const url = this.page.url();
+    const userIdMatch = url.match(/\/user\/(\d+)/);
+    if (!userIdMatch) {
+      throw new Error(`Cannot extract user id from URL: ${url}`);
+    }
+    return Number(userIdMatch[1]);
+  }
+
+  async waitForSection(sectionName: string): Promise<void> {
+    const sectionMap: Record<string, Locator> = {
+      profile: this.profilePage,
+      messages: this.messagesTitle,
+      complaints: this.complaintsTitle,
+      applications: this.applicationsTitle,
+      certificates: this.certificatesTitle,
+    };
+
+    const section = sectionMap[sectionName];
+    if (!section) {
+      throw new Error(`Unknown section: ${sectionName}`);
+    }
+
+    await this.waitForVisible(section);
+  }
+
+  async getMessagesTitle(): Promise<string> {
+    return (await this.messagesTitle.textContent()) || '';
+  }
+
+  async getComplaintsTitle(): Promise<string> {
+    return (await this.complaintsTitle.textContent()) || '';
+  }
+
+  async getApplicationsTitle(): Promise<string> {
+    return (await this.applicationsTitle.textContent()) || '';
+  }
+
+  async getCertificatesTitle(): Promise<string> {
+    return (await this.certificatesTitle.textContent()) || '';
+  }
+
+  async clickAddClub(): Promise<void> {
+    await this.userItems.clickAddClub();
+  }
+
+  async clickAddClubAndWaitForModal(): Promise<void> {
+    await this.userItems.clickAdd();
+    await this.waitForVisible(this.addClubOption);
+    await this.addClubOption.click();
+    await this.waitForVisible(this.addClubModal);
+  }
+
+  async isCreationFormVisible(): Promise<boolean> {
+    return await this.addClubModal.isVisible();
   }
 }

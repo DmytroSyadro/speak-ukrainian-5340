@@ -47,4 +47,8 @@ export class PaginationComponent extends BaseComponent {
     const pageButton = this.root.getByText(pageNumber.toString(), { exact: true });
     await pageButton.click();
   }
+
+  async scrollToPagination(): Promise<void> {
+    await this.root.scrollIntoViewIfNeeded();
+  }
 }
