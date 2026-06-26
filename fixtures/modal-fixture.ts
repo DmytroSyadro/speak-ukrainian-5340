@@ -1,23 +1,29 @@
 import { test as pageTest, expect as baseExpect } from './page-fixture';
-import { ClubModal, MapModal, SignInModal } from '@/modals';
+import { ClubModal, CommentModal, MapModal, SignInModal, SignUpModal } from '@/modals';
 
 type ModalFixture = {
   mapModal: MapModal;
   clubModal: ClubModal;
   signInModal: SignInModal;
+  signUpModal: SignUpModal;
+  commentModal: CommentModal;
 };
+
 export const test = pageTest.extend<ModalFixture>({
   mapModal: async ({ page }, use): Promise<void> => {
-    const mapModal = new MapModal(page);
-    await use(mapModal);
+    await use(new MapModal(page));
   },
   clubModal: async ({ page }, use): Promise<void> => {
-    const clubModal = new ClubModal(page);
-    await use(clubModal);
+    await use(new ClubModal(page));
   },
   signInModal: async ({ page }, use): Promise<void> => {
-    const signInModal = new SignInModal(page);
-    await use(signInModal);
+    await use(new SignInModal(page));
+  },
+  signUpModal: async ({ page }, use): Promise<void> => {
+    await use(new SignUpModal(page));
+  },
+  commentModal: async ({ page }, use): Promise<void> => {
+    await use(new CommentModal(page));
   },
 });
 export { baseExpect as expect };
