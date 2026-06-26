@@ -1,10 +1,12 @@
 import { test as base, expect as baseExpect } from './base-fixture';
 import { ClubClient } from '@/api/clients/club-client';
+import { StationClient } from '@/api/clients/station-client';
 import config from '@/config/env';
 import type { APIRequestContext, APIResponse } from '@playwright/test';
 
 type ApiFixture = {
   clubClient: ClubClient;
+  stationClient: StationClient;
 };
 type ApiFixtureWorker = {
   apiAccessToken: string;
@@ -38,6 +40,17 @@ export const test = base.extend<ApiFixture, ApiFixtureWorker>({
     const clubClient = new ClubClient(apiContext, apiAccessToken);
 
     await use(clubClient);
+
+    await apiContext.dispose();
+  },
+
+  stationClient: async ({ playwright, apiAccessToken }, use): Promise<void> => {
+    const apiContext: APIRequestContext = await playwright.request.newContext({
+      baseURL: config.BASE_URL_API,
+    });
+    const stationClient = new StationClient(apiContext, apiAccessToken);
+
+    await use(stationClient);
 
     await apiContext.dispose();
   },
