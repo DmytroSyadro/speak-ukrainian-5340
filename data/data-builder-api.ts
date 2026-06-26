@@ -1,6 +1,5 @@
 import { ClubRequestDto } from '@/api/dto';
 import { ClubCategory } from '@/data/club-category';
-import { CreateStationDto, UpdateStationDto } from '@/api/dto';
 
 export class DataBuilderApi {
   static invalidClubIds() {
@@ -40,40 +39,5 @@ export class DataBuilderApi {
       isApproved: true,
       ...overrides,
     };
-  }
-
-  static validStationPayload(overrides?: Partial<CreateStationDto>): CreateStationDto {
-    return {
-      name: 'Test Station',
-      cityName: 'Київ',
-      districtName: 'Деснянський',
-      ...overrides,
-    };
-  }
-
-  static updateStationPayload(overrides?: Partial<UpdateStationDto>): UpdateStationDto {
-    return {
-      name: 'Updated Test Station',
-      cityName: 'Одеса',
-      districtName: 'Малиновський',
-      ...overrides,
-    };
-  }
-
-  static invalidStationPayloads() {
-    return [
-      {
-        payload: { name: '', cityName: 'Київ', districtName: 'Деснянський' },
-        description: 'empty name',
-      },
-      {
-        payload: { name: 'Test', cityName: '', districtName: 'Деснянський' },
-        description: 'empty cityName',
-      },
-      {
-        payload: { name: 'Test', cityName: 'Київ', districtName: '' },
-        description: 'empty districtName',
-      },
-    ];
   }
 }
