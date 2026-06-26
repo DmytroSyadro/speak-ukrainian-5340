@@ -81,7 +81,7 @@ test.describe('Station API Tests', () => {
 
       const data = (await response.json()) as StationResponse[];
       expect(Array.isArray(data)).toBe(true);
-      expect(data.length).toBe(0);
+      expect(data).toHaveLength(0);
     });
   });
 
@@ -93,7 +93,7 @@ test.describe('Station API Tests', () => {
       const ids = data.map((station) => station.id);
       const uniqueIds = new Set(ids);
 
-      expect(ids.length).toBe(uniqueIds.size);
+      expect(ids).toHaveLength(uniqueIds.size);
     });
   });
 });
