@@ -1,4 +1,4 @@
-import { DataBuilder } from '@/data/data-builder';
+import { DataBuilder } from '@/data/data-builders/data-builder';
 import { Challenges } from '@/data/challenges';
 import { test, expect } from '@/fixtures';
 import type { Page } from '@playwright/test';
