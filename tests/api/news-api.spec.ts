@@ -3,7 +3,7 @@ import * as allure from 'allure-js-commons';
 import type { APIResponse } from '@playwright/test';
 import type { NewsRequestDto } from '@/api/dto/news/news-request.dto';
 import type { NewsResponseDto } from '@/api/dto/news/news-response.dto';
-import type { NewsProfileDto } from '@/api/dto/news/news-profile.dto'; 
+import type { NewsProfileDto } from '@/api/dto/news/news-profile.dto';
 import { DataBuilderApi } from '@/data/data-builder-api';
 
 test.describe('News API', (): void => {
@@ -55,7 +55,7 @@ test.describe('News API', (): void => {
       expect(body.title).toBe(payload.title);
       expect(body.description).toBe(payload.description);
       expect(body.date).toBe(payload.date);
-      expect(body.id).toBeDefined(); 
+      expect(body.id).toBeDefined();
     });
   });
 
@@ -78,22 +78,20 @@ test.describe('News API', (): void => {
     await allure.step('Validate updated news matches new payload', async () => {
       expect(body.title).toBe(payload.title);
       expect(body.description).toBe(payload.description);
-      expect(body.id).toBe(27); 
+      expect(body.id).toBe(27);
     });
   });
 
   test('should delete news successfully', async ({ newsClient }): Promise<void> => {
     await allure.story('Delete News');
     await allure.severity('critical');
-    await allure.description(
-      'Verify that a news item can be deleted successfully.'
-    );
+    await allure.description('Verify that a news item can be deleted successfully.');
 
     const response: APIResponse = await newsClient.deleteNews(27);
 
     await allure.step('Validate response status is 200 OK', async () => {
       expect(response.ok()).toBeTruthy();
-      expect(response.status()).toBe(200); 
+      expect(response.status()).toBe(200);
     });
   });
 });

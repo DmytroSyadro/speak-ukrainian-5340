@@ -1,6 +1,6 @@
-import {NewsRequestDto} from './news-request.dto';
+import { NewsRequestDto } from './news-request.dto';
 
 export interface NewsProfileDto extends NewsRequestDto {
-    id: number;
-    userId: number;
+  id: number;
+  userId: number;
 }
