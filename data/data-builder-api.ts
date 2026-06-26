@@ -1,4 +1,4 @@
-import { ClubRequestDto } from '@/api/dto';
+import { ClubRequestDto, CityRequestDto } from '@/api/dto';
 import { ClubCategory } from '@/data/club-category';
 
 export class DataBuilderApi {
@@ -37,6 +37,15 @@ export class DataBuilderApi {
       isOnline: true,
       contacts: '12331',
       isApproved: true,
+      ...overrides,
+    };
+  }
+
+  static validCityPayload(overrides?: Partial<CityRequestDto>): CityRequestDto {
+    return {
+      name: `Test City ${Date.now()}`,
+      latitude: 50.4501,
+      longitude: 30.5234,
       ...overrides,
     };
   }

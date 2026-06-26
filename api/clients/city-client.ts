@@ -1,20 +1,7 @@
 import { APIRequestContext, APIResponse } from '@playwright/test';
 import * as allure from 'allure-js-commons';
 import { BaseClient } from './base-client';
-
-export interface CityProfile {
-  id?: number;
-  name: string;
-  latitude: number;
-  longitude: number;
-}
-
-export interface CityResponse {
-  id: number;
-  name: string;
-  latitude: number;
-  longitude: number;
-}
+import { CityRequestDto } from '@/api/dto';
 
 export class CityClient extends BaseClient {
   constructor(request: APIRequestContext, apiToken?: string | null) {
@@ -41,9 +28,29 @@ export class CityClient extends BaseClient {
     });
   }
 
-  async createCity(data: CityProfile): Promise<APIResponse> {
+  async createCity(data: CityRequestDto): Promise<APIResponse> {
     return await allure.step('Create city via API', async () => {
       const response = await this.post('/dev/api/city', data);
+      await allure.attachment('Response status', String(response.status()), {
+        contentType: 'text/plain',
+      });
+      return response;
+    });
+  }
+
+  async updateCity(id: number, data: CityRequestDto): Promise<APIResponse> {
+    return await allure.step(`Update city by id: ${id}`, async () => {
+      const response = await this.put(`/dev/api/city/${id}`, data);
+      await allure.attachment('Response status', String(response.status()), {
+        contentType: 'text/plain',
+      });
+      return response;
+    });
+  }
+
+  async deleteCity(id: number): Promise<APIResponse> {
+    return await allure.step(`Delete city by id: ${id}`, async () => {
+      const response = await this.delete(`/dev/api/city/${id}`);
       await allure.attachment('Response status', String(response.status()), {
         contentType: 'text/plain',
       });
