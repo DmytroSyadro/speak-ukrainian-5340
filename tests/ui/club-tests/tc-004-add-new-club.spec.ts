@@ -1,6 +1,6 @@
 import { test, expect } from '@/fixtures/modal-fixture';
 import * as allure from 'allure-js-commons';
-import { DataBuilder } from '@/data/data-builder';
+import { DataBuilder } from '@/data';
 
 allure.epic('Speak Ukrainian');
 allure.owner('Nikita Muntianov');
