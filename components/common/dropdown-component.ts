@@ -1,9 +1,13 @@
-import type { Locator } from '@playwright/test';
+import type { Locator, Page } from '@playwright/test';
 import { BaseComponent } from '@/components/base-component';
 import { Challenges } from '@/data/challenges';
 import * as allure from 'allure-js-commons';
 
 export class DropdownComponent extends BaseComponent {
+  static getRootLocator(page: Page): Locator {
+    return page.locator('.ant-select-dropdown:not(.ant-select-dropdown-hidden)');
+  }
+
   private readonly dropdownOptions: Locator;
   private readonly dropdownMenuOptions: Locator;
   private readonly challengesDropdown: Locator;
@@ -14,6 +18,7 @@ export class DropdownComponent extends BaseComponent {
     this.dropdownMenuOptions = this.root.locator('span.ant-dropdown-menu-title-content');
     this.challengesDropdown = this.root.locator('li.ant-menu-item-only-child span');
   }
+
   async selectChallengeOption(challenge: Challenges): Promise<void> {
     const escaped = challenge.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     await this.challengesDropdown.filter({ hasText: new RegExp(`^${escaped}$`) }).click();

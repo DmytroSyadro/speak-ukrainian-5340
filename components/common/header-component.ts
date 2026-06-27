@@ -22,6 +22,7 @@ export class HeaderComponent extends BaseComponent {
   private readonly challengeDropdownItems: Locator;
   private readonly dropdownLocator: Locator;
   private readonly challengeDropdownLocator: Locator;
+  private readonly addClubButton: Locator;
 
   private challengeDropdown: DropdownComponent;
   private dropdown: DropdownComponent;
@@ -56,6 +57,7 @@ export class HeaderComponent extends BaseComponent {
       .locator('div.ant-menu-submenu-popup')
       .filter({ visible: true });
     this.challengeDropdown = new DropdownComponent(this.challengeDropdownLocator);
+    this.addClubButton = this.root.locator('button.add-club-button');
   }
 
   async clickClubs(): Promise<void> {
@@ -191,5 +193,11 @@ export class HeaderComponent extends BaseComponent {
 
   async waitForChallengeDropdown(): Promise<void> {
     await this.challengeDropdownMenu.waitFor({ state: 'visible', timeout: 10000 });
+  }
+
+  async clickAddClubButton(): Promise<void> {
+    await allure.step('Click on "Додати гурток" button', async (): Promise<void> => {
+      await this.addClubButton.click();
+    });
   }
 }
