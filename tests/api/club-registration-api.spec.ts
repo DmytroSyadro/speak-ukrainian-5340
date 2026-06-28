@@ -5,6 +5,7 @@ import config from '@/config/env';
 import type { APIResponse } from '@playwright/test';
 import type { ClubRegistrationUserRequestDto } from '@/api/dto/club-registration';
 import type { ClubRequestDto } from '@/api/dto';
+import { ClubRegistrationClient } from '@/api/clients/club-registration-client';
 
 test.describe('Club Registration API', (): void => {
   let testClubId: number;
@@ -23,11 +24,6 @@ test.describe('Club Registration API', (): void => {
     });
     const body = await loginResponse.json();
     testUserId = body.id;
-
-    console.log(`\n--- SETUP INFO ---`);
-    console.log(`Logged in as User ID: ${testUserId}`);
-    console.log(`------------------\n`);
-
     await apiContext.dispose();
   });
 
@@ -37,8 +33,12 @@ test.describe('Club Registration API', (): void => {
 
     const clubPayload: ClubRequestDto = DataBuilderApi.validClubPayload();
     const clubResponse = await clubClient.createClub(clubPayload);
+
+    expect(clubResponse.ok()).toBeTruthy();
+
     const clubBody = await clubResponse.json();
     testClubId = clubBody.id;
+    expect(testClubId).toBeTruthy();
   });
 
   test.afterEach(async ({ clubClient }): Promise<void> => {
@@ -110,29 +110,75 @@ test.describe('Club Registration API', (): void => {
     });
   });
 
-  test('should approve a club registration', async ({ clubRegistrationClient }): Promise<void> => {
+  test('should approve a club registration', async ({
+    playwright,
+    clubRegistrationClient,
+  }): Promise<void> => {
     await allure.severity('critical');
+    await allure.description(
+      'Verify that a manager can approve a club registration created by a standard user.'
+    );
 
-    const payload = DataBuilderApi.validClubRegistrationUserPayload(testClubId, testUserId);
-    const postResponse = await clubRegistrationClient.registerUser(payload);
+    // Step 1: Authenticate as a standard user
+    const userContext = await playwright.request.newContext({ baseURL: config.BASE_URL_API });
+    const loginResponse = await userContext.post('/dev/api/signin', {
+      headers: { 'Content-Type': 'application/json' }, // Added required header
+      data: { email: config.TEST_EMAIL, password: config.TEST_PASSWORD },
+    });
 
-    // Safety check so the test doesn't crash trying to read ID of a failed creation
-    if (!postResponse.ok()) {
-      test.skip(true, 'Skipping approval test because registration creation failed (403)');
+    // Fail gracefully if the standard UI user doesn't exist in the DEV API database
+    if (!loginResponse.ok()) {
+      const errorText = await loginResponse.text();
+      console.log(`\n--- SETUP SKIPPED ---`);
+      console.log(`Failed to log in with TEST_EMAIL (${config.TEST_EMAIL}).`);
+      console.log(`API Response: ${loginResponse.status()} - ${errorText}`);
+      console.log(`---------------------\n`);
+
+      test.skip(
+        true,
+        'Skipping approval test: TEST_EMAIL cannot authenticate in the Dev API environment.'
+      );
       return;
     }
 
-    const postBody = await postResponse.json();
-    const registrationId = postBody.id;
+    await allure.step('Setup: Create Registration as Standard User', async (): Promise<void> => {
+      const userBody = await loginResponse.json();
+      const standardUserId = userBody.id;
+      const userToken = userBody.accessToken;
 
-    // Approve Registration
-    const approveResponse = await clubRegistrationClient.approveRegistration(registrationId);
-    const approveBody = await approveResponse.json();
+      // Create a local client for the standard user
+      const userRegistrationClient = new ClubRegistrationClient(userContext, userToken);
 
-    await allure.step('Validate approval response status', async (): Promise<void> => {
-      expect(approveResponse.ok()).toBeTruthy();
-      expect(approveResponse.status()).toBe(200);
-      expect(approveBody.approved).toBe(true);
+      // Create Registration
+      const payload = DataBuilderApi.validClubRegistrationUserPayload(testClubId, standardUserId);
+      const postResponse = await userRegistrationClient.registerUser(payload);
+
+      // If even the standard user gets a 403, another business rule is blocking it
+      if (!postResponse.ok()) {
+        console.log(`Standard user registration failed: `, await postResponse.text());
+      }
+      expect(postResponse.ok()).toBeTruthy();
+
+      const postBody = await postResponse.json();
+      const registrationId = postBody.id;
+
+      // Step 2: Approve Registration as Manager (using the injected fixture)
+      const approveResponse = await clubRegistrationClient.approveRegistration(registrationId);
+      const approveBody = await approveResponse.json();
+
+      await allure.step('Validate approval response status', async (): Promise<void> => {
+        expect(approveResponse.ok()).toBeTruthy();
+        expect(approveResponse.status()).toBe(200);
+      });
+
+      await allure.step('Validate registration is approved', async (): Promise<void> => {
+        expect(approveBody).toMatchObject({
+          id: registrationId,
+          approved: true,
+        });
+      });
+
+      await userContext.dispose();
     });
   });
 
