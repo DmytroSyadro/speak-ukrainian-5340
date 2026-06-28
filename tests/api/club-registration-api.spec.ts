@@ -177,9 +177,12 @@ test.describe('Club Registration API', (): void => {
     test(`should not approve a registration with ${description}`, async ({
       clubRegistrationClient,
     }): Promise<void> => {
-      test.fail(true, 'Backend bug: API returns 200 OK when approving non-existent registrations');
       const response: APIResponse = await clubRegistrationClient.approveRegistration(id);
-      expect(response.ok()).toBeFalsy();
+
+      expect(
+        response.ok(),
+        'Backend bug: API returns 200 OK when approving non-existent registrations'
+      ).toBeFalsy();
     });
   }
 });

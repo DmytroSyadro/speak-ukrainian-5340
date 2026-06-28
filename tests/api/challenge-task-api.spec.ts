@@ -5,8 +5,8 @@ import type { APIResponse } from '@playwright/test';
 import type { TaskRequestDto, TaskUpdateRequestDto } from '@/api/dto/challenge-task';
 
 test.describe('Challenge Task API', (): void => {
-  const dummyChallengeId = 1;
-  const dummyTaskId = 1;
+  const dummyChallengeId = 99999999;
+  const dummyTaskId = 99999999;
 
   test.beforeEach(async (): Promise<void> => {
     await allure.epic('API Infrastructure');

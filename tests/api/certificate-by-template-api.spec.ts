@@ -66,18 +66,15 @@ test.describe('Certificate By Template API', (): void => {
   test('should upload excel file via Base64 string payload', async ({
     certificateClient,
   }): Promise<void> => {
-    // We expect this to fail because the backend currently throws a 500 error
-    // instead of a 400 Bad Request when given an invalid/mock Excel string.
-    test.fail(
+    test.fixme(
       true,
-      'Backend Bug: Returns 500 Internal Server Error instead of 400 for invalid base64 excel files.'
+      'Backend Bug: Returns 500 Internal Server Error. Need real XLSX fixture to assert 400/200 contract.'
     );
 
     await allure.story('Upload Excel File');
     await allure.severity('critical');
 
     const base64Payload = { 'excel-file': 'UEsDBBQAAAAIA...' };
-
     const response: APIResponse = await certificateClient.uploadExcel(base64Payload);
 
     await allure.step('Validate response status', async (): Promise<void> => {
