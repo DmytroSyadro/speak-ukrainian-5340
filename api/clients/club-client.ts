@@ -2,6 +2,7 @@ import { APIResponse } from '@playwright/test';
 import * as allure from 'allure-js-commons';
 import { BaseClient } from './base-client';
 import { ClubRequestDto } from '@/api/dto';
+import { ClubUpdateRequestDto } from '@/api/dto/club/club-update-request.dto';
 
 export class ClubClient extends BaseClient {
   async getClubs(): Promise<APIResponse> {
@@ -40,7 +41,7 @@ export class ClubClient extends BaseClient {
     });
   }
 
-  async editClub(id: number, payload: ClubRequestDto): Promise<APIResponse> {
+  async editClub(id: number, payload: ClubUpdateRequestDto): Promise<APIResponse> {
     return allure.step('Update club via API (PUT)', async () => {
       const response: APIResponse = await this.put(`/dev/api/club/${id}`, payload);
 
