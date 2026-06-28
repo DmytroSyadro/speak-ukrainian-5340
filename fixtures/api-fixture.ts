@@ -3,11 +3,14 @@ import { ClubClient } from '@/api/clients/club-client';
 import { CategoryClient } from '@/api/clients/category-client';
 import config from '@/config/env';
 import type { APIRequestContext, APIResponse } from '@playwright/test';
+import { ClubRegistrationClient } from '@/api/clients/club-registration-client';
 
 type ApiFixture = {
   clubClient: ClubClient;
   unauthClubClient: ClubClient;
   categoryClient: CategoryClient;
+  clubRegistrationClient: ClubRegistrationClient;
+  unauthClubRegistrationClient: ClubRegistrationClient;
 };
 type ApiFixtureWorker = {
   apiAccessToken: string;
@@ -62,6 +65,19 @@ export const test = base.extend<ApiFixture, ApiFixtureWorker>({
     const categoryClient = new CategoryClient(apiContext, apiAccessToken);
 
     await use(categoryClient);
+    await apiContext.dispose();
+  },
+  clubRegistrationClient: async ({ playwright, apiAccessToken }, use): Promise<void> => {
+    const apiContext = await playwright.request.newContext({ baseURL: config.BASE_URL_API });
+    const client = new ClubRegistrationClient(apiContext, apiAccessToken);
+    await use(client);
+    await apiContext.dispose();
+  },
+
+  unauthClubRegistrationClient: async ({ playwright }, use): Promise<void> => {
+    const apiContext = await playwright.request.newContext({ baseURL: config.BASE_URL_API });
+    const client = new ClubRegistrationClient(apiContext);
+    await use(client);
     await apiContext.dispose();
   },
 });

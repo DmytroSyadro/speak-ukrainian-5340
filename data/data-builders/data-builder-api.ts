@@ -1,6 +1,7 @@
 import { ClubRequestDto } from '@/api/dto';
 import { ClubCategory } from '@/data/club-category';
 import { ClubUpdateRequestDto } from '@/api/dto/club/club-update-request.dto';
+import { ClubRegistrationRequestDto, ClubRegistrationUserRequestDto } from '@/api/dto/club-registration';
 
 export class DataBuilderApi {
   private static buildDescription(): string {
@@ -75,5 +76,21 @@ export class DataBuilderApi {
 
   static invalidAgeUpdatePayload(overrides?: Partial<ClubUpdateRequestDto>): ClubUpdateRequestDto {
     return { ...this.updateBasePayload(), ageFrom: 18, ageTo: 16, ...overrides };
+  }
+
+  static validClubRegistrationUserPayload(clubId: number, userId: number): ClubRegistrationUserRequestDto {
+    return {
+      userId: userId,
+      clubId: clubId,
+      comment: 'Test comment for user registration',
+    };
+  }
+
+  static validClubRegistrationPayload(clubId: number, childIds: number[]): ClubRegistrationRequestDto {
+    return {
+      childIds: childIds,
+      clubId: clubId,
+      comment: 'Test comment for children registration',
+    };
   }
 }
