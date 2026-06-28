@@ -11,7 +11,9 @@ export class AddLocationModal extends BaseModal {
   private readonly coordinatesInput: Locator;
   private readonly phoneInput: Locator;
   private readonly addButton: Locator;
-  private readonly dropdown: DropdownComponent;
+  private readonly dropdownLocator: Locator;
+
+  private dropdown: DropdownComponent;
 
   constructor(page: Page) {
     const rootLocator = page.locator('div.modal-add-club .ant-modal-content').filter({
@@ -36,7 +38,10 @@ export class AddLocationModal extends BaseModal {
     this.coordinatesInput = this.root.locator('#coordinates');
     this.phoneInput = this.root.locator('#phone');
     this.addButton = this.root.locator('button[type="submit"]').filter({ hasText: 'Додати' });
-    this.dropdown = new DropdownComponent(DropdownComponent.getRootLocator(this.page));
+    this.dropdownLocator = this.root.locator(
+      '.ant-select-dropdown:not(.ant-select-dropdown-hidden)'
+    );
+    this.dropdown = new DropdownComponent(this.dropdownLocator);
   }
 
   async getRoot(): Promise<Locator> {

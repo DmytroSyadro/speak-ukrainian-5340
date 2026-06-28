@@ -1,13 +1,9 @@
-import type { Locator, Page } from '@playwright/test';
+import type { Locator } from '@playwright/test';
 import { BaseComponent } from '@/components/base-component';
 import { Challenges } from '@/data/challenges';
 import * as allure from 'allure-js-commons';
 
 export class DropdownComponent extends BaseComponent {
-  static getRootLocator(page: Page): Locator {
-    return page.locator('.ant-select-dropdown:not(.ant-select-dropdown-hidden)');
-  }
-
   private readonly dropdownOptions: Locator;
   private readonly dropdownMenuOptions: Locator;
   private readonly challengesDropdown: Locator;

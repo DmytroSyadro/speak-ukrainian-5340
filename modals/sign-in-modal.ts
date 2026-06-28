@@ -67,6 +67,10 @@ export class SignInModal extends BaseModal {
     await this.closeButton.click();
   }
 
+  async submit(): Promise<void> {
+    await this.submitButton.click();
+  }
+
   async login(email: string, password: string): Promise<void> {
     await this.fillEmail(email);
     await this.fillPassword(password);
