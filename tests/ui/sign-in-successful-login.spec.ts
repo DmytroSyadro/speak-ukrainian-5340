@@ -1,12 +1,10 @@
-import { expect, test } from '@/fixtures';
+import { expect, test } from '@/fixtures/modal-fixture';
 import * as allure from 'allure-js-commons';
+import env from '@/config/env';
 
-test('Sign In - Successful Login', async ({
-  homePageOnMain,
-  signInModal,
-  testCredentials,
-}) => {
-  const { email, password } = testCredentials;
+test('Sign In - Successful Login', async ({ homePage, signInModal }) => {
+  const email = env.TEST_EMAIL!;
+  const password = env.TEST_PASSWORD!;
 
   await allure.epic('Speak Ukrainian');
   await allure.feature('Authentication');
@@ -21,11 +19,13 @@ test('Sign In - Successful Login', async ({
   );
 
   await allure.step('Precondition: Open the main page', async () => {
-    expect(await homePageOnMain.isPromoBannerVisible()).toBeTruthy();
+    await homePage.navigateTo('/');
+    await homePage.waitForPageLoad();
+    expect(await homePage.isPromoBannerVisible()).toBeTruthy();
   });
 
   await allure.step('Step 1: Click Sign In in the dropdown', async () => {
-    await homePageOnMain.clickSignInButton();
+    await homePage.clickSignInButton();
     await expect(await signInModal.getRoot()).toBeVisible();
   });
 
@@ -45,10 +45,10 @@ test('Sign In - Successful Login', async ({
   });
 
   await allure.step('Step 5: Verify user is logged in', async () => {
-    await homePageOnMain.header.expectUserIsLoggedIn();
+    await homePage.header.expectUserIsLoggedIn();
   });
 
   await allure.step('Step 6: Verify auth buttons are hidden', async () => {
-    await homePageOnMain.header.expectAuthButtonsHidden();
+    await homePage.header.expectAuthButtonsHidden();
   });
 });

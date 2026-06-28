@@ -3,6 +3,7 @@ import { HeaderComponent } from '@/components/common/header-component';
 import { FooterComponent } from '@/components/common/footer-component';
 import { SearchBarComponent } from '@/components/common/search-bar-component';
 import { PaginationComponent } from '@/components/common/pagination-component';
+import { MessageComponent } from '@/components/common/message-component';
 
 export abstract class BasePage {
   protected page: Page;
@@ -16,6 +17,7 @@ export abstract class BasePage {
 
   protected pagination: PaginationComponent;
   protected searchBar: SearchBarComponent;
+  public readonly message: MessageComponent;
 
   protected constructor(page: Page) {
     this.page = page;
@@ -27,6 +29,7 @@ export abstract class BasePage {
     this.footer = new FooterComponent(this.footerLocator);
     this.paginationLocator = page.locator('ul.ant-pagination');
     this.pagination = new PaginationComponent(this.paginationLocator);
+    this.message = new MessageComponent(MessageComponent.getRootLocator(page));
     this.context = page.context();
   }
 
@@ -41,8 +44,17 @@ export abstract class BasePage {
   async waitForPageLoad(): Promise<void> {
     await this.page.waitForLoadState('load');
   }
+
   async waitForNetworkIdle(): Promise<void> {
     await this.page.waitForLoadState('networkidle');
+  }
+
+  async waitForVisible(locator: Locator, timeout: number = 10000): Promise<void> {
+    await locator.waitFor({ state: 'visible', timeout });
+  }
+
+  async waitForHidden(locator: Locator, timeout: number = 10000): Promise<void> {
+    await locator.waitFor({ state: 'hidden', timeout });
   }
 
   async switchToNewTab(): Promise<Page> {
@@ -50,15 +62,22 @@ export abstract class BasePage {
     await newPage.waitForLoadState();
     return newPage;
   }
+
   async getAllPage(): Promise<Page[]> {
     return this.context.pages();
   }
+
   async switchToTabByIndex(index: number): Promise<Page> {
     const pages: Page[] = this.context.pages();
     await pages[index].bringToFront();
     return pages[index];
   }
+
   async closeCurrentTab(): Promise<void> {
     await this.page.close();
+  }
+  async reloadPage(): Promise<void> {
+    await this.page.reload();
+    await this.waitForPageLoad();
   }
 }

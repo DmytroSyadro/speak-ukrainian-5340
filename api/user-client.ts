@@ -1,18 +1,12 @@
-import { APIRequestContext, APIResponse } from '@playwright/test';
+import { APIResponse } from '@playwright/test';
 import * as allure from 'allure-js-commons';
-import { BaseClient } from './base-client';
-import type { SignupRequestDto, SuccessRegistrationDto } from '@/api/models/user-registration.dto';
+import { BaseClient } from '@/api/clients/base-client';
+import type { SignupRequestDto, SuccessRegistrationDto } from '@/api/dto/user-registration.dto';
 
 export class UserClient extends BaseClient {
-  constructor(request: APIRequestContext, apiToken?: string | null) {
-    super(request, apiToken);
-  }
-
   async signup(payload: SignupRequestDto): Promise<APIResponse> {
-    return await allure.step('Register user via API', async () => {
-      const response = await this.post('/dev/api/signup', payload, {
-        'Content-Type': 'application/json',
-      });
+    return allure.step('Register user via API', async () => {
+      const response = await this.post('/dev/api/signup', payload);
 
       await allure.attachment('Response status', String(response.status()), {
         contentType: 'text/plain',

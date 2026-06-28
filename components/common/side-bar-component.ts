@@ -7,6 +7,7 @@ export class SideBarComponent extends BaseComponent {
   private readonly complaintsTab: Locator;
   private readonly applicationsTab: Locator;
   private readonly certificatesTab: Locator;
+  private readonly activeTabContent: Locator;
 
   constructor(rootLocator: Locator) {
     super(rootLocator);
@@ -14,8 +15,9 @@ export class SideBarComponent extends BaseComponent {
     this.profileTab = this.root.getByText('Профіль', { exact: true });
     this.messagesTab = this.root.getByText('Повідомлення', { exact: true });
     this.complaintsTab = this.root.getByText('Скарги', { exact: true });
-    this.applicationsTab = this.root.getByText('Заявки', { exact: true });
+    this.applicationsTab = this.root.getByText('Реєстрації', { exact: true });
     this.certificatesTab = this.root.getByText('Сертифікати', { exact: true });
+    this.activeTabContent = this.page.locator('.ant-tabs-tabpane-active');
   }
 
   async clickProfile(): Promise<void> {
@@ -56,5 +58,13 @@ export class SideBarComponent extends BaseComponent {
 
   async isCertificatesTabVisible(): Promise<boolean> {
     return await this.certificatesTab.isVisible();
+  }
+
+  getActiveTabContent(): Locator {
+    return this.activeTabContent;
+  }
+
+  async isTabContentVisible(): Promise<boolean> {
+    return await this.activeTabContent.isVisible();
   }
 }

@@ -1,2 +1,1 @@
-export { test, expect } from './auth-fixture';
-export type { TestCredentials } from './auth-fixture';
+export { test, expect } from './modal-fixture';

@@ -1,4 +1,4 @@
-import { expect, test } from '@/fixtures';
+import { expect, test } from '@/fixtures/modal-fixture';
 import * as allure from 'allure-js-commons';
 import env from '@/config/env';
 import { CommentComponent } from '@/components/comment/comment-component';
@@ -12,8 +12,10 @@ test('E2E — Login → Clubs → Club Page → Post a Comment @E2E', async ({
   clubDetailsPage,
   signInModal,
   commentModal,
-  testCredentials,
 }) => {
+  const email = env.TEST_EMAIL!;
+  const password = env.TEST_PASSWORD!;
+
   test.setTimeout(env.TEST_TIMEOUTS.longE2E);
 
   await allure.epic('Speak Ukrainian');
@@ -25,8 +27,6 @@ test('E2E — Login → Clubs → Club Page → Post a Comment @E2E', async ({
   await allure.description(
     'Critical E2E flow: sign in, open the first club from the clubs list, post a comment, and verify it appears without validation errors.'
   );
-
-  const { email, password } = testCredentials;
 
   await allure.step('Step 1: Sign in via SignInModal', async () => {
     await homePage.navigateTo('/');
