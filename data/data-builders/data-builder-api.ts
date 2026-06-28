@@ -1,6 +1,7 @@
 import { ClubRequestDto } from '@/api/dto';
 import { ClubCategory } from '@/data/club-category';
 import { ClubUpdateRequestDto } from '@/api/dto/club/club-update-request.dto';
+import type { ChallengeRequestDto } from '@/api/dto';
 
 export class DataBuilderApi {
   private static buildDescription(): string {
@@ -56,7 +57,7 @@ export class DataBuilderApi {
       { id: 99999999, description: 'non-existent id' },
     ];
   }
-
+    
   static validClubPayload(overrides?: Partial<ClubRequestDto>): ClubRequestDto {
     return { ...this.baseClubPayload(), ...overrides };
   }
@@ -75,5 +76,30 @@ export class DataBuilderApi {
 
   static invalidAgeUpdatePayload(overrides?: Partial<ClubUpdateRequestDto>): ClubUpdateRequestDto {
     return { ...this.updateBasePayload(), ageFrom: 18, ageTo: 16, ...overrides };
+  }
+
+  private static baseChallengePayload(): ChallengeRequestDto {
+  const timestamp = Date.now();
+
+  return {
+    name: `test-challenge-${timestamp}`,
+    title: `Test Challenge ${timestamp}`,
+    description: 'Test challenge description for API automation',
+    registrationLink: 'https://docs.google.com/forms/d/e/test-form/viewform',
+    picture: '/upload/challenge-test-picture.png',
+    sortNumber: 1,
+  };
+  }
+
+  static validChallengePayload(overrides?: Partial<ChallengeRequestDto>): ChallengeRequestDto {
+  return { ...this.baseChallengePayload(), ...overrides };
+  }
+
+  static invalidChallengeIds() {
+    return [
+      { id: -1, description: 'negative id' },
+      { id: 0, description: 'zero id' },
+      { id: 99999999, description: 'non-existent id' },
+    ];
   }
 }

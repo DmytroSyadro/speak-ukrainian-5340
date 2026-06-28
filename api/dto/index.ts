@@ -4,3 +4,6 @@ export * from './club/club-location.dto';
 export * from './club/club-work-time.dto';
 export * from './club/club-update-request.dto';
 export * from './category/category-request.dto';
+export * from './challenge/challenge-request.dto';
+export * from './challenge/challenge-response.dto';
+export * from './challenge/challenge-delete-response.dto';
