@@ -6,3 +6,5 @@ export * from './news/news-request.dto';
 export * from './news/news-response.dto';
 export * from './news/news-profile.dto';
 export * from './news/news-user.dto';
+export * from './club/club-update-request.dto';
+export * from './category/category-request.dto';

@@ -1,94 +1,51 @@
-import type { Locator } from '@playwright/test';
-
-import { ClubCategory } from '@/data';
+import { expect, type Locator } from '@playwright/test';
 import { BaseComponent } from '@/components/base-component';
-import { DropdownComponent } from '@/components/common/dropdown-component';
 import * as allure from 'allure-js-commons';
 
 export class SearchBarComponent extends BaseComponent {
   private readonly searchInput: Locator;
   private readonly searchButton: Locator;
   private readonly advancedSearchButton: Locator;
-  private readonly searchFieldText: Locator;
-  private readonly dropdownLocator: Locator;
-
-  private dropdown: DropdownComponent;
 
   constructor(rootLocator: Locator) {
     super(rootLocator);
-    this.searchInput = this.root.locator('input.ant-select-selection-search-input');
-    this.searchButton = this.root.locator("xpath=.//span[@aria-label='search']");
-    this.advancedSearchButton = this.root.locator("xpath=.//*[@aria-label='search']");
-    this.searchFieldText = this.root.locator(
-      'xpath=.//span[@class="ant-select-selection-placeholder"]'
-    );
-    this.dropdownLocator = this.root
-      .page()
-      .locator(
-        "xpath=//div[contains(@class, 'ant-select-dropdown') and not(contains(@class, 'hidden'))]"
-      );
-    this.dropdown = new DropdownComponent(this.dropdownLocator);
+    this.searchInput = this.root.locator('.ant-select-selection-search-input, .search-input');
+    this.searchButton = this.root.locator('svg[data-icon="search"]');
+    this.advancedSearchButton = this.root.locator('svg[data-icon="control"]');
   }
 
-  async fillSearchInput(text: string): Promise<void> {
-    await allure.step(`Fill search input with "${text}"`, async (): Promise<void> => {
-      await this.searchInput.clear();
-      await this.searchInput.fill(text);
-    });
-  }
-
-  async pressEnter(): Promise<void> {
-    await allure.step('Press Enter in search input', async (): Promise<void> => {
-      await this.searchInput.press('Enter');
-    });
-  }
-
-  async getSearchInputText(): Promise<string> {
-    return ((await this.searchFieldText.textContent()) ?? '').trim();
-  }
-
-  async clickSearchButton(): Promise<void> {
-    await allure.step('Click search button', async (): Promise<void> => {
-      await this.searchButton.click();
-    });
-  }
-
-  async clickAdvancedSearchButton(): Promise<void> {
+  async clickAdvancedSearch(): Promise<void> {
     await allure.step('Click advanced search button', async (): Promise<void> => {
       await this.advancedSearchButton.click();
     });
   }
 
-  async isSearchInputVisible(): Promise<boolean> {
-    return await this.searchInput.isVisible();
-  }
-
-  async clickSearchInput(): Promise<DropdownComponent> {
-    return await allure.step('Click search input', async (): Promise<DropdownComponent> => {
-      await this.searchInput.click();
-      return new DropdownComponent(this.dropdownLocator);
+  async fillSearchInput(text: string): Promise<void> {
+    await allure.step(`Fill search input with "${text}"`, async (): Promise<void> => {
+      await this.searchInput.fill(text);
+      await this.searchInput.press('Tab');
     });
   }
 
-  async clickCategoryOption(category: ClubCategory): Promise<SearchBarComponent> {
-    return await allure.step(
-      `Select category option "${category}"`,
-      async (): Promise<SearchBarComponent> => {
-        await this.searchInput.click();
-        await this.dropdown.select(category);
-        return this;
-      }
-    );
+  async clickSearchButton(): Promise<void> {
+    await allure.step('Click search button', async (): Promise<void> => {
+      await expect(this.searchButton).toBeEnabled();
+      await this.searchButton.click();
+    });
   }
 
-  async clickClubOption(clubName: string): Promise<SearchBarComponent> {
-    return await allure.step(
-      `Select club option "${clubName}"`,
-      async (): Promise<SearchBarComponent> => {
-        await this.searchInput.click();
-        await this.dropdown.select(clubName);
-        return this;
-      }
-    );
+  async search(text: string): Promise<void> {
+    await allure.step(`Search for "${text}"`, async (): Promise<void> => {
+      await this.fillSearchInput(text);
+      await this.clickSearchButton();
+    });
+  }
+
+  async isSearchVisible(): Promise<boolean> {
+    return await this.searchInput.isVisible();
+  }
+
+  async getSearchInputValue(): Promise<string> {
+    return (await this.searchInput.inputValue()) || '';
   }
 }

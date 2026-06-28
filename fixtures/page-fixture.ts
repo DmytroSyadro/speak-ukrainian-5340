@@ -29,49 +29,37 @@ type PageFixture = {
 
 export const test = baseTest.extend<PageFixture>({
   challengePage: async ({ page }, use): Promise<void> => {
-    const challengePage = new ChallengePage(page);
-    await use(challengePage);
+    await use(new ChallengePage(page));
   },
   paymentPage: async ({ page }, use): Promise<void> => {
-    const paymentPage = new PaymentPage(page);
-    await use(paymentPage);
+    await use(new PaymentPage(page));
   },
   clubPage: async ({ page }, use): Promise<void> => {
-    const clubPage = new ClubPage(page);
-    await use(clubPage);
+    await use(new ClubPage(page));
   },
   homePage: async ({ page }, use): Promise<void> => {
-    const homePage = new HomePage(page);
-    await use(homePage);
+    await use(new HomePage(page));
   },
   clubDetailsPage: async ({ page }, use): Promise<void> => {
-    const clubDetailsPage = new ClubDetailsPage(page);
-    await use(clubDetailsPage);
+    await use(new ClubDetailsPage(page));
   },
   newsPage: async ({ page }, use): Promise<void> => {
-    const newsPage = new NewsPage(page);
-    await use(newsPage);
+    await use(new NewsPage(page));
   },
-
   newsDetailsPage: async ({ page }, use): Promise<void> => {
-    const newsDetailsPage = new NewsDetailsPage(page);
-    await use(newsDetailsPage);
+    await use(new NewsDetailsPage(page));
   },
   challengeTaskPage: async ({ page }, use): Promise<void> => {
-    const challengeTaskPage = new ChallengeTaskPage(page);
-    await use(challengeTaskPage);
+    await use(new ChallengeTaskPage(page));
   },
   aboutUsPage: async ({ page }, use): Promise<void> => {
-    const aboutUsPage = new AboutUsPage(page);
-    await use(aboutUsPage);
+    await use(new AboutUsPage(page));
   },
   servicesPage: async ({ page }, use): Promise<void> => {
-    const servicesPage = new ServicesPage(page);
-    await use(servicesPage);
+    await use(new ServicesPage(page));
   },
   profilePage: async ({ page }, use): Promise<void> => {
-    const profilePage = new ProfilePage(page);
-    await use(profilePage);
+    await use(new ProfilePage(page));
   },
 });
 export { baseExpect as expect };

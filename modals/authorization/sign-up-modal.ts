@@ -1,7 +1,7 @@
 import { Locator, Page } from '@playwright/test';
 import { BaseModal } from '@/modals/base-modal';
 
-interface RegistrationData {
+export interface RegistrationData {
   lastName: string;
   firstName: string;
   phone: string;

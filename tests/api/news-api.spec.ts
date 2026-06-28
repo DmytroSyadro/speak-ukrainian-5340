@@ -4,7 +4,7 @@ import type { APIResponse } from '@playwright/test';
 import type { NewsRequestDto } from '@/api/dto/news/news-request.dto';
 import type { NewsResponseDto } from '@/api/dto/news/news-response.dto';
 import type { NewsProfileDto } from '@/api/dto/news/news-profile.dto';
-import { DataBuilderApi } from '@/data/data-builder-api';
+import { DataBuilderApi } from '@/data';
 
 test.describe('News API', (): void => {
   const payload: NewsRequestDto = DataBuilderApi.validNewsPayload();
