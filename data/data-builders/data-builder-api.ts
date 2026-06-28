@@ -86,5 +86,5 @@ export class DataBuilderApi {
       isActive: true,
       ...overrides,
     };
-  };
+  }
 }
