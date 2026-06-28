@@ -1,4 +1,4 @@
-import { test, expect } from '@/fixtures/api-fixture'; 
+import { test, expect } from '@/fixtures/api-fixture';
 import * as allure from 'allure-js-commons';
 import { DataBuilderApi } from '@/data';
 import config from '@/config/env';
@@ -8,7 +8,7 @@ import type { ClubRequestDto } from '@/api/dto';
 
 test.describe('Club Registration API', (): void => {
   let testClubId: number;
-  let testUserId: number; 
+  let testUserId: number;
 
   test.beforeAll(async ({ playwright }): Promise<void> => {
     const apiContext = await playwright.request.newContext({
@@ -23,11 +23,11 @@ test.describe('Club Registration API', (): void => {
     });
     const body = await loginResponse.json();
     testUserId = body.id;
-    
+
     console.log(`\n--- SETUP INFO ---`);
     console.log(`Logged in as User ID: ${testUserId}`);
     console.log(`------------------\n`);
-    
+
     await apiContext.dispose();
   });
 
@@ -47,11 +47,14 @@ test.describe('Club Registration API', (): void => {
     }
   });
 
-  test('should return a list of registrations by manager ID', async ({ clubRegistrationClient }): Promise<void> => {
+  test('should return a list of registrations by manager ID', async ({
+    clubRegistrationClient,
+  }): Promise<void> => {
     await allure.severity('critical');
     await allure.description('Verify that a manager can get a list of their club registrations.');
 
-    const response: APIResponse = await clubRegistrationClient.getRegistrationsByManagerId(testUserId);
+    const response: APIResponse =
+      await clubRegistrationClient.getRegistrationsByManagerId(testUserId);
     const body = await response.json();
 
     await allure.step('Validate response status and structure', async (): Promise<void> => {
@@ -61,11 +64,14 @@ test.describe('Club Registration API', (): void => {
     });
   });
 
-  test('should return a list of unapproved registrations', async ({ clubRegistrationClient }): Promise<void> => {
+  test('should return a list of unapproved registrations', async ({
+    clubRegistrationClient,
+  }): Promise<void> => {
     await allure.severity('critical');
     await allure.description('Verify that a manager can retrieve unapproved applications.');
 
-    const response: APIResponse = await clubRegistrationClient.getUnapprovedApplications(testUserId);
+    const response: APIResponse =
+      await clubRegistrationClient.getUnapprovedApplications(testUserId);
     const body = await response.json();
 
     await allure.step('Validate response status and structure', async (): Promise<void> => {
@@ -75,18 +81,25 @@ test.describe('Club Registration API', (): void => {
     });
   });
 
-  test('should not allow a Manager to register for a club', async ({ clubRegistrationClient }): Promise<void> => {
+  test('should not allow a Manager to register for a club', async ({
+    clubRegistrationClient,
+  }): Promise<void> => {
     await allure.story('Register User to Club - Role Restriction');
     await allure.severity('normal');
-    await allure.description('Verify that a user with a Manager role receives a 403 Forbidden when trying to register for a club.');
+    await allure.description(
+      'Verify that a user with a Manager role receives a 403 Forbidden when trying to register for a club.'
+    );
 
-    const payload: ClubRegistrationUserRequestDto = DataBuilderApi.validClubRegistrationUserPayload(testClubId, testUserId);
+    const payload: ClubRegistrationUserRequestDto = DataBuilderApi.validClubRegistrationUserPayload(
+      testClubId,
+      testUserId
+    );
     const response: APIResponse = await clubRegistrationClient.registerUser(payload);
     const body = await response.json();
 
     await allure.step('Validate response status is 403 Forbidden', async (): Promise<void> => {
       expect(response.ok()).toBeFalsy();
-      expect(response.status()).toBe(403); 
+      expect(response.status()).toBe(403);
     });
 
     await allure.step('Validate role restriction error message', async (): Promise<void> => {
@@ -102,13 +115,12 @@ test.describe('Club Registration API', (): void => {
 
     const payload = DataBuilderApi.validClubRegistrationUserPayload(testClubId, testUserId);
     const postResponse = await clubRegistrationClient.registerUser(payload);
-    
+
     // Safety check so the test doesn't crash trying to read ID of a failed creation
-    /*
     if (!postResponse.ok()) {
       test.skip(true, 'Skipping approval test because registration creation failed (403)');
       return;
-    }*/
+    }
 
     const postBody = await postResponse.json();
     const registrationId = postBody.id;
@@ -124,16 +136,21 @@ test.describe('Club Registration API', (): void => {
     });
   });
 
-  test('should not allow unauthorized user to get registrations', async ({ unauthClubRegistrationClient }): Promise<void> => {
-    const response: APIResponse = await unauthClubRegistrationClient.getRegistrationsByManagerId(testUserId);
+  test('should not allow unauthorized user to get registrations', async ({
+    unauthClubRegistrationClient,
+  }): Promise<void> => {
+    const response: APIResponse =
+      await unauthClubRegistrationClient.getRegistrationsByManagerId(testUserId);
     const body = await response.json();
     expect(response.status()).toBe(401);
     expect(body.message).toBe('You are not authenticated');
   });
 
   for (const { id, description } of DataBuilderApi.invalidClubIds()) {
-    test(`should not approve a registration with ${description}`, async ({ clubRegistrationClient }): Promise<void> => {
-      // test.fail(true, 'Backend bug: API returns 200 OK when approving non-existent registrations');
+    test(`should not approve a registration with ${description}`, async ({
+      clubRegistrationClient,
+    }): Promise<void> => {
+      test.fail(true, 'Backend bug: API returns 200 OK when approving non-existent registrations');
       const response: APIResponse = await clubRegistrationClient.approveRegistration(id);
       expect(response.ok()).toBeFalsy();
     });
