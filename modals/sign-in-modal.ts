@@ -2,6 +2,7 @@ import { expect, type Locator, type Page } from '@playwright/test';
 import { BaseModal } from '@/modals/base-modal';
 
 export class SignInModal extends BaseModal {
+  private static readonly ROOT_SELECTOR = 'div.ant-modal.modal-login[role="dialog"]';
   private readonly emailInput: Locator;
   private readonly passwordInput: Locator;
   private readonly submitButton: Locator;
@@ -11,9 +12,8 @@ export class SignInModal extends BaseModal {
   private readonly closeButton: Locator;
 
   constructor(page: Page) {
-    const rootLocator = page.locator('div.ant-modal.modal-login[role="dialog"]');
-    super(page, rootLocator);
-    this.root = this.page.locator('div.ant-modal.modal-login[role="dialog"]');
+    super(page);
+    this.root = this.page.locator(SignInModal.ROOT_SELECTOR);
 
     this.emailInput = this.root.locator('#basic_email');
     this.passwordInput = this.root.locator('#basic_password');
@@ -25,7 +25,22 @@ export class SignInModal extends BaseModal {
   }
 
   async getRoot(): Promise<Locator> {
-    return this.page.locator('div.ant-modal.modal-login[role="dialog"]');
+    return this.page.locator(SignInModal.ROOT_SELECTOR);
+  }
+
+  async waitForVisible(): Promise<void> {
+    const locator = await this.getRoot();
+    await locator.waitFor({ state: 'visible' });
+  }
+
+  async waitForHidden(): Promise<void> {
+    const locator = await this.getRoot();
+    await locator.waitFor({ state: 'hidden' });
+  }
+
+  async isVisible(): Promise<boolean> {
+    const locator = await this.getRoot();
+    return locator.isVisible();
   }
 
   async fillEmail(email: string): Promise<void> {

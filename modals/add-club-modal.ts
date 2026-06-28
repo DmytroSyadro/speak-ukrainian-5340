@@ -4,6 +4,9 @@ import { AddLocationModal } from '@/modals/add-location-modal';
 import { DropdownComponent } from '@/components/common/dropdown-component';
 
 export class AddClubModal extends BaseModal {
+  private static readonly ROOT_SELECTOR =
+    'div.modal-add-club .ant-modal-content:has(div.add-club-header:has-text("Додати гурток"))';
+
   private readonly nameInput: Locator;
   private readonly ageFromInput: Locator;
   private readonly ageToInput: Locator;
@@ -28,10 +31,8 @@ export class AddClubModal extends BaseModal {
   private readonly dropdown: DropdownComponent;
 
   constructor(page: Page) {
-    const rootLocator = page.locator('div.modal-add-club .ant-modal-content').filter({
-      has: page.locator('div.add-club-header').filter({ hasText: 'Додати гурток' }),
-    });
     super(page);
+    this.root = this.page.locator(AddClubModal.ROOT_SELECTOR);
 
     this.nameInput = this.root.locator('#basic_name');
     this.ageFromInput = this.root.locator('#basic_ageFrom');
@@ -72,7 +73,12 @@ export class AddClubModal extends BaseModal {
   }
 
   async getRoot(): Promise<Locator> {
-    return this.root;
+    return this.page.locator(AddClubModal.ROOT_SELECTOR);
+  }
+
+  async isVisible(): Promise<boolean> {
+    const locator = await this.getRoot();
+    return locator.isVisible();
   }
 
   async setupPayloadSanitizer(): Promise<void> {
@@ -134,7 +140,7 @@ export class AddClubModal extends BaseModal {
     await this.addLocationButton.scrollIntoViewIfNeeded();
     await this.addLocationButton.click();
     const locationModal = new AddLocationModal(this.page);
-    await (await locationModal.getRoot()).waitFor({ state: 'visible' });
+    await locationModal.waitForVisible();
     return locationModal;
   }
 

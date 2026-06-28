@@ -3,6 +3,9 @@ import { BaseModal } from '@/modals/base-modal';
 import { DropdownComponent } from '@/components/common/dropdown-component';
 
 export class AddLocationModal extends BaseModal {
+  private static readonly ROOT_SELECTOR =
+    'div.modal-add-club .ant-modal-content:has(div.add-club-header:has-text("Додати локацію"))';
+
   private readonly nameInput: Locator;
   private readonly cityDropdownTrigger: Locator;
   private readonly districtDropdownTrigger: Locator;
@@ -16,10 +19,8 @@ export class AddLocationModal extends BaseModal {
   private dropdown: DropdownComponent;
 
   constructor(page: Page) {
-    const ROOT_LOCATOR = page.locator('div.modal-add-club .ant-modal-content').filter({
-      has: page.locator('div.add-club-header').filter({ hasText: 'Додати локацію' }),
-    });
     super(page);
+    this.root = this.page.locator(AddLocationModal.ROOT_SELECTOR);
 
     this.nameInput = this.root.locator('#name');
     this.cityDropdownTrigger = this.root
@@ -38,14 +39,16 @@ export class AddLocationModal extends BaseModal {
     this.coordinatesInput = this.root.locator('#coordinates');
     this.phoneInput = this.root.locator('#phone');
     this.addButton = this.root.locator('button[type="submit"]').filter({ hasText: 'Додати' });
-    this.dropdownLocator = this.root.locator(
+
+    // 🔥 ФІКС ТУТ: Замість this.root використовуємо this.page 🔥
+    this.dropdownLocator = this.page.locator(
       '.ant-select-dropdown:not(.ant-select-dropdown-hidden)'
     );
     this.dropdown = new DropdownComponent(this.dropdownLocator);
   }
 
   async getRoot(): Promise<Locator> {
-    return this.root;
+    return this.page.locator(AddLocationModal.ROOT_SELECTOR);
   }
 
   async fillLocationName(name: string): Promise<void> {
