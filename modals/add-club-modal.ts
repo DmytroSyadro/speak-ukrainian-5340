@@ -31,7 +31,7 @@ export class AddClubModal extends BaseModal {
     const rootLocator = page.locator('div.modal-add-club .ant-modal-content').filter({
       has: page.locator('div.add-club-header').filter({ hasText: 'Додати гурток' }),
     });
-    super(page, rootLocator);
+    super(page);
 
     this.nameInput = this.root.locator('#basic_name');
     this.ageFromInput = this.root.locator('#basic_ageFrom');

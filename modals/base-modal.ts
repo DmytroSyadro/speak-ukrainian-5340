@@ -4,14 +4,12 @@ export abstract class BaseModal {
   protected page: Page;
   protected root: Locator;
 
-  protected constructor(page: Page, rootLocator: Locator) {
+  protected constructor(page: Page) {
     this.page = page;
-    this.root = rootLocator;
+    this.root = this.getRoot() as unknown as Locator;
   }
 
-  async getRoot(): Promise<Locator> {
-    return this.root;
-  }
+  abstract getRoot(): Promise<Locator>;
 
   async isVisible(): Promise<boolean> {
     return this.root.isVisible();
