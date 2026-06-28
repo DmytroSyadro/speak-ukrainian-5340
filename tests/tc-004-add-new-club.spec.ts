@@ -32,7 +32,7 @@ test.describe('tc-004-add-new-club', (): void => {
     addClubModal,
     addLocationModal,
   }): Promise<void> => {
-    test.setTimeout(90000);
+    test.setTimeout(60000);
 
     const clubData = DataBuilder.getAddClubData();
 
