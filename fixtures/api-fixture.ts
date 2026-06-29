@@ -1,16 +1,25 @@
 import { test as base, expect as baseExpect } from './base-fixture';
-import { ClubClient, CategoryClient, DistrictClient, NewsClient, CityClient } from '@/api/clients';
+import {
+  ClubClient,
+  CategoryClient,
+  DistrictClient,
+  NewsClient,
+  CityClient,
+  ChallengeClient,
+  ClubRegistrationClient,
+  CertificateByTemplateClient,
+  ChallengeTaskClient,
+} from '@/api/clients';
 import config from '@/config/env';
 import type { APIRequestContext, APIResponse } from '@playwright/test';
-import { ClubRegistrationClient } from '@/api/clients/club-registration-client';
-import { CertificateByTemplateClient } from '@/api/clients/certificate-by-template-client';
-import { ChallengeTaskClient } from '@/api/clients/challenge-task-client';
 
 type ApiFixture = {
   clubClient: ClubClient;
   unauthClubClient: ClubClient;
   newsClient: NewsClient;
   categoryClient: CategoryClient;
+  challengeClient: ChallengeClient;
+  unauthChallengeClient: ChallengeClient;
   authCategoryClient: CategoryClient;
   clubRegistrationClient: ClubRegistrationClient;
   unauthClubRegistrationClient: ClubRegistrationClient;
@@ -95,6 +104,24 @@ export const test = base.extend<ApiFixture, ApiFixtureWorker>({
     const categoryClient = new CategoryClient(apiContext, apiAccessToken);
 
     await use(categoryClient);
+    await apiContext.dispose();
+  },
+  challengeClient: async ({ playwright, apiAccessToken }, use): Promise<void> => {
+    const apiContext = await playwright.request.newContext({
+      baseURL: config.BASE_URL_API,
+    });
+    const challengeClient = new ChallengeClient(apiContext, apiAccessToken);
+
+    await use(challengeClient);
+    await apiContext.dispose();
+  },
+  unauthChallengeClient: async ({ playwright }, use): Promise<void> => {
+    const apiContext = await playwright.request.newContext({
+      baseURL: config.BASE_URL_API,
+    });
+    const challengeClient = new ChallengeClient(apiContext);
+
+    await use(challengeClient);
     await apiContext.dispose();
   },
 
