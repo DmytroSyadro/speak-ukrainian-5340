@@ -1,6 +1,6 @@
 import { test, expect } from '@/fixtures';
 import * as allure from 'allure-js-commons';
-import { StationResponse } from '@/api/dto';
+import { StationResponse } from '@/api/dto/';
 import {
   FIRST_STATION,
   NON_EXISTENT_ID,
