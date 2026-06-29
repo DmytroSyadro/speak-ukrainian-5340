@@ -24,7 +24,6 @@ export class DataBuilderApi {
     return {
       name: `Test Club ${Date.now()}`,
       description: this.buildDescription(),
-      centerId: 1,
       categoriesName: [ClubCategory.DEVELOPMENT_CENTER, ClubCategory.PROGRAMMING],
       locations: [],
       ageFrom: 16,
