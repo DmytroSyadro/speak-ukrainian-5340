@@ -5,3 +5,5 @@ export * from './club/club-work-time.dto';
 export * from './station/station-response.dto';
 export * from './station/create-station.dto';
 export * from './station/update-station.dto';
+export * from './club/club-update-request.dto';
+export * from './category/category-request.dto';
