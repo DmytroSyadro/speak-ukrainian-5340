@@ -1,5 +1,5 @@
 import { test as base, expect as baseExpect } from './base-fixture';
-import { UserClient } from '@/api/user-client';
+import { UserClient } from '@/api/clients/user-client';
 import { DataBuilderApi } from '@/data/data-builders/data-builder-api';
 import type { SignupRequestDto } from '@/api/dto/user-registration.dto';
 import env from '@/config/env';
