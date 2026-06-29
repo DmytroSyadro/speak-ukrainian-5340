@@ -6,6 +6,9 @@ import {
   NewsClient,
   CityClient,
   ChallengeClient,
+  ClubRegistrationClient,
+  CertificateByTemplateClient,
+  ChallengeTaskClient,
 } from '@/api/clients';
 import config from '@/config/env';
 import type { APIRequestContext, APIResponse } from '@playwright/test';
@@ -17,6 +20,12 @@ type ApiFixture = {
   categoryClient: CategoryClient;
   challengeClient: ChallengeClient;
   unauthChallengeClient: ChallengeClient;
+  clubRegistrationClient: ClubRegistrationClient;
+  unauthClubRegistrationClient: ClubRegistrationClient;
+  certificateClient: CertificateByTemplateClient;
+  unauthCertificateClient: CertificateByTemplateClient;
+  challengeTaskClient: ChallengeTaskClient;
+  unauthChallengeTaskClient: ChallengeTaskClient;
   districtClient: DistrictClient;
   cityClient: CityClient;
 };
@@ -126,6 +135,47 @@ export const test = base.extend<ApiFixture, ApiFixtureWorker>({
 
     await use(cityClient);
 
+    await apiContext.dispose();
+  },
+  clubRegistrationClient: async ({ playwright, apiAccessToken }, use): Promise<void> => {
+    const apiContext = await playwright.request.newContext({ baseURL: config.BASE_URL_API });
+    const client = new ClubRegistrationClient(apiContext, apiAccessToken);
+    await use(client);
+    await apiContext.dispose();
+  },
+
+  unauthClubRegistrationClient: async ({ playwright }, use): Promise<void> => {
+    const apiContext = await playwright.request.newContext({ baseURL: config.BASE_URL_API });
+    const client = new ClubRegistrationClient(apiContext);
+    await use(client);
+    await apiContext.dispose();
+  },
+
+  certificateClient: async ({ playwright, apiAccessToken }, use): Promise<void> => {
+    const apiContext = await playwright.request.newContext({ baseURL: config.BASE_URL_API });
+    const client = new CertificateByTemplateClient(apiContext, apiAccessToken);
+    await use(client);
+    await apiContext.dispose();
+  },
+
+  unauthCertificateClient: async ({ playwright }, use): Promise<void> => {
+    const apiContext = await playwright.request.newContext({ baseURL: config.BASE_URL_API });
+    const client = new CertificateByTemplateClient(apiContext);
+    await use(client);
+    await apiContext.dispose();
+  },
+
+  challengeTaskClient: async ({ playwright, apiAccessToken }, use): Promise<void> => {
+    const apiContext = await playwright.request.newContext({ baseURL: config.BASE_URL_API });
+    const client = new ChallengeTaskClient(apiContext, apiAccessToken);
+    await use(client);
+    await apiContext.dispose();
+  },
+
+  unauthChallengeTaskClient: async ({ playwright }, use): Promise<void> => {
+    const apiContext = await playwright.request.newContext({ baseURL: config.BASE_URL_API });
+    const client = new ChallengeTaskClient(apiContext);
+    await use(client);
     await apiContext.dispose();
   },
 });

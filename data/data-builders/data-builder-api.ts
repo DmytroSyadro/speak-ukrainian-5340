@@ -2,6 +2,15 @@ import { ClubRequestDto, NewsRequestDto, CityRequestDto } from '@/api/dto';
 import { ClubCategory } from '@/data/club-category';
 import { ClubUpdateRequestDto } from '@/api/dto/club/club-update-request.dto';
 import type { ChallengeRequestDto } from '@/api/dto';
+import {
+  ClubRegistrationRequestDto,
+  ClubRegistrationUserRequestDto,
+} from '@/api/dto/club-registration';
+import {
+  CertificateByTemplateTransferDto,
+  CertificateTemplatePreviewDto,
+} from '@/api/dto/certificate-by-template';
+import { TaskRequestDto, TaskUpdateRequestDto } from '@/api/dto/challenge-task';
 
 export class DataBuilderApi {
   private static buildDescription(): string {
@@ -103,6 +112,84 @@ export class DataBuilderApi {
       { id: 0, description: 'zero id' },
       { id: 99999999, description: 'non-existent id' },
     ];
+  }
+
+  static validClubRegistrationUserPayload(
+    clubId: number,
+    userId: number
+  ): ClubRegistrationUserRequestDto {
+    return {
+      userId: userId,
+      clubId: clubId,
+      comment: 'Test comment for user registration',
+    };
+  }
+
+  static validClubRegistrationPayload(
+    clubId: number,
+    childIds: number[]
+  ): ClubRegistrationRequestDto {
+    return {
+      childIds: childIds,
+      clubId: clubId,
+      comment: 'Test comment for children registration',
+    };
+  }
+
+  static validCertificateTransferPayload(): CertificateByTemplateTransferDto {
+    return {
+      fieldsList: ['name', 'date'],
+      fieldPropertiesList: ['string', 'date'],
+      templateName: 'StandardTemplate',
+      values: 'value1, value2',
+      columnHeadersList: ['Student Name', 'Completion Date'],
+      excelContent: [['John Doe', '2026-06-28']],
+      excelColumnsOrder: ['0', '1'],
+      googleFormResults: [
+        {
+          userEmail: 'student@example.com',
+          fullName: 'John Doe',
+          totalScore: 100,
+        },
+      ],
+    };
+  }
+
+  static validCertificatePreviewPayload(): CertificateTemplatePreviewDto {
+    return {
+      id: 1, // Dummy ID
+      name: 'Test Template',
+      filePath: '/path/to/template.pdf',
+      certificateType: {
+        id: 1,
+        codeNumber: 101,
+        name: 'Completion',
+      },
+      courseDescription: 'Intro to testing',
+      projectDescription: 'Final Project',
+      picturePath: '/path/to/pic.png',
+      properties: '{"color": "blue"}',
+      used: true,
+    };
+  }
+
+  static validTaskPayload(): TaskRequestDto {
+    return {
+      name: `Test Task ${Date.now()}`,
+      headerText: 'This is a sufficiently long header text to pass validation.',
+      description: 'This is a sufficiently long description text to pass validation.',
+      picture: '/upload/test-picture.png',
+      startDate: '2026-06-28',
+      isActive: true,
+    };
+  }
+
+  static validTaskUpdatePayload(challengeId: number): TaskUpdateRequestDto {
+    return {
+      ...this.validTaskPayload(),
+      name: `Updated Task ${Date.now()}`,
+      challengeId: challengeId,
+    };
   }
   static validNewsPayload(overrides?: Partial<NewsRequestDto>): NewsRequestDto {
     return {
