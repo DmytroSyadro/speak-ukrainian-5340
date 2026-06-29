@@ -1,16 +1,17 @@
 import { test as base, expect as baseExpect } from './base-fixture';
 import { ClubClient } from '@/api/clients/club-client';
-import { StationClient } from '@/api/clients/station-client';
 import { CategoryClient } from '@/api/clients/category-client';
+import { StationClient } from '@/api/clients/station-client'; // ← додати
 import config from '@/config/env';
 import type { APIRequestContext, APIResponse } from '@playwright/test';
 
 type ApiFixture = {
   clubClient: ClubClient;
-  stationClient: StationClient;
   unauthClubClient: ClubClient;
   categoryClient: CategoryClient;
+  stationClient: StationClient; // ← додати
 };
+
 type ApiFixtureWorker = {
   apiAccessToken: string;
 };
@@ -47,6 +48,27 @@ export const test = base.extend<ApiFixture, ApiFixtureWorker>({
     await apiContext.dispose();
   },
 
+  unauthClubClient: async ({ playwright }, use): Promise<void> => {
+    const apiContext: APIRequestContext = await playwright.request.newContext({
+      baseURL: config.BASE_URL_API,
+    });
+    const clubClient = new ClubClient(apiContext); // ← без токена
+
+    await use(clubClient);
+
+    await apiContext.dispose();
+  },
+
+  categoryClient: async ({ playwright, apiAccessToken }, use): Promise<void> => {
+    const apiContext = await playwright.request.newContext({
+      baseURL: config.BASE_URL_API,
+    });
+    const categoryClient = new CategoryClient(apiContext, apiAccessToken);
+
+    await use(categoryClient);
+    await apiContext.dispose();
+  },
+
   stationClient: async ({ playwright, apiAccessToken }, use): Promise<void> => {
     const apiContext: APIRequestContext = await playwright.request.newContext({
       baseURL: config.BASE_URL_API,
@@ -55,25 +77,6 @@ export const test = base.extend<ApiFixture, ApiFixtureWorker>({
 
     await use(stationClient);
 
-    await apiContext.dispose();
-  },
-  unauthClubClient: async ({ playwright }, use): Promise<void> => {
-    const apiContext: APIRequestContext = await playwright.request.newContext({
-      baseURL: config.BASE_URL_API,
-    });
-    const clubClient = new ClubClient(apiContext);
-
-    await use(clubClient);
-
-    await apiContext.dispose();
-  },
-  categoryClient: async ({ playwright, apiAccessToken }, use): Promise<void> => {
-    const apiContext = await playwright.request.newContext({
-      baseURL: config.BASE_URL_API,
-    });
-    const categoryClient = new CategoryClient(apiContext, apiAccessToken);
-
-    await use(categoryClient);
     await apiContext.dispose();
   },
 });
