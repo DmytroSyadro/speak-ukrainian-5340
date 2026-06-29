@@ -13,5 +13,15 @@ export abstract class BaseModal {
 
   async isVisible(): Promise<boolean> {
     return this.root.isVisible();
-  } //
+  }
+
+  async waitForVisible(): Promise<void> {
+    const locator = await this.getRoot();
+    await locator.waitFor({ state: 'visible' });
+  }
+
+  async waitForHidden(): Promise<void> {
+    const locator = await this.getRoot();
+    await locator.waitFor({ state: 'hidden' });
+  }
 }
