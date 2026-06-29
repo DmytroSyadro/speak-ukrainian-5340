@@ -13,5 +13,6 @@ export * from './category/category-request.dto';
 export * from './challenge/challenge-request.dto';
 export * from './challenge/challenge-response.dto';
 export * from './challenge/challenge-delete-response.dto';
+export * from './category/category-response.dto';
 export * from './city/city-request.dto';
 export * from './city/city-response.dto';
