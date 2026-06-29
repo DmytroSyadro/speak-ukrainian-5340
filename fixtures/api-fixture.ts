@@ -1,6 +1,5 @@
 import { test as base, expect as baseExpect } from './base-fixture';
-import { ClubClient } from '@/api/clients/club-client';
-import { CategoryClient } from '@/api/clients/category-client';
+import { ClubClient, CategoryClient, DistrictClient, CityClient } from '@/api/clients';
 import config from '@/config/env';
 import type { APIRequestContext, APIResponse } from '@playwright/test';
 import { ClubRegistrationClient } from '@/api/clients/club-registration-client';
@@ -9,7 +8,6 @@ import { ChallengeTaskClient } from '@/api/clients/challenge-task-client';
 
 type ApiFixture = {
   clubClient: ClubClient;
-  unauthClubClient: ClubClient;
   categoryClient: CategoryClient;
   clubRegistrationClient: ClubRegistrationClient;
   unauthClubRegistrationClient: ClubRegistrationClient;
@@ -17,6 +15,8 @@ type ApiFixture = {
   unauthCertificateClient: CertificateByTemplateClient;
   challengeTaskClient: ChallengeTaskClient;
   unauthChallengeTaskClient: ChallengeTaskClient;
+  districtClient: DistrictClient;
+  cityClient: CityClient;
 };
 type ApiFixtureWorker = {
   apiAccessToken: string;
@@ -54,16 +54,6 @@ export const test = base.extend<ApiFixture, ApiFixtureWorker>({
     await apiContext.dispose();
   },
 
-  unauthClubClient: async ({ playwright }, use): Promise<void> => {
-    const apiContext: APIRequestContext = await playwright.request.newContext({
-      baseURL: config.BASE_URL_API,
-    });
-    const clubClient = new ClubClient(apiContext);
-
-    await use(clubClient);
-
-    await apiContext.dispose();
-  },
   categoryClient: async ({ playwright, apiAccessToken }, use): Promise<void> => {
     const apiContext = await playwright.request.newContext({
       baseURL: config.BASE_URL_API,
@@ -71,6 +61,28 @@ export const test = base.extend<ApiFixture, ApiFixtureWorker>({
     const categoryClient = new CategoryClient(apiContext, apiAccessToken);
 
     await use(categoryClient);
+    await apiContext.dispose();
+  },
+
+  districtClient: async ({ playwright, apiAccessToken }, use): Promise<void> => {
+    const apiContext: APIRequestContext = await playwright.request.newContext({
+      baseURL: config.BASE_URL_API,
+    });
+    const districtClient = new DistrictClient(apiContext, apiAccessToken);
+
+    await use(districtClient);
+
+    await apiContext.dispose();
+  },
+
+  cityClient: async ({ playwright, apiAccessToken }, use): Promise<void> => {
+    const apiContext: APIRequestContext = await playwright.request.newContext({
+      baseURL: config.BASE_URL_API,
+    });
+    const cityClient = new CityClient(apiContext, apiAccessToken);
+
+    await use(cityClient);
+
     await apiContext.dispose();
   },
   clubRegistrationClient: async ({ playwright, apiAccessToken }, use): Promise<void> => {
