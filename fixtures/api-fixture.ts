@@ -57,7 +57,6 @@ export const test = base.extend<ApiFixture, ApiFixtureWorker>({
     await apiContext.dispose();
   },
 
-
   categoryClient: async ({ playwright, apiAccessToken }, use): Promise<void> => {
     const apiContext = await playwright.request.newContext({
       baseURL: config.BASE_URL_API,
