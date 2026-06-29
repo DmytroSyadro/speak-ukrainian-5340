@@ -87,4 +87,24 @@ export class DataBuilderApi {
       ...overrides,
     };
   }
+
+  static validDistrictIds() {
+    return {
+      existingId: 1,
+    };
+  }
+
+  static validDistrictName() {
+    return {
+      existingName: 'Шевченківський',
+    };
+  }
+
+  static invalidDistrictIds() {
+    return [
+      { id: -1, description: 'negative ID' },
+      { id: 0, description: 'zero ID' },
+      { id: 1000, description: 'non-existing ID' },
+    ];
+  }
 }

@@ -5,7 +5,6 @@ import { BaseComponent } from '@/components/base-component';
  * Component representing user's items section on profile page
  * Contains dropdown for item type selection, add button, and list of user's clubs
  */
-
 export class UserItemsSectionComponent extends BaseComponent {
   private readonly itemTypeDropdown: Locator;
   private readonly addButton: Locator;
@@ -38,7 +37,7 @@ export class UserItemsSectionComponent extends BaseComponent {
 
   async selectItemType(type: string): Promise<void> {
     await this.itemTypeDropdown.click();
-    await this.root.locator('.ant-select-dropdown').getByText(type, { exact: true }).click();
+    await this.selectDropdown(type).click();
   }
 
   /** Click the Add button to open dropdown */
