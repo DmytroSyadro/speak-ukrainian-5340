@@ -14,6 +14,7 @@ export class DropdownComponent extends BaseComponent {
     this.dropdownMenuOptions = this.root.locator('span.ant-dropdown-menu-title-content');
     this.challengesDropdown = this.root.locator('li.ant-menu-item-only-child span');
   }
+
   async selectChallengeOption(challenge: Challenges): Promise<void> {
     const escaped = challenge.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     await this.challengesDropdown.filter({ hasText: new RegExp(`^${escaped}$`) }).click();
