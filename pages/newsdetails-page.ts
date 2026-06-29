@@ -17,7 +17,7 @@ export class NewsDetailsPage extends BasePage {
     this.newsDescription = page.locator('#description');
     this.newsImage = page.locator('.image');
     this.newsDate = page.locator('#date');
-    this.helpButton = page.locator('button.donate-button');
+    this.helpButton = page.locator('main button.donate-button');
     this.otherNews = new OtherNewsComponent(page.locator('.other-news'));
   }
   async getNewsTitle(): Promise<string | null> {

@@ -1,7 +1,6 @@
-import { ClubRequestDto } from '@/api/dto';
+import { ClubRequestDto, NewsRequestDto, CityRequestDto } from '@/api/dto';
 import { ClubCategory } from '@/data/club-category';
 import { ClubUpdateRequestDto } from '@/api/dto/club/club-update-request.dto';
-import { SignupRequestDto } from '@/api/dto/user-registration.dto';
 
 export class DataBuilderApi {
   private static buildDescription(): string {
@@ -25,6 +24,7 @@ export class DataBuilderApi {
     return {
       name: `Test Club ${Date.now()}`,
       description: this.buildDescription(),
+      centerId: 1,
       categoriesName: [ClubCategory.DEVELOPMENT_CENTER, ClubCategory.PROGRAMMING],
       locations: [],
       ageFrom: 16,
@@ -35,7 +35,9 @@ export class DataBuilderApi {
     };
   }
 
-  static updateBasePayload(overrides?: Partial<ClubUpdateRequestDto>): ClubUpdateRequestDto {
+  private static updateBasePayload(
+    overrides?: Partial<ClubUpdateRequestDto>
+  ): ClubUpdateRequestDto {
     return {
       name: `Updated Club ${Date.now()}`,
       description: this.buildDescription(),
@@ -78,16 +80,42 @@ export class DataBuilderApi {
     return { ...this.updateBasePayload(), ageFrom: 18, ageTo: 16, ...overrides };
   }
 
-  static signupPayload(overrides: Partial<SignupRequestDto> = {}): SignupRequestDto {
-    const uniqueSuffix = Date.now();
-
+  static validNewsPayload(overrides?: Partial<NewsRequestDto>): NewsRequestDto {
     return {
-      email: `taqc.signup.${uniqueSuffix}@mailinator.com`,
-      firstName: 'Тест',
-      lastName: 'Тест',
-      phone: '0307482105',
-      password: 'Qwerty@1234',
-      roleName: 'ROLE_MANAGER',
+      date: '2026-06-26',
+      title: 'Test API Title Petro',
+      description: 'This is a test description for API testing automation',
+      urlTitleLogo: '/upload/news/test-logo.jpg',
+      isActive: true,
+      ...overrides,
+    };
+  }
+
+  static validDistrictIds() {
+    return {
+      existingId: 1,
+    };
+  }
+
+  static validDistrictName() {
+    return {
+      existingName: 'Шевченківський',
+    };
+  }
+
+  static invalidDistrictIds() {
+    return [
+      { id: -1, description: 'negative ID' },
+      { id: 0, description: 'zero ID' },
+      { id: 1000, description: 'non-existing ID' },
+    ];
+  }
+
+  static validCityPayload(overrides?: Partial<CityRequestDto>): CityRequestDto {
+    return {
+      name: `Test City ${Date.now()}`,
+      latitude: 50.4501,
+      longitude: 30.5234,
       ...overrides,
     };
   }

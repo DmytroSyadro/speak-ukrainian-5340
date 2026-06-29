@@ -21,9 +21,8 @@ export class HeaderComponent extends BaseComponent {
   private readonly challengeDropdownMenu: Locator;
   private readonly challengeDropdownItems: Locator;
   private readonly dropdownLocator: Locator;
-  private readonly addClubButton: Locator;
-  private readonly userMenuLoginItem: Locator;
   private readonly challengeDropdownLocator: Locator;
+  private readonly addClubButton: Locator;
 
   private challengeDropdown: DropdownComponent;
   private dropdown: DropdownComponent;
@@ -44,7 +43,7 @@ export class HeaderComponent extends BaseComponent {
       .getByRole('menuitem');
     this.searchInput = this.root.locator('.ant-select-selection-search-input, .search-input');
     this.searchButton = this.root.locator('svg[data-icon="search"]');
-    this.advancedSearchButton = this.root.page().getByTitle('розширений пошук');
+    this.advancedSearchButton = this.root.locator('svg[data-icon="control"]');
     this.challengeDropdownMenu = this.page.locator(
       'ul.ant-menu-sub.ant-menu-vertical[id*="challenge"]'
     );
@@ -53,15 +52,12 @@ export class HeaderComponent extends BaseComponent {
     );
     this.dropdownLocator = this.root.page().locator('ul.ant-dropdown-menu');
     this.dropdown = new DropdownComponent(this.dropdownLocator);
-    this.addClubButton = this.root.locator('button.add-club-button');
-    this.userMenuLoginItem = this.page
-      .locator('.ant-dropdown-menu-item')
-      .filter({ hasText: 'Увійти' });
     this.challengeDropdownLocator = this.root
       .page()
       .locator('div.ant-menu-submenu-popup')
       .filter({ visible: true });
     this.challengeDropdown = new DropdownComponent(this.challengeDropdownLocator);
+    this.addClubButton = this.root.locator('button.add-club-button');
   }
 
   async clickClubs(): Promise<void> {
@@ -78,7 +74,7 @@ export class HeaderComponent extends BaseComponent {
   async selectChallenge(challenge: Challenges): Promise<void> {
     await this.clickChallenge();
     await this.challengeDropdownLocator.waitFor({ state: 'visible' });
-    await this.dropdown.selectMenuOption(challenge);
+    await this.challengeDropdown.selectChallengeOption(challenge);
   }
 
   async clickNews(): Promise<void> {
@@ -200,12 +196,8 @@ export class HeaderComponent extends BaseComponent {
   }
 
   async clickAddClubButton(): Promise<void> {
-    await this.root.locator('button.add-club-button').click();
-  }
-
-  async openUserMenuAndClickLogin(): Promise<void> {
-    await this.userMenuButton.click();
-    await this.userMenuLoginItem.waitFor({ state: 'visible' });
-    await this.userMenuLoginItem.click();
+    await allure.step('Click on "Додати гурток" button', async (): Promise<void> => {
+      await this.addClubButton.click();
+    });
   }
 }
