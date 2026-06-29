@@ -1,4 +1,4 @@
-import { ClubRequestDto, CityRequestDto } from '@/api/dto';
+import { ClubRequestDto, NewsRequestDto, CityRequestDto } from '@/api/dto';
 import { ClubCategory } from '@/data/club-category';
 import { ClubUpdateRequestDto } from '@/api/dto/club/club-update-request.dto';
 
@@ -78,6 +78,17 @@ export class DataBuilderApi {
 
   static invalidAgeUpdatePayload(overrides?: Partial<ClubUpdateRequestDto>): ClubUpdateRequestDto {
     return { ...this.updateBasePayload(), ageFrom: 18, ageTo: 16, ...overrides };
+  }
+
+  static validNewsPayload(overrides?: Partial<NewsRequestDto>): NewsRequestDto {
+    return {
+      date: '2026-06-26',
+      title: 'Test API Title Petro',
+      description: 'This is a test description for API testing automation',
+      urlTitleLogo: '/upload/news/test-logo.jpg',
+      isActive: true,
+      ...overrides,
+    };
   }
 
   static validDistrictIds() {
