@@ -11,6 +11,7 @@ type ApiFixture = {
   unauthClubClient: ClubClient;
   newsClient: NewsClient;
   categoryClient: CategoryClient;
+  authCategoryClient: CategoryClient;
   clubRegistrationClient: ClubRegistrationClient;
   unauthClubRegistrationClient: ClubRegistrationClient;
   certificateClient: CertificateByTemplateClient;
@@ -78,8 +79,16 @@ export const test = base.extend<ApiFixture, ApiFixtureWorker>({
 
     await apiContext.dispose();
   },
+  categoryClient: async ({ playwright }, use): Promise<void> => {
+    const apiContext = await playwright.request.newContext({
+      baseURL: config.BASE_URL_API,
+    });
+    const categoryClient = new CategoryClient(apiContext);
 
-  categoryClient: async ({ playwright, apiAccessToken }, use): Promise<void> => {
+    await use(categoryClient);
+    await apiContext.dispose();
+  },
+  authCategoryClient: async ({ playwright, apiAccessToken }, use): Promise<void> => {
     const apiContext = await playwright.request.newContext({
       baseURL: config.BASE_URL_API,
     });
