@@ -33,7 +33,6 @@ export class DataBuilderApi {
     return {
       name: `Test Club ${Date.now()}`,
       description: this.buildDescription(),
-      centerId: 1,
       categoriesName: [ClubCategory.DEVELOPMENT_CENTER, ClubCategory.PROGRAMMING],
       locations: [],
       ageFrom: 16,
@@ -164,6 +163,8 @@ export class DataBuilderApi {
       ...this.validTaskPayload(),
       name: `Updated Task ${Date.now()}`,
       challengeId: challengeId,
+    };
+  }
   static validDistrictIds() {
     return {
       existingId: 1,
