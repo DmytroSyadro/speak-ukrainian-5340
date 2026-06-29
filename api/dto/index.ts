@@ -6,3 +6,5 @@ export * from './district/district-request.dto';
 export * from './district/district-create.dto';
 export * from './club/club-update-request.dto';
 export * from './category/category-request.dto';
+export * from './city/city-request.dto';
+export * from './city/city-response.dto';
