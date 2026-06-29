@@ -8,4 +8,5 @@ export * from './club-client';
 export * from './club-registration-client';
 export * from './district-client';
 export * from './news-client';
+export * from './station-client';
 export * from './user-client';
