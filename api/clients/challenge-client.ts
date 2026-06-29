@@ -23,4 +23,3 @@ export class ChallengeClient extends BaseClient {
     return await this.delete(`/dev/api/challenge/${id}`);
   }
 }
-

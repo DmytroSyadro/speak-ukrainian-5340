@@ -57,7 +57,7 @@ export class DataBuilderApi {
       { id: 99999999, description: 'non-existent id' },
     ];
   }
-    
+
   static validClubPayload(overrides?: Partial<ClubRequestDto>): ClubRequestDto {
     return { ...this.baseClubPayload(), ...overrides };
   }
@@ -79,20 +79,20 @@ export class DataBuilderApi {
   }
 
   private static baseChallengePayload(): ChallengeRequestDto {
-  const timestamp = Date.now();
+    const timestamp = Date.now();
 
-  return {
-    name: `test-challenge-${timestamp}`,
-    title: `Test Challenge ${timestamp}`,
-    description: 'Test challenge description for API automation',
-    registrationLink: 'https://docs.google.com/forms/d/e/test-form/viewform',
-    picture: '/upload/challenge-test-picture.png',
-    sortNumber: 1,
-  };
+    return {
+      name: `test-challenge-${timestamp}`,
+      title: `Test Challenge ${timestamp}`,
+      description: 'Test challenge description for API automation',
+      registrationLink: 'https://docs.google.com/forms/d/e/test-form/viewform',
+      picture: '/upload/challenge-test-picture.png',
+      sortNumber: 1,
+    };
   }
 
   static validChallengePayload(overrides?: Partial<ChallengeRequestDto>): ChallengeRequestDto {
-  return { ...this.baseChallengePayload(), ...overrides };
+    return { ...this.baseChallengePayload(), ...overrides };
   }
 
   static invalidChallengeIds() {

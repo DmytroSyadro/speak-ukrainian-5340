@@ -3,6 +3,7 @@ import * as allure from 'allure-js-commons';
 import { DataBuilderApi } from '@/data';
 import type { APIResponse } from '@playwright/test';
 import type { ChallengeRequestDto } from '@/api/dto';
+import type { ChallengeResponseDto } from '@/api/dto';
 
 test.describe('Challenge API', (): void => {
   test.beforeEach(async (): Promise<void> => {
@@ -136,7 +137,7 @@ test.describe('Challenge API', (): void => {
     await allure.description('Verify that challenges list contains required fields.');
 
     const response: APIResponse = await challengeClient.getChallenges();
-    const challenges = await response.json();
+    const challenges: ChallengeResponseDto[] = await response.json();
 
     await allure.step('Validate response status', async (): Promise<void> => {
       expect(response.ok()).toBeTruthy();
@@ -145,9 +146,10 @@ test.describe('Challenge API', (): void => {
 
     await allure.step('Validate challenge object structure', async (): Promise<void> => {
       expect(Array.isArray(challenges)).toBe(true);
+      expect(challenges.length).toBeGreaterThan(0);
 
-      if (challenges.length > 0) {
-        expect(challenges[0]).toEqual(
+      challenges.forEach((challenge): void => {
+        expect(challenge).toEqual(
           expect.objectContaining({
             id: expect.any(Number),
             name: expect.any(String),
@@ -155,7 +157,7 @@ test.describe('Challenge API', (): void => {
             sortNumber: expect.any(Number),
           })
         );
-      }
+      });
     });
   });
 });
